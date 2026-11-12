@@ -1,0 +1,55 @@
+# Where reports go. A destination is used only after automatic verification:
+# the exact address must appear on the organisation's own confirmed website,
+# on one of its owned domains, with working mail servers.
+destinations:
+  - id: nordbank.phishing_report       # <organisation>.<purpose>; never reused
+    kind: organisation                 # organisation: reports about impersonation of `organisation`
+    organisation: nordbank
+    name: Nordbank phishing reports    # shown to people on the consent page
+    localizedNames: { nb: Nordbanks svindelmottak }   # optional; never inflected
+    email: svindel@nordbank.example    # must be on an owned domain of the organisation
+    source: nordbank-security          # the page that publishes this exact address
+    acceptsAutomatedReports: true
+    payload: original_required         # original_required | original_preferred | structured_only
+    threatCategories: [phishing, credential_theft.online_banking, authentication_abuse.approval]
+    scope: { identificationSystemAny: [no.nordid] }   # optional extra conditions
+
+  - id: fjordbanken.phishing_report
+    kind: organisation
+    organisation: fjordbanken
+    name: Fjordbanken phishing reports
+    email: svindel@fjordbanken.example
+    source: fjordbanken-security
+    acceptsAutomatedReports: true
+    payload: original_preferred
+    threatCategories: [phishing, credential_theft.online_banking]
+    requiredEvidence: [landing_page_captured]   # impersonation_confirmed | landing_page_captured |
+                                                # original_message_available
+    minAttributionConfidence: 80                # default 70
+
+  - id: no.national_cert
+    kind: national                     # a CERT or authority, routed by scope conditions
+    organisation: cert_no_example
+    name: CERT Norway (example)
+    email: rapport@cert-no.example
+    source: cert-reporting
+    acceptsAutomatedReports: true
+    payload: structured_only
+    threatCategories: [phishing]
+    scope:                             # at least one condition; any one that holds routes the report
+      organisationRegionAny: ["NO"]
+      identificationSystemAny: [no.nordid]
+      resourceCctldAny: ["no"]
+      hostingCountryAny: ["NO"]
+    fallbackOnly: true                 # default for national: only when no organisation mailbox gets the report
+    letterLanguage: en                 # language of the abuse letter; default en
+    maxPerDay: 50                      # optional cap; the platform cap still applies
+
+# Recipients that share reports with each other: one report reaches all, so
+# only one member is sent each campaign.
+destinationGroups:
+  - id: no.bank_phishing_intake
+    intakeSharing: shared              # shared | independent
+    members: [nordbank.phishing_report, fjordbanken.phishing_report]
+    primary: nordbank.phishing_report  # used when no member's bank is the one impersonated
+    source: banks-shared-intake        # must be a public statement

@@ -1,0 +1,8 @@
+# The maintainer reviews every change. Require review from code owners in the
+# branch ruleset so changes to the checks and pack headers cannot slip in.
+*                   @jarihu
+/.github/           @jarihu
+/tools/             @jarihu
+/*/pack.yaml        @jarihu
+/global/            @jarihu
+/i18n/              @jarihu

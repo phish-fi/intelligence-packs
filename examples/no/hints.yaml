@@ -1,0 +1,17 @@
+# Hints for the AI assessment: English plain text, at most 600 characters,
+# no URLs, no template syntax. Shadow until promoted, like indicators.
+hints:
+  - id: no.hint.never_links
+    lang: en
+    text: "Nordbank never sends email with a link to log in, identify or pay. A Nordbank-claimed email with such a link is phishing."
+    threatCategories: [credential_theft.online_banking]
+    appliesWhen: { organisationMatched: true }   # organisationMatched | identificationFlow
+    sources: [nordbank-security]
+
+# Analysis priorities: request extra pipeline work when conditions hold.
+priorities:
+  - id: no.priority.credential_flow
+    when:
+      languagesAny: [nb]
+      organisationCategoryAny: [bank, identification_broker]
+    action: request_page_ai_assessment   # the only action available

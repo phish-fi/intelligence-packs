@@ -1,0 +1,14 @@
+# Organisations impersonated in many countries.
+# Converted from the v1 packs by scripts/packs-convert-v2.ts; edit this file, not the v1 JSON.
+format: phish.fi-pack/2
+country: global
+name: Global
+languages:
+  - en
+maintainers:
+  - handle: phish-fi
+sources:
+  - id: internal-operator-review
+    kind: maintainer_attestation
+    retrieved: 2026-10-20
+    supports: Operator verification against official brand sites

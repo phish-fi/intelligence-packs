@@ -1,0 +1,120 @@
+# Indicators (from v1 pack fi.public_services).
+# Converted from the v1 packs by scripts/packs-convert-v2.ts; edit this file, not the v1 JSON.
+indicators:
+  - id: fi.public_services.lookalike.vero
+    type: lookalike_seed
+    token: vero
+    organisations:
+      - vero
+    threatCategories:
+      - credential_theft.national_eid
+    role: supporting
+    weight: medium
+    expectedMatching: A label or hyphen part 'vero', as in fi-vero-suomiifi.com (2026-10-07).
+    falsePositiveRisks: Brands with a 'vero' hyphen part (vero-moda.com); 'veronica' does not match.
+    sources:
+      - owner-sightings-2026-10-31
+  - id: fi.public_services.lookalike.omavero
+    type: lookalike_seed
+    token: omavero
+    organisations:
+      - vero
+    threatCategories:
+      - credential_theft.national_eid
+    role: supporting
+    weight: medium
+    expectedMatching: Hosts such as omavero-palautus.com.
+    falsePositiveRisks: Low.
+    sources:
+      - owner-sightings-2026-10-31
+  - id: fi.public_services.lookalike.kela
+    type: lookalike_seed
+    token: kela
+    organisations:
+      - kela
+    threatCategories:
+      - credential_theft.national_eid
+    role: supporting
+    weight: medium
+    expectedMatching: A label or hyphen part 'kela'.
+    falsePositiveRisks: Unrelated 'kela' parts in other languages.
+    sources:
+      - owner-sightings-2026-10-31
+  - id: fi.public_services.lookalike.omakela
+    type: lookalike_seed
+    token: omakela
+    organisations:
+      - kela
+    threatCategories:
+      - credential_theft.national_eid
+    role: supporting
+    weight: medium
+    expectedMatching: Hosts such as omakelapalvelu-…com (2026-10-12).
+    falsePositiveRisks: Low.
+    sources:
+      - owner-sightings-2026-10-31
+  - id: fi.public_services.lookalike.omakanta
+    type: lookalike_seed
+    token: omakanta
+    organisations:
+      - kela
+    threatCategories:
+      - credential_theft.national_eid
+    role: supporting
+    weight: medium
+    expectedMatching: Hosts such as omakantafi-suomi.online (2026-10-30).
+    falsePositiveRisks: Low.
+    sources:
+      - owner-sightings-2026-10-31
+  - id: fi.public_services.lookalike.traficom
+    type: lookalike_seed
+    token: traficom
+    organisations:
+      - traficom
+    threatCategories:
+      - credential_theft.national_eid
+    role: supporting
+    weight: medium
+    expectedMatching: Hosts such as traficom-maksu.com.
+    falsePositiveRisks: Low.
+    sources:
+      - owner-sightings-2026-10-31
+  - id: fi.public_services.lookalike.poliisi
+    type: lookalike_seed
+    token: poliisi
+    organisations:
+      - poliisi
+    threatCategories:
+      - credential_theft.national_eid
+    role: supporting
+    weight: medium
+    expectedMatching: Hosts such as poliisi-sakko.com.
+    falsePositiveRisks: Low.
+    sources:
+      - owner-sightings-2026-10-31
+  - id: fi.public_services.lookalike.posti
+    type: lookalike_seed
+    token: posti
+    organisations:
+      - posti
+    threatCategories:
+      - credential_theft.online_banking
+    role: supporting
+    weight: medium
+    expectedMatching: A label or hyphen part 'posti', as in posti-toimittamaton-paketti.info (2026-10-30).
+    falsePositiveRisks: Italian 'posti' (places) as a hyphen part; 'postimees' does not match.
+    sources:
+      - owner-sightings-2026-10-31
+  - id: fi.public_services.lookalike.matkahuolto
+    type: lookalike_seed
+    token: matkahuolto
+    organisations:
+      - matkahuolto
+    threatCategories:
+      - payment_card_theft
+    role: supporting
+    weight: medium
+    expectedMatching: Hosts such as matkahuolto-paketti.com (Matkahuolto parcel lure seen 2026-10-30, domain not named).
+    falsePositiveRisks: Low.
+    sources:
+      - owner-sightings-2026-10-31

@@ -1,0 +1,45 @@
+# Finnish bank credentials as the national strong identification.
+# Converted from the v1 packs by scripts/packs-convert-v2.ts; edit this file, not the v1 JSON.
+identificationSystems:
+  - id: fi.bank_eid
+    name: Finnish bank credentials (Finnish Trust Network)
+    credentialKind: bank_credentials
+    credentialIssuers:
+      - op
+      - nordea
+      - s_pankki
+      - oma_saastopankki
+      - danske_bank_fi
+      - pop_pankki
+      - aktia
+      - handelsbanken_fi
+      - saastopankki
+      - alandsbanken
+    brokers:
+      - dvv_suomi_fi
+    relyingParties:
+      - vero
+      - kela
+      - traficom
+      - poliisi
+      - posti
+      - prh
+      - dvv
+    flowMarkers:
+      - fi.banking.link_purpose.login_fi
+      - fi.banking.link_purpose.login_url
+      - fi.banking.link_purpose.login_en_sv
+      - fi.banking.link_purpose.payment_fi
+      - fi.banking.link_purpose.payment_url
+      - fi.banking.link_purpose.identify_holder_fi
+      - fi.banking.link_purpose.bank_credentials_fi
+      - fi.banking.phrase.identify
+      - fi.banking.phrase.strong_identification
+      - fi.banking.phrase.choose_method
+      - fi.banking.phrase.bank_credentials
+      - fi.banking.phrase.bank_credentials_sv
+      - fi.banking.phrase.bank_credentials_en
+      - fi.banking.phrase.pay_in_netbank
+      - fi.banking.link_purpose.identify_fi
+      - fi.banking.link_purpose.identify_url
+    source: owner-2026-10-28

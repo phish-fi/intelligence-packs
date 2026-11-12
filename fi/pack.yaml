@@ -1,0 +1,269 @@
+# Finland: banks and bank-credential identification, public services, payments, telecom.
+# Converted from the v1 packs by scripts/packs-convert-v2.ts; edit this file, not the v1 JSON.
+format: phish.fi-pack/2
+country: FI
+name: Finland
+languages:
+  - fi
+  - sv
+  - en
+maintainers:
+  - handle: phish-fi
+sources:
+  - id: owner-2026-10-28
+    kind: maintainer_attestation
+    retrieved: 2026-10-28
+    supports: "Owner confirmation: Finnish banks never email a login, identify or payment link; payment lures via a fake bank login are bank-credential theft"
+  - id: site-op
+    kind: official_site
+    url: https://www.op.fi/
+    retrieved: 2026-10-31
+    supports: OP official site
+  - id: site-nordea
+    kind: official_site
+    url: https://www.nordea.fi/
+    retrieved: 2026-10-31
+    supports: Nordea Finland official site
+  - id: site-s-pankki
+    kind: official_site
+    url: https://www.s-pankki.fi/
+    retrieved: 2026-10-31
+    supports: S-Pankki official site
+  - id: site-omasp
+    kind: official_site
+    url: https://www.omasp.fi/
+    retrieved: 2026-10-31
+    supports: Oma Säästöpankki official site
+  - id: site-danske
+    kind: official_site
+    url: https://danskebank.fi/
+    retrieved: 2026-10-31
+    supports: Danske Bank Finland official site
+  - id: site-pop
+    kind: official_site
+    url: https://www.poppankki.fi/
+    retrieved: 2026-10-31
+    supports: POP Pankki official site
+  - id: site-aktia
+    kind: official_site
+    url: https://www.aktia.fi/
+    retrieved: 2026-10-31
+    supports: Aktia official site
+  - id: site-handelsbanken
+    kind: official_site
+    url: https://www.handelsbanken.fi/
+    retrieved: 2026-10-31
+    supports: Handelsbanken Finland official site
+  - id: site-saastopankki
+    kind: official_site
+    url: https://www.saastopankki.fi/
+    retrieved: 2026-10-31
+    supports: Säästöpankki official site
+  - id: site-alandsbanken
+    kind: official_site
+    url: https://www.alandsbanken.fi/
+    retrieved: 2026-10-31
+    supports: Ålandsbanken official site
+  - id: site-suomi-fi
+    kind: official_site
+    url: https://www.suomi.fi/
+    retrieved: 2026-10-31
+    supports: Suomi.fi official site
+  - id: owner-sightings-2026-10-31
+    kind: maintainer_attestation
+    retrieved: 2026-10-31
+    supports: Owner-supplied Finnish phishing URL sightings, 2026-09-27..2026-10-30 (data/finnish-url-sightings.yaml)
+  - id: site-osuuspankki-fi
+    kind: official_site
+    url: https://www.osuuspankki.fi/
+    retrieved: 2026-10-31
+    supports: OP (osuuspankki.fi redirects to op.fi)
+  - id: site-nordea-se
+    kind: official_site
+    url: https://www.nordea.se/
+    retrieved: 2026-10-31
+    supports: Nordea Sweden official site
+  - id: site-nordea-dk
+    kind: official_site
+    url: https://www.nordea.dk/
+    retrieved: 2026-10-31
+    supports: Nordea Denmark official site
+  - id: site-nordea-no
+    kind: official_site
+    url: https://www.nordea.no/
+    retrieved: 2026-10-31
+    supports: Nordea Norway official site
+  - id: site-danskebank-com
+    kind: official_site
+    url: https://www.danskebank.com/
+    retrieved: 2026-10-31
+    supports: Danske Bank group site
+  - id: site-danskebank-dk
+    kind: official_site
+    url: https://www.danskebank.dk/
+    retrieved: 2026-10-31
+    supports: Danske Bank Denmark official site
+  - id: site-danskebank-se
+    kind: official_site
+    url: https://www.danskebank.se/
+    retrieved: 2026-10-31
+    supports: Danske Bank Sweden official site
+  - id: site-danskebank-no
+    kind: official_site
+    url: https://www.danskebank.no/
+    retrieved: 2026-10-31
+    supports: Danske Bank Norway official site
+  - id: site-handelsbanken-com
+    kind: official_site
+    url: https://www.handelsbanken.com/
+    retrieved: 2026-10-31
+    supports: Handelsbanken group site
+  - id: site-handelsbanken-se
+    kind: official_site
+    url: https://www.handelsbanken.se/
+    retrieved: 2026-10-31
+    supports: Handelsbanken Sweden official site
+  - id: site-handelsbanken-no
+    kind: official_site
+    url: https://www.handelsbanken.no/
+    retrieved: 2026-10-31
+    supports: Handelsbanken Norway official site
+  - id: site-handelsbanken-dk
+    kind: official_site
+    url: https://www.handelsbanken.dk/
+    retrieved: 2026-10-31
+    supports: Handelsbanken (handelsbanken.dk redirects to handelsbanken.com)
+  - id: site-alandsbanken-ax
+    kind: official_site
+    url: https://www.alandsbanken.ax/
+    retrieved: 2026-10-31
+    supports: Ålandsbanken Åland official site
+  - id: site-alandsbanken-se
+    kind: official_site
+    url: https://www.alandsbanken.se/
+    retrieved: 2026-10-31
+    supports: Ålandsbanken Sweden official site
+  - id: site-alandsbanken-com
+    kind: official_site
+    url: https://www.alandsbanken.com/
+    retrieved: 2026-10-31
+    supports: Bank of Åland group site
+  - id: site-vero
+    kind: official_site
+    url: https://www.vero.fi/
+    retrieved: 2026-10-31
+    supports: Verohallinto official site
+  - id: site-kela
+    kind: official_site
+    url: https://www.kela.fi/
+    retrieved: 2026-10-31
+    supports: Kela official site
+  - id: site-traficom
+    kind: official_site
+    url: https://www.traficom.fi/
+    retrieved: 2026-10-31
+    supports: Traficom official site
+  - id: site-poliisi
+    kind: official_site
+    url: https://poliisi.fi/
+    retrieved: 2026-10-31
+    supports: Poliisi official site
+  - id: site-posti
+    kind: official_site
+    url: https://www.posti.fi/
+    retrieved: 2026-10-31
+    supports: Posti official site
+  - id: site-prh
+    kind: official_site
+    url: https://www.prh.fi/
+    retrieved: 2026-10-31
+    supports: PRH official site
+  - id: site-dvv
+    kind: official_site
+    url: https://dvv.fi/
+    retrieved: 2026-10-31
+    supports: DVV official site
+  - id: site-kanta
+    kind: official_site
+    url: https://www.kanta.fi/
+    retrieved: 2026-10-31
+    supports: Kanta services official site (operated by Kela)
+  - id: site-omavero-fi
+    kind: official_site
+    url: https://www.omavero.fi/
+    retrieved: 2026-10-31
+    supports: OmaVero (omavero.fi redirects to vero.fi)
+  - id: site-omakela-fi
+    kind: official_site
+    url: https://www.omakela.fi/
+    retrieved: 2026-10-31
+    supports: OmaKela (omakela.fi redirects to kela.fi)
+  - id: site-omakanta-fi
+    kind: official_site
+    url: https://www.omakanta.fi/
+    retrieved: 2026-10-31
+    supports: OmaKanta (omakanta.fi redirects to kanta.fi)
+  - id: site-matkahuolto
+    kind: official_site
+    url: https://www.matkahuolto.fi/
+    retrieved: 2026-10-31
+    supports: Matkahuolto official site (matkahuolto.fi)
+  - id: site-mobilepay
+    kind: official_site
+    url: https://www.mobilepay.fi/
+    retrieved: 2026-10-31
+    supports: MobilePay Finland official site
+  - id: site-tori
+    kind: official_site
+    url: https://www.tori.fi/
+    retrieved: 2026-10-31
+    supports: Tori.fi official site
+  - id: site-mobilepay-dk
+    kind: official_site
+    url: https://www.mobilepay.dk/
+    retrieved: 2026-10-31
+    supports: MobilePay Denmark official site
+  - id: site-easypark
+    kind: official_site
+    url: https://www.easypark.com/
+    retrieved: 2026-10-31
+    supports: EasyPark official site (easypark.com)
+  - id: site-easypark-fi
+    kind: official_site
+    url: https://www.easypark.fi/
+    retrieved: 2026-10-31
+    supports: EasyPark official site (easypark.fi)
+  - id: site-elisa
+    kind: official_site
+    url: https://elisa.fi/
+    retrieved: 2026-10-31
+    supports: Elisa official site (elisa.fi)
+  - id: site-elisa-com
+    kind: official_site
+    url: https://elisa.com/
+    retrieved: 2026-10-31
+    supports: Elisa official site (elisa.com)
+  - id: site-elisa-ee
+    kind: official_site
+    url: https://www.elisa.ee/
+    retrieved: 2026-10-31
+    supports: Elisa official site (elisa.ee)
+  - id: site-elisaviihde-fi
+    kind: official_site
+    url: https://elisaviihde.fi/
+    retrieved: 2026-10-31
+    supports: Elisa official site (elisaviihde.fi)
+  - id: site-dna
+    kind: official_site
+    url: https://www.dna.fi/
+    retrieved: 2026-10-31
+    supports: DNA official site (dna.fi)
+  - id: ncsc-fi-report
+    kind: official_site
+    url: https://www.kyberturvallisuuskeskus.fi/en/report
+    retrieved: 2026-11-02
+    supports: "NCSC-FI (Traficom) reporting page: the address for phishing reports"
+  - id: owner-2026-10-28-bank-intake
+    kind: maintainer_attestation
+    retrieved: 2026-10-28
+    supports: "Owner confirmation: the four huijaushavainnot@ bank addresses accept citizen and automated reports with evidence, and the banks share these reports with each other"

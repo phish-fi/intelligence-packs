@@ -1,0 +1,29 @@
+# Indicators (from v1 pack fi.payments).
+# Converted from the v1 packs by scripts/packs-convert-v2.ts; edit this file, not the v1 JSON.
+indicators:
+  - id: fi.payments.lookalike.mobilepay
+    type: lookalike_seed
+    token: mobilepay
+    organisations:
+      - mobilepay
+    threatCategories:
+      - credential_theft.online_banking
+    role: supporting
+    weight: medium
+    expectedMatching: Hosts such as mobilepay-fi.com or rnobilepay.net.
+    falsePositiveRisks: MobilePay domains in Denmark not listed in this pack.
+    sources:
+      - owner-sightings-2026-10-31
+  - id: fi.payments.lookalike.easypark
+    type: lookalike_seed
+    token: easypark
+    organisations:
+      - easypark
+    threatCategories:
+      - payment_card_theft
+    role: supporting
+    weight: medium
+    expectedMatching: Hosts such as easyparking-app.com (DNA advisory 2026-10-30).
+    falsePositiveRisks: Unrelated 'easy parking' businesses.
+    sources:
+      - owner-sightings-2026-10-31

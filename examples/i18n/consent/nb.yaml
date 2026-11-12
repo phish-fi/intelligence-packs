@@ -1,0 +1,7 @@
+# Consent wording for a new pack language (example; needs a native review).
+# {recipient} is replaced by the destination's name and always follows a colon,
+# so no language has to inflect it.
+language: nb
+originalMessage: "Del svindel-e-postene jeg rapporterer i original form, inkludert e-postadressen min, med denne mottakeren: {recipient}."
+structuredEvidence: "Del bevisene fra svindel-e-postene jeg rapporterer (lenker, avsenderservere og analyseresultater, uten e-postadressen min) med denne mottakeren: {recipient}."
+sharedIntake: "Mottakeren deler rapportene med de andre organisasjonene i rapporteringsgruppen sin."

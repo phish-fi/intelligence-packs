@@ -1,0 +1,137 @@
+# Where Finnish phishing reports go. Addresses rest on the owner's confirmation until a public source is added (§10).
+# Converted from the v1 packs by scripts/packs-convert-v2.ts; edit this file, not the v1 JSON.
+destinations:
+  - id: op.phishing_report_fi
+    kind: organisation
+    organisation: op
+    name: OP phishing reports
+    localizedNames:
+      fi: OP:n huijaushavainnot
+      sv: OP:s bedrägerirapporter
+    email: huijaushavainnot@op.fi
+    source: owner-2026-10-28-bank-intake
+    acceptsAutomatedReports: true
+    payload: original_required
+    threatCategories:
+      - phishing
+      - brand_impersonation
+      - credential_theft
+      - credential_theft.online_banking
+      - authentication_abuse
+      - authentication_abuse.code_theft
+      - authentication_abuse.approval
+      - payment_card_theft
+    scope:
+      identificationSystemAny:
+        - fi.bank_eid
+  - id: nordea.phishing_report_fi
+    kind: organisation
+    organisation: nordea
+    name: Nordea phishing reports
+    localizedNames:
+      fi: Nordean huijaushavainnot
+      sv: Nordeas bedrägerirapporter
+    email: huijaushavainnot@nordea.fi
+    source: owner-2026-10-28-bank-intake
+    acceptsAutomatedReports: true
+    payload: original_required
+    threatCategories:
+      - phishing
+      - brand_impersonation
+      - credential_theft
+      - credential_theft.online_banking
+      - authentication_abuse
+      - authentication_abuse.code_theft
+      - authentication_abuse.approval
+      - payment_card_theft
+    scope:
+      identificationSystemAny:
+        - fi.bank_eid
+  - id: s_pankki.phishing_report_fi
+    kind: organisation
+    organisation: s_pankki
+    name: S-Pankki phishing reports
+    localizedNames:
+      fi: S-Pankin huijaushavainnot
+      sv: S-Bankens bedrägerirapporter
+    email: huijaushavainnot@s-pankki.fi
+    source: owner-2026-10-28-bank-intake
+    acceptsAutomatedReports: true
+    payload: original_required
+    threatCategories:
+      - phishing
+      - brand_impersonation
+      - credential_theft
+      - credential_theft.online_banking
+      - authentication_abuse
+      - authentication_abuse.code_theft
+      - authentication_abuse.approval
+      - payment_card_theft
+    scope:
+      identificationSystemAny:
+        - fi.bank_eid
+  - id: oma_saastopankki.phishing_report_fi
+    kind: organisation
+    organisation: oma_saastopankki
+    name: Oma Säästöpankki phishing reports
+    localizedNames:
+      fi: Oma Säästöpankin huijaushavainnot
+      sv: Oma Säästöpankkis bedrägerirapporter
+    email: huijaushavainnot@omasp.fi
+    source: owner-2026-10-28-bank-intake
+    acceptsAutomatedReports: true
+    payload: original_required
+    threatCategories:
+      - phishing
+      - brand_impersonation
+      - credential_theft
+      - credential_theft.online_banking
+      - authentication_abuse
+      - authentication_abuse.code_theft
+      - authentication_abuse.approval
+      - payment_card_theft
+    scope:
+      identificationSystemAny:
+        - fi.bank_eid
+  - id: cert_fi
+    kind: national
+    organisation: traficom
+    name: National Cyber Security Centre Finland (NCSC-FI)
+    localizedNames:
+      fi: Traficomin Kyberturvallisuuskeskus
+      sv: Cybersäkerhetscentret vid Traficom
+    email: cert@traficom.fi
+    source: ncsc-fi-report
+    acceptsAutomatedReports: true
+    payload: original_required
+    threatCategories:
+      - phishing
+      - brand_impersonation
+      - credential_theft
+      - credential_theft.online_banking
+      - credential_theft.national_eid
+      - credential_theft.email_account
+      - authentication_abuse
+      - authentication_abuse.code_theft
+      - authentication_abuse.approval
+      - payment_card_theft
+      - personal_data_theft
+      - payment_fraud
+    scope:
+      organisationRegionAny:
+        - FI
+      identificationSystemAny:
+        - fi.bank_eid
+      resourceCctldAny:
+        - fi
+    notes: NCSC-FI welcomes examples of phishing messages. Reports only Finnish phishing with strong attribution, and by default only when no organisation-specific destination receives it.
+destinationGroups:
+  - id: fi.bank_phishing_intake
+    intakeSharing: shared
+    members:
+      - op.phishing_report_fi
+      - nordea.phishing_report_fi
+      - s_pankki.phishing_report_fi
+      - oma_saastopankki.phishing_report_fi
+    primary: nordea.phishing_report_fi
+    source: owner-2026-10-28-bank-intake

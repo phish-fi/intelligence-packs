@@ -1,0 +1,57 @@
+# Classification hints for the AI assessment (English, plain text).
+# Converted from the v1 packs by scripts/packs-convert-v2.ts; edit this file, not the v1 JSON.
+hints:
+  - id: fi.banking.hint.never_links
+    lang: en
+    text: Finnish banks never send email with a link to log in, identify or pay. A bank-claimed email containing such a link is phishing.
+    threatCategories:
+      - credential_theft.online_banking
+    appliesWhen:
+      organisationMatched: true
+    sources:
+      - owner-2026-10-28
+  - id: fi.banking.hint.no_codes_by_message
+    lang: en
+    text: Banks do not ask for credentials, key codes or confirmation codes by email or text message. Such a request is a strong intent signal whatever the wording.
+    threatCategories:
+      - authentication_abuse.code_theft
+    appliesWhen:
+      organisationMatched: true
+    sources:
+      - owner-2026-10-28
+  - id: fi.banking.hint.bank_eid
+    lang: en
+    text: In Finland, online-banking credentials are the national strong electronic identification. Phishing for them often impersonates a government agency, a parcel service or a marketplace instead of a bank. A request to identify or log in with bank credentials outside the relying party's own domains is bank-credential theft.
+    threatCategories:
+      - credential_theft.online_banking
+    appliesWhen:
+      identificationFlow: true
+    sources:
+      - owner-2026-10-28
+  - id: fi.banking.hint.legitimate_identification
+    lang: en
+    text: Legitimate government services do ask people to identify with bank credentials, but on their own domains and through the real Suomi.fi identification. The link and page domains, not the request, separate phishing from legitimate mail.
+    threatCategories:
+      - credential_theft.online_banking
+    appliesWhen:
+      identificationFlow: true
+    sources:
+      - owner-2026-10-28
+  - id: fi.banking.hint.approval_abuse
+    lang: en
+    text: Finnish banks confirm logins and payments with an app approval. A message asking the reader to approve an unexpected login or payment is approval abuse, even without a link.
+    threatCategories:
+      - authentication_abuse.approval
+    appliesWhen:
+      organisationMatched: true
+    sources:
+      - owner-2026-10-28
+  - id: fi.banking.hint.brand_mismatch
+    lang: en
+    text: A sender claiming to be a Finnish bank who links to domains the bank does not own, or a landing page whose language or brand differs from the email, is a mismatch worth explaining.
+    threatCategories:
+      - brand_impersonation
+    appliesWhen:
+      organisationMatched: true
+    sources:
+      - owner-2026-10-28

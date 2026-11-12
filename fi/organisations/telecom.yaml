@@ -1,0 +1,45 @@
+# Organisations (from v1 pack fi.telecom).
+# Converted from the v1 packs by scripts/packs-convert-v2.ts; edit this file, not the v1 JSON.
+organisations:
+  - id: elisa
+    name: Elisa
+    category: telecom
+    domains:
+      - domain: elisa.fi
+        relationship: owned
+        source: site-elisa
+      - domain: elisa.com
+        relationship: owned
+        source: site-elisa-com
+      - domain: elisa.ee
+        relationship: owned
+        source: site-elisa-ee
+      - domain: elisaviihde.fi
+        relationship: owned
+        source: site-elisaviihde-fi
+    aliases:
+      - value: Elisa
+        match: token_stem
+      - value: OmaElisa
+        match: token_stem
+      - value: Elisa Viihde
+      - value: Elisa Oyj
+    threatCategories:
+      - payment_card_theft
+      - credential_theft.email_account
+      - personal_data_theft
+  - id: dna
+    name: DNA
+    category: telecom
+    domains:
+      - domain: dna.fi
+        relationship: owned
+        source: site-dna
+    aliases:
+      - value: DNA
+      - value: DNA Oyj
+      - value: DNA Kauppa
+      - value: DNA Asiakaspalvelu
+    threatCategories:
+      - payment_card_theft
+      - personal_data_theft

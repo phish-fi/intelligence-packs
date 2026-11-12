@@ -1,0 +1,58 @@
+# Indicators. Ids start with the pack id and are never reused. Every
+# indicator starts in shadow: it is recorded but never a reason until its
+# promotion gate passes. Token patterns: word, stem~ (4+ fixed characters),
+# ~inner~ (5+), a|b (up to 4 alternatives), ?optional. No regular expressions.
+indicators:
+  - id: no.phrase.bekreft_nordid
+    type: phrase                       # phrase | sender_claim | link_purpose | lookalike_seed |
+                                       # page_form_feature | url_pattern
+    lang: nb
+    tokens: ["bekreft~|verifiser~", "nordid~"]
+    window: 6                          # tokens must appear in order within this many words
+    threatCategories: [credential_theft.online_banking]
+    role: supporting                   # supporting | context | contradicting
+    weight: low                        # low | medium | high
+    expectedMatching: "Requests to confirm or verify NordID, in any inflection."
+    falsePositiveRisks: "Real bank mail asks to confirm payments with NordID."
+    sources: [cert-advisory-2026-09]
+    tests:                             # examples the analyzer must (not) match; run by npm run packs:test
+      match: ["Du må bekrefte NordID-en din innen i dag", "Verifiser NordID for å unngå sperring"]
+      noMatch: ["Betalingen er godkjent med NordID"]
+
+  - id: no.link_purpose.logg_inn
+    type: link_purpose                 # matched on a link's anchor text, the sentence before it and its URL path
+    lang: nb
+    tokens: ["logg~|innlogg~"]
+    window: 1
+    purpose: login                     # login | identify | payment | credential_update | document_view |
+                                       # public_information | unsubscribe | unknown
+    threatCategories: [credential_theft.online_banking]
+    role: supporting
+    weight: low
+    expectedMatching: "Links asking to log in: 'Logg inn her', 'innlogging', '/logg-inn'."
+    falsePositiveRisks: "Legitimate service mail links to its own login page."
+    sources: [cert-advisory-2026-09]
+    tests:
+      match: ["Logg inn her"]
+      noMatch: ["Les mer om sparing"]
+
+  - id: no.lookalike.nordbank
+    type: lookalike_seed               # hosts imitating the organisation: folded, edit distance, embedded token
+    token: nordbank
+    organisations: [nordbank]
+    threatCategories: [credential_theft.online_banking]
+    role: supporting
+    weight: medium
+    expectedMatching: "Hosts such as nordbank-sikker.example or n0rdbank.example."
+    falsePositiveRisks: "Unrelated words one edit away from 'nordbank'."
+    sources: [maintainer-sightings]
+
+  - id: no.url_pattern.kit_verify_path
+    type: url_pattern                  # bounded glob on host and path; * and ? only
+    glob: "*/verify/nb/???????/"
+    threatCategories: [credential_theft.online_banking]
+    role: supporting
+    weight: medium
+    expectedMatching: "The kit's landing path /verify/nb/<7 characters>/ on any host."
+    falsePositiveRisks: "Low: the path shape is specific to the kit."
+    sources: [maintainer-sightings]

@@ -1,0 +1,52 @@
+# Organisations scammers impersonate. An entry with `id` defines a new
+# organisation; an entry with `extends` adds this country's profile to one
+# defined in another pack (usually packs/global).
+organisations:
+  - id: nordbank                       # global, region-neutral id; never reused
+    name: Nordbank
+    category: bank                     # see the category list; the pack's sectors are derived from it
+    wikidata: Q99999991                # optional: independent anchor for domain ownership
+    domains:                           # registrable domains only; subdomains are covered
+      - { domain: nordbank.example, relationship: owned, source: nordbank-security }
+      - { domain: nordbank-nettbank.example, relationship: owned, source: nordbank-security }
+    aliases:                           # how people and scammers name it, including the name itself
+      - value: Nordbank                # default match token_exact, weight medium (low when 4 chars or fewer)
+      - { value: Nordbank Kundeservice, weight: high }
+      - { value: Nordbanken, match: token_stem }   # stem: also "Nordbankens", "Nordbanken sin"
+      - { value: NB, weight: low }     # short names must stay low: a mention, never a sender claim
+      - { value: Nordbank Mobil, kind: app }
+    threatCategories: [credential_theft.online_banking, authentication_abuse.approval]
+    communicationPolicy:               # optional; what it never emails. Leave out when unknown.
+      channel: email
+      neverContains: [link_login, link_identify, link_payment, link_credential_update]
+      source: nordbank-security
+
+  - id: fjordbanken
+    name: Fjordbanken
+    category: bank
+    domains:
+      - { domain: fjordbanken.example, relationship: owned, source: fjordbanken-security }
+    aliases:
+      - value: Fjordbanken
+      - { value: Fjordbanken Kundeservice, weight: high }
+    threatCategories: [credential_theft.online_banking]
+
+  - id: nordid_operator
+    name: NordID
+    category: identification_broker
+    domains:
+      - { domain: nordid.example, relationship: owned, source: nordbank-security }
+    aliases:
+      - { value: NordID, kind: auth_product }
+
+  - id: cert_no_example
+    name: CERT Norway (example)
+    category: government_service
+    domains:
+      - { domain: cert-no.example, relationship: owned, source: cert-reporting }
+    aliases:
+      - value: CERT Norway
+
+  - extends: paypal                    # defined in packs/global; no name or category here
+    aliases:
+      - { value: PayPal Norge, weight: high }

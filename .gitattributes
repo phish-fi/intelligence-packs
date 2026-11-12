@@ -1,0 +1,3 @@
+* text=auto eol=lf
+# Bundled toolchain, built by tools/build-toolchain.sh; never edited by hand.
+tools/*.cjs linguist-generated=true -diff

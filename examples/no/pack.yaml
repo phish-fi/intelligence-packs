@@ -1,0 +1,41 @@
+# Example pack (fictional organisations, reserved .example domains).
+# pack.yaml is the only required file. It holds the pack's header; every other
+# .yaml file in the directory adds sections, and all files are merged.
+format: phish.fi-pack/2        # always this value for this format version
+country: "NO"                  # ISO 3166-1 alpha-2, uppercase; the directory must be named "no"
+name: Norway                   # display name of the pack
+languages: [nb, en]            # languages the pack has data for (BCP 47 primary tags)
+maintainers:                   # who is told when a claim stops verifying; at least one
+  - handle: "@janedoe"
+    email: jane@maintainers.example   # optional; stays in the repository
+sources:                       # every fact below cites one of these ids
+  - id: nordbank-security
+    kind: official_site        # official_site | official_register | organisation_statement |
+                               # public_advisory | observed_reports | maintainer_attestation
+    url: https://www.nordbank.example/sikkerhet
+    retrieved: 2026-11-01      # when the page was read
+    supports: "Nordbank's domains, its phishing-report address, and that it never emails login links"
+  - id: fjordbanken-security
+    kind: official_site
+    url: https://www.fjordbanken.example/svindel
+    retrieved: 2026-11-01
+    supports: "Fjordbanken's domains and its phishing-report address"
+  - id: banks-shared-intake
+    kind: organisation_statement
+    url: https://www.nordbank.example/sikkerhet/felles-mottak
+    retrieved: 2026-11-01
+    supports: "The Norwegian banks forward phishing reports to each other"
+  - id: cert-reporting
+    kind: official_site
+    url: https://www.cert-no.example/rapporter
+    retrieved: 2026-11-01
+    supports: "The national CERT's reporting page and address"
+  - id: cert-advisory-2026-09
+    kind: public_advisory
+    url: https://www.cert-no.example/varsler/2026-09-nordid
+    retrieved: 2026-10-15
+    supports: "Wording of NordID confirmation lures"
+  - id: maintainer-sightings
+    kind: observed_reports     # phishing the maintainers saw; supports indicators only
+    retrieved: 2026-10-20
+    supports: "Lookalike hosts and kit paths seen in reports"

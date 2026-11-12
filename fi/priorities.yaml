@@ -1,0 +1,15 @@
+# Analysis priorities.
+# Converted from the v1 packs by scripts/packs-convert-v2.ts; edit this file, not the v1 JSON.
+priorities:
+  - id: fi.banking.priority.credential_flow
+    when:
+      languagesAny:
+        - fi
+        - sv
+      organisationCategoryAny:
+        - bank
+        - identification_broker
+        - government_service
+      indicatorRolesAny:
+        - supporting
+    action: request_page_ai_assessment

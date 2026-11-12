@@ -1,0 +1,42 @@
+# Indicators (from v1 pack fi.telecom).
+# Converted from the v1 packs by scripts/packs-convert-v2.ts; edit this file, not the v1 JSON.
+indicators:
+  - id: fi.telecom.lookalike.elisa
+    type: lookalike_seed
+    token: elisa
+    organisations:
+      - elisa
+    threatCategories:
+      - payment_card_theft
+    role: supporting
+    weight: medium
+    expectedMatching: A label or hyphen part 'elisa', as in elisa-fi.paksearch360.com (2026-10-12) and elisa-asiakas.marineengineserviceinc.com (2026-10-16).
+    falsePositiveRisks: Sites of people or businesses named Elisa with 'elisa' as a hyphen part; 'melissa' does not match.
+    sources:
+      - owner-sightings-2026-10-31
+  - id: fi.telecom.lookalike.omaelisa
+    type: lookalike_seed
+    token: omaelisa
+    organisations:
+      - elisa
+    threatCategories:
+      - payment_card_theft
+    role: supporting
+    weight: medium
+    expectedMatching: Hosts such as omaelisa-kirjaudu.com.
+    falsePositiveRisks: Low.
+    sources:
+      - owner-sightings-2026-10-31
+  - id: fi.telecom.lookalike.dna
+    type: lookalike_seed
+    token: dna
+    organisations:
+      - dna
+    threatCategories:
+      - payment_card_theft
+    role: supporting
+    weight: medium
+    expectedMatching: A label or hyphen part 'dna', as in dna-laskut.com.
+    falsePositiveRisks: Genetics sites with a 'dna' hyphen part (dna-test.com); expect noise.
+    sources:
+      - owner-sightings-2026-10-31

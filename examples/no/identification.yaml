@@ -1,0 +1,13 @@
+# When one set of credentials logs people in across many services, declare it
+# once. The engine then attributes the credential issuer separately from the
+# impersonated sender (a fake tax-office email can be bank-credential theft).
+identificationSystems:
+  - id: no.nordid                      # starts with the pack id
+    name: NordID
+    credentialKind: bank_credentials   # bank_credentials | national_eid | email_account | payment_card |
+                                       # crypto_wallet | service_account | other
+    credentialIssuers: [nordbank, fjordbanken]   # category bank for bank_credentials
+    brokers: [nordid_operator]                   # category identification_broker for bank_credentials
+    relyingParties: []                           # services that legitimately ask people to identify this way
+    flowMarkers: [no.phrase.bekreft_nordid, no.link_purpose.logg_inn]   # indicator ids that recognise the flow
+    source: nordbank-security

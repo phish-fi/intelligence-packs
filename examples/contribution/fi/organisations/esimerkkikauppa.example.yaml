@@ -1,0 +1,50 @@
+# Example contribution: one new organisation in the Finnish pack.
+# Copy it to fi/organisations/<primary domain>.yaml and replace every value.
+# The organisation and its addresses are made up (.example is a reserved
+# top-level domain); nothing here is real.
+#
+# A contribution file holds exactly these three sections and nothing else:
+#   organisations  - exactly one entry
+#   destinations   - that organisation's abuse-reporting addresses
+#   sources        - the public pages the entries above cite
+
+organisations:
+  - id: esimerkkikauppa.example        # the canonical primary domain; never changes after publication
+    name: Esimerkkikauppa
+    category: retail                   # bank, payment_provider, retail, telecom, logistics, ... (see CONTRIBUTING.md)
+    domains:                           # registrable domains only; subdomains are covered automatically
+      - { domain: esimerkkikauppa.example, relationship: owned, source: esimerkkikauppa-site }
+      - { domain: esimerkki-verkkokauppa.example, relationship: owned, source: esimerkkikauppa-domains }
+    aliases:                           # names people and scammers use in messages
+      - value: Esimerkkikauppa
+        match: token_stem              # also "Esimerkkikaupan", "Esimerkkikaupasta"
+      - value: Esimerkkikauppa Oy
+    threatCategories: [payment_card_theft, personal_data_theft]
+
+destinations:
+  - id: esimerkkikauppa.example.abuse_report   # <organisation id>.<purpose>
+    kind: organisation
+    organisation: esimerkkikauppa.example
+    name: Esimerkkikauppa abuse reports        # shown to people on the consent page
+    email: abuse@esimerkkikauppa.example       # on an owned domain, published on the page cited below
+    source: esimerkkikauppa-report-page
+    acceptsAutomatedReports: true
+    payload: original_preferred                # original_required | original_preferred | structured_only
+    threatCategories: [phishing, payment_card_theft]
+
+sources:
+  - id: esimerkkikauppa-site
+    kind: official_site
+    url: https://www.esimerkkikauppa.example/
+    retrieved: 2026-11-12
+    supports: Esimerkkikauppa's own website
+  - id: esimerkkikauppa-domains
+    kind: official_site
+    url: https://www.esimerkkikauppa.example/tietoa-meista
+    retrieved: 2026-11-12
+    supports: The company page names esimerkki-verkkokauppa.example as its online shop
+  - id: esimerkkikauppa-report-page
+    kind: official_site
+    url: https://www.esimerkkikauppa.example/turvallisuus/huijaukset
+    retrieved: 2026-11-12
+    supports: Security page asks customers to report phishing and scam messages to the abuse address it lists

@@ -1,0 +1,9 @@
+The pack data in this repository is dedicated to the public domain under
+Creative Commons CC0 1.0 Universal (SPDX: CC0-1.0).
+Full legal code: https://creativecommons.org/publicdomain/zero/1.0/legalcode
+
+The toolchain in tools/ is not pack data. It is licensed under the MIT License
+(SPDX: MIT); see tools/LICENSE.
+
+Contributors certify each change with a Developer Certificate of Origin
+sign-off line (`git commit -s`): https://developercertificate.org/

@@ -1,0 +1,319 @@
+# Organisations (from v1 pack fi.banking).
+# Converted from the v1 packs by scripts/packs-convert-v2.ts; edit this file, not the v1 JSON.
+organisations:
+  - id: op
+    name: OP
+    category: bank
+    domains:
+      - domain: op.fi
+        relationship: owned
+        source: site-op
+      - domain: osuuspankki.fi
+        relationship: owned
+        source: site-osuuspankki-fi
+    aliases:
+      - value: OP
+      - value: OP-ryhmä
+      - value: OP Financial Group
+      - value: OP Pankki
+        match: token_stem
+      - value: OP Asiakaspalvelu
+      - value: OP-Pohjola
+      - value: Osuuspankki
+        match: token_stem
+      - value: op.fi
+      - value: OP-mobiili
+        kind: auth_product
+      - value: Pohjola
+        weight: low
+    threatCategories:
+      - credential_theft.online_banking
+      - authentication_abuse.code_theft
+      - authentication_abuse.approval
+    communicationPolicy:
+      channel: email
+      neverContains:
+        - link_login
+        - link_identify
+        - link_payment
+        - link_credential_update
+      source: owner-2026-10-28
+  - id: nordea
+    name: Nordea
+    category: bank
+    domains:
+      - domain: nordea.fi
+        relationship: owned
+        source: site-nordea
+      - domain: nordea.com
+        relationship: owned
+        source: site-nordea
+      - domain: nordea.se
+        relationship: owned
+        source: site-nordea-se
+      - domain: nordea.dk
+        relationship: owned
+        source: site-nordea-dk
+      - domain: nordea.no
+        relationship: owned
+        source: site-nordea-no
+    aliases:
+      - value: Nordea
+        match: token_stem
+      - value: Nordea Pankki
+        match: token_stem
+      - value: Nordea ID
+        kind: auth_product
+      - value: Nordea Codes
+        kind: auth_product
+        weight: low
+    threatCategories:
+      - credential_theft.online_banking
+      - authentication_abuse.code_theft
+      - authentication_abuse.approval
+    communicationPolicy:
+      channel: email
+      neverContains:
+        - link_login
+        - link_identify
+        - link_payment
+        - link_credential_update
+      source: owner-2026-10-28
+  - id: s_pankki
+    name: S-Pankki
+    category: bank
+    domains:
+      - domain: s-pankki.fi
+        relationship: owned
+        source: site-s-pankki
+    aliases:
+      - value: S-Pankki
+        match: token_stem
+      - value: S-Bank
+      - value: S-mobiili
+        kind: auth_product
+        match: token_stem
+    threatCategories:
+      - credential_theft.online_banking
+      - authentication_abuse.code_theft
+      - authentication_abuse.approval
+    communicationPolicy:
+      channel: email
+      neverContains:
+        - link_login
+        - link_identify
+        - link_payment
+        - link_credential_update
+      source: owner-2026-10-28
+  - id: oma_saastopankki
+    name: Oma Säästöpankki
+    category: bank
+    domains:
+      - domain: omasp.fi
+        relationship: owned
+        source: site-omasp
+    aliases:
+      - value: Oma Säästöpankki
+        match: token_stem
+      - value: OmaSp
+    threatCategories:
+      - credential_theft.online_banking
+      - authentication_abuse.code_theft
+      - authentication_abuse.approval
+    communicationPolicy:
+      channel: email
+      neverContains:
+        - link_login
+        - link_identify
+        - link_payment
+        - link_credential_update
+      source: owner-2026-10-28
+  - id: danske_bank_fi
+    name: Danske Bank
+    category: bank
+    domains:
+      - domain: danskebank.fi
+        relationship: owned
+        source: site-danske
+      - domain: danskebank.com
+        relationship: owned
+        source: site-danskebank-com
+      - domain: danskebank.dk
+        relationship: owned
+        source: site-danskebank-dk
+      - domain: danskebank.se
+        relationship: owned
+        source: site-danskebank-se
+      - domain: danskebank.no
+        relationship: owned
+        source: site-danskebank-no
+    aliases:
+      - value: Danske Bank
+        match: token_stem
+      - value: Danske ID
+        kind: auth_product
+    threatCategories:
+      - credential_theft.online_banking
+      - authentication_abuse.code_theft
+      - authentication_abuse.approval
+    communicationPolicy:
+      channel: email
+      neverContains:
+        - link_login
+        - link_identify
+        - link_payment
+        - link_credential_update
+      source: owner-2026-10-28
+  - id: pop_pankki
+    name: POP Pankki
+    category: bank
+    domains:
+      - domain: poppankki.fi
+        relationship: owned
+        source: site-pop
+    aliases:
+      - value: POP Pankki
+        match: token_stem
+    threatCategories:
+      - credential_theft.online_banking
+      - authentication_abuse.code_theft
+      - authentication_abuse.approval
+    communicationPolicy:
+      channel: email
+      neverContains:
+        - link_login
+        - link_identify
+        - link_payment
+        - link_credential_update
+      source: owner-2026-10-28
+  - id: aktia
+    name: Aktia
+    category: bank
+    domains:
+      - domain: aktia.fi
+        relationship: owned
+        source: site-aktia
+    aliases:
+      - value: Aktia
+        match: token_stem
+    threatCategories:
+      - credential_theft.online_banking
+      - authentication_abuse.code_theft
+      - authentication_abuse.approval
+    communicationPolicy:
+      channel: email
+      neverContains:
+        - link_login
+        - link_identify
+        - link_payment
+        - link_credential_update
+      source: owner-2026-10-28
+  - id: handelsbanken_fi
+    name: Handelsbanken
+    category: bank
+    domains:
+      - domain: handelsbanken.fi
+        relationship: owned
+        source: site-handelsbanken
+      - domain: handelsbanken.com
+        relationship: owned
+        source: site-handelsbanken-com
+      - domain: handelsbanken.se
+        relationship: owned
+        source: site-handelsbanken-se
+      - domain: handelsbanken.no
+        relationship: owned
+        source: site-handelsbanken-no
+      - domain: handelsbanken.dk
+        relationship: owned
+        source: site-handelsbanken-dk
+    aliases:
+      - value: Handelsbanken
+        match: token_stem
+    threatCategories:
+      - credential_theft.online_banking
+      - authentication_abuse.code_theft
+      - authentication_abuse.approval
+    communicationPolicy:
+      channel: email
+      neverContains:
+        - link_login
+        - link_identify
+        - link_payment
+        - link_credential_update
+      source: owner-2026-10-28
+  - id: saastopankki
+    name: Säästöpankki
+    category: bank
+    domains:
+      - domain: saastopankki.fi
+        relationship: owned
+        source: site-saastopankki
+    aliases:
+      - value: Säästöpankki
+        weight: low
+      - value: Säästöpankkiryhmä
+        match: token_stem
+    threatCategories:
+      - credential_theft.online_banking
+      - authentication_abuse.code_theft
+      - authentication_abuse.approval
+    communicationPolicy:
+      channel: email
+      neverContains:
+        - link_login
+        - link_identify
+        - link_payment
+        - link_credential_update
+      source: owner-2026-10-28
+  - id: alandsbanken
+    name: Ålandsbanken
+    category: bank
+    domains:
+      - domain: alandsbanken.fi
+        relationship: owned
+        source: site-alandsbanken
+      - domain: alandsbanken.ax
+        relationship: owned
+        source: site-alandsbanken-ax
+      - domain: alandsbanken.se
+        relationship: owned
+        source: site-alandsbanken-se
+      - domain: alandsbanken.com
+        relationship: owned
+        source: site-alandsbanken-com
+    aliases:
+      - value: Ålandsbanken
+        match: token_stem
+      - value: Alandsbanken
+        match: token_stem
+    threatCategories:
+      - credential_theft.online_banking
+      - authentication_abuse.code_theft
+      - authentication_abuse.approval
+    communicationPolicy:
+      channel: email
+      neverContains:
+        - link_login
+        - link_identify
+        - link_payment
+        - link_credential_update
+      source: owner-2026-10-28
+  - id: dvv_suomi_fi
+    name: Suomi.fi-tunnistus (DVV)
+    category: identification_broker
+    domains:
+      - domain: suomi.fi
+        relationship: owned
+        source: site-suomi-fi
+    aliases:
+      - value: Suomi.fi
+      - value: Suomi.fi-tunnistus
+        match: token_stem
+      - value: Suomi.fi-tunnistautuminen
+        match: token_stem
+      - value: Suomi.fi-palvelut
+        match: token_stem
+    threatCategories:
+      - credential_theft.online_banking
+      - credential_theft.national_eid

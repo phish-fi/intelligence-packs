@@ -1,0 +1,43 @@
+# Ids that must never be reused.
+# Converted from the v1 packs by scripts/packs-convert-v2.ts; edit this file, not the v1 JSON.
+retired:
+  - id: fi.banking.communication_policy.op
+    kind: indicator
+    retired: 2026-11-02
+    reason: Converted to the organisation's communicationPolicy (phish.fi-pack/2)
+  - id: fi.banking.communication_policy.nordea
+    kind: indicator
+    retired: 2026-11-02
+    reason: Converted to the organisation's communicationPolicy (phish.fi-pack/2)
+  - id: fi.banking.communication_policy.s_pankki
+    kind: indicator
+    retired: 2026-11-02
+    reason: Converted to the organisation's communicationPolicy (phish.fi-pack/2)
+  - id: fi.banking.communication_policy.oma_saastopankki
+    kind: indicator
+    retired: 2026-11-02
+    reason: Converted to the organisation's communicationPolicy (phish.fi-pack/2)
+  - id: fi.banking.communication_policy.danske_bank_fi
+    kind: indicator
+    retired: 2026-11-02
+    reason: Converted to the organisation's communicationPolicy (phish.fi-pack/2)
+  - id: fi.banking.communication_policy.pop_pankki
+    kind: indicator
+    retired: 2026-11-02
+    reason: Converted to the organisation's communicationPolicy (phish.fi-pack/2)
+  - id: fi.banking.communication_policy.aktia
+    kind: indicator
+    retired: 2026-11-02
+    reason: Converted to the organisation's communicationPolicy (phish.fi-pack/2)
+  - id: fi.banking.communication_policy.handelsbanken_fi
+    kind: indicator
+    retired: 2026-11-02
+    reason: Converted to the organisation's communicationPolicy (phish.fi-pack/2)
+  - id: fi.banking.communication_policy.saastopankki
+    kind: indicator
+    retired: 2026-11-02
+    reason: Converted to the organisation's communicationPolicy (phish.fi-pack/2)
+  - id: fi.banking.communication_policy.alandsbanken
+    kind: indicator
+    retired: 2026-11-02
+    reason: Converted to the organisation's communicationPolicy (phish.fi-pack/2)

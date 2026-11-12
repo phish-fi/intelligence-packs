@@ -1,0 +1,8 @@
+# Consent wording shown to a tenant before reports are shared with a pack
+# destination (11-pack-format-v2.md §6.4). {recipient} is replaced by the
+# destination's name in this language; it always follows a colon so that no
+# language has to inflect it.
+language: en
+originalMessage: "Share the phishing emails I report in their original form, including my email address, with this recipient: {recipient}."
+structuredEvidence: "Share the evidence from the phishing emails I report (links, sending servers and analysis results, without my email address) with this recipient: {recipient}."
+sharedIntake: "The recipient shares these reports with the other organisations in its reporting group."

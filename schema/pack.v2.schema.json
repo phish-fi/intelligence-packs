@@ -1,0 +1,3709 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://phish.fi/schema/pack.v2.schema.json",
+  "title": "phish.fi-pack/2 pack file",
+  "description": "pack.yaml must match the header variant; every other file in a pack directory matches the section variant.",
+  "oneOf": [
+    {
+      "title": "pack.yaml",
+      "type": "object",
+      "properties": {
+        "format": {
+          "type": "string",
+          "const": "phish.fi-pack/2"
+        },
+        "country": {
+          "anyOf": [
+            {
+              "type": "string",
+              "const": "global"
+            },
+            {
+              "type": "string",
+              "pattern": "^[A-Z]{2}$"
+            }
+          ]
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "languages": {
+          "minItems": 1,
+          "maxItems": 20,
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z]{2,3}(-[A-Za-z0-9]+)*$"
+          }
+        },
+        "maintainers": {
+          "minItems": 1,
+          "maxItems": 20,
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "handle": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 64
+              },
+              "email": {
+                "type": "string",
+                "format": "email",
+                "pattern": "^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$"
+              }
+            },
+            "required": [
+              "handle"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "sources": {
+          "minItems": 1,
+          "maxItems": 1000,
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+              },
+              "kind": {
+                "type": "string",
+                "enum": [
+                  "official_site",
+                  "official_register",
+                  "organisation_statement",
+                  "public_advisory",
+                  "observed_reports",
+                  "maintainer_attestation"
+                ]
+              },
+              "url": {
+                "type": "string",
+                "maxLength": 2048,
+                "format": "uri"
+              },
+              "retrieved": {
+                "type": "string",
+                "format": "date",
+                "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+              },
+              "supports": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 512
+              }
+            },
+            "required": [
+              "id",
+              "kind",
+              "retrieved",
+              "supports"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "organisations": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+                  },
+                  "name": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 256
+                  },
+                  "category": {
+                    "type": "string",
+                    "enum": [
+                      "bank",
+                      "identification_broker",
+                      "payment_provider",
+                      "card_issuer",
+                      "government_service",
+                      "logistics",
+                      "telecom",
+                      "email_provider",
+                      "crypto_service",
+                      "marketplace",
+                      "retail",
+                      "other"
+                    ]
+                  },
+                  "organisationType": {
+                    "type": "string",
+                    "enum": [
+                      "private_company",
+                      "listed_company",
+                      "public_sector",
+                      "non_profit",
+                      "educational_institution",
+                      "healthcare_provider",
+                      "international_organisation",
+                      "other"
+                    ]
+                  },
+                  "sector": {
+                    "type": "string",
+                    "enum": [
+                      "financial_services",
+                      "healthcare_pharmaceuticals",
+                      "energy_utilities",
+                      "telecommunications",
+                      "government_public_administration",
+                      "education_research",
+                      "transport_logistics",
+                      "retail_ecommerce",
+                      "technology_software",
+                      "manufacturing_industry",
+                      "media_entertainment",
+                      "professional_services",
+                      "other"
+                    ]
+                  },
+                  "additionalSectors": {
+                    "minItems": 1,
+                    "maxItems": 4,
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": [
+                        "financial_services",
+                        "healthcare_pharmaceuticals",
+                        "energy_utilities",
+                        "telecommunications",
+                        "government_public_administration",
+                        "education_research",
+                        "transport_logistics",
+                        "retail_ecommerce",
+                        "technology_software",
+                        "manufacturing_industry",
+                        "media_entertainment",
+                        "professional_services",
+                        "other"
+                      ]
+                    }
+                  },
+                  "wikidata": {
+                    "type": "string",
+                    "pattern": "^Q[1-9]\\d*$"
+                  },
+                  "languages": {
+                    "minItems": 1,
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^[a-z]{2,3}(-[A-Za-z0-9]+)*$"
+                    }
+                  },
+                  "domains": {
+                    "default": [],
+                    "maxItems": 200,
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "domain": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 253
+                        },
+                        "relationship": {
+                          "type": "string",
+                          "enum": [
+                            "owned",
+                            "authorized",
+                            "associated"
+                          ]
+                        },
+                        "source": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+                        }
+                      },
+                      "required": [
+                        "domain",
+                        "relationship",
+                        "source"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "aliases": {
+                    "default": [],
+                    "maxItems": 64,
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "value": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 128
+                        },
+                        "kind": {
+                          "type": "string",
+                          "enum": [
+                            "brand",
+                            "auth_product",
+                            "app",
+                            "service",
+                            "former_name"
+                          ]
+                        },
+                        "match": {
+                          "type": "string",
+                          "enum": [
+                            "token_exact",
+                            "token_stem"
+                          ]
+                        },
+                        "weight": {
+                          "type": "string",
+                          "enum": [
+                            "low",
+                            "medium",
+                            "high"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "value"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "threatCategories": {
+                    "default": [],
+                    "maxItems": 32,
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "communicationPolicy": {
+                    "type": "object",
+                    "properties": {
+                      "channel": {
+                        "type": "string",
+                        "const": "email"
+                      },
+                      "neverContains": {
+                        "minItems": 1,
+                        "maxItems": 8,
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "enum": [
+                            "link_login",
+                            "link_identify",
+                            "link_payment",
+                            "link_credential_update",
+                            "link_document_view",
+                            "link_public_information",
+                            "link_unsubscribe",
+                            "link_unknown"
+                          ]
+                        }
+                      },
+                      "source": {
+                        "type": "string",
+                        "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+                      }
+                    },
+                    "required": [
+                      "channel",
+                      "neverContains",
+                      "source"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "notes": {
+                    "type": "string",
+                    "maxLength": 2000
+                  }
+                },
+                "required": [
+                  "id",
+                  "name",
+                  "category"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "extends": {
+                    "type": "string",
+                    "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+                  },
+                  "languages": {
+                    "minItems": 1,
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^[a-z]{2,3}(-[A-Za-z0-9]+)*$"
+                    }
+                  },
+                  "domains": {
+                    "default": [],
+                    "maxItems": 200,
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "domain": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 253
+                        },
+                        "relationship": {
+                          "type": "string",
+                          "enum": [
+                            "owned",
+                            "authorized",
+                            "associated"
+                          ]
+                        },
+                        "source": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+                        }
+                      },
+                      "required": [
+                        "domain",
+                        "relationship",
+                        "source"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "aliases": {
+                    "default": [],
+                    "maxItems": 64,
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "value": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 128
+                        },
+                        "kind": {
+                          "type": "string",
+                          "enum": [
+                            "brand",
+                            "auth_product",
+                            "app",
+                            "service",
+                            "former_name"
+                          ]
+                        },
+                        "match": {
+                          "type": "string",
+                          "enum": [
+                            "token_exact",
+                            "token_stem"
+                          ]
+                        },
+                        "weight": {
+                          "type": "string",
+                          "enum": [
+                            "low",
+                            "medium",
+                            "high"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "value"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "threatCategories": {
+                    "default": [],
+                    "maxItems": 32,
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "communicationPolicy": {
+                    "type": "object",
+                    "properties": {
+                      "channel": {
+                        "type": "string",
+                        "const": "email"
+                      },
+                      "neverContains": {
+                        "minItems": 1,
+                        "maxItems": 8,
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "enum": [
+                            "link_login",
+                            "link_identify",
+                            "link_payment",
+                            "link_credential_update",
+                            "link_document_view",
+                            "link_public_information",
+                            "link_unsubscribe",
+                            "link_unknown"
+                          ]
+                        }
+                      },
+                      "source": {
+                        "type": "string",
+                        "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+                      }
+                    },
+                    "required": [
+                      "channel",
+                      "neverContains",
+                      "source"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "notes": {
+                    "type": "string",
+                    "maxLength": 2000
+                  }
+                },
+                "required": [
+                  "extends"
+                ],
+                "additionalProperties": false
+              }
+            ]
+          }
+        },
+        "identificationSystems": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+              },
+              "name": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128
+              },
+              "credentialKind": {
+                "type": "string",
+                "enum": [
+                  "bank_credentials",
+                  "national_eid",
+                  "email_account",
+                  "payment_card",
+                  "crypto_wallet",
+                  "service_account",
+                  "other"
+                ]
+              },
+              "credentialIssuers": {
+                "maxItems": 100,
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+                }
+              },
+              "brokers": {
+                "default": [],
+                "maxItems": 50,
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+                }
+              },
+              "relyingParties": {
+                "default": [],
+                "maxItems": 200,
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+                }
+              },
+              "flowMarkers": {
+                "default": [],
+                "maxItems": 200,
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+                }
+              },
+              "source": {
+                "type": "string",
+                "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+              },
+              "notes": {
+                "type": "string",
+                "maxLength": 2000
+              }
+            },
+            "required": [
+              "id",
+              "name",
+              "credentialKind",
+              "credentialIssuers",
+              "source"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "indicators": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "const": "phrase"
+                  },
+                  "id": {
+                    "type": "string",
+                    "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+                  },
+                  "organisations": {
+                    "default": [],
+                    "maxItems": 100,
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+                    }
+                  },
+                  "threatCategories": {
+                    "maxItems": 32,
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "role": {
+                    "type": "string",
+                    "enum": [
+                      "supporting",
+                      "context",
+                      "contradicting"
+                    ]
+                  },
+                  "weight": {
+                    "type": "string",
+                    "enum": [
+                      "low",
+                      "medium",
+                      "high"
+                    ]
+                  },
+                  "expectedMatching": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 512
+                  },
+                  "falsePositiveRisks": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 512
+                  },
+                  "sources": {
+                    "minItems": 1,
+                    "maxItems": 20,
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+                    }
+                  },
+                  "tests": {
+                    "type": "object",
+                    "properties": {
+                      "match": {
+                        "default": [],
+                        "maxItems": 50,
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 500
+                        }
+                      },
+                      "noMatch": {
+                        "default": [],
+                        "maxItems": 50,
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 500
+                        }
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "notes": {
+                    "type": "string",
+                    "maxLength": 2000
+                  },
+                  "lang": {
+                    "type": "string",
+                    "pattern": "^[a-z]{2,3}(-[A-Za-z0-9]+)*$"
+                  },
+                  "tokens": {
+                    "minItems": 1,
+                    "maxItems": 12,
+                    "type": "array",
+                    "items": {
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 64
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "pattern": {
+                              "type": "string",
+                              "minLength": 1,
+                              "maxLength": 64
+                            },
+                            "folded": {
+                              "type": "boolean"
+                            }
+                          },
+                          "required": [
+                            "pattern"
+                          ],
+                          "additionalProperties": false
+                        }
+                      ]
+                    }
+                  },
+                  "window": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 64
+                  }
+                },
+                "required": [
+                  "type",
+                  "id",
+                  "threatCategories",
+                  "role",
+                  "weight",
+                  "expectedMatching",
+                  "falsePositiveRisks",
+                  "sources",
+                  "lang",
+                  "tokens",
+                  "window"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "const": "sender_claim"
+                  },
+                  "id": {
+                    "type": "string",
+                    "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+                  },
+                  "organisations": {
+                    "default": [],
+                    "maxItems": 100,
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+                    }
+                  },
+                  "threatCategories": {
+                    "maxItems": 32,
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "role": {
+                    "type": "string",
+                    "enum": [
+                      "supporting",
+                      "context",
+                      "contradicting"
+                    ]
+                  },
+                  "weight": {
+                    "type": "string",
+                    "enum": [
+                      "low",
+                      "medium",
+                      "high"
+                    ]
+                  },
+                  "expectedMatching": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 512
+                  },
+                  "falsePositiveRisks": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 512
+                  },
+                  "sources": {
+                    "minItems": 1,
+                    "maxItems": 20,
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+                    }
+                  },
+                  "tests": {
+                    "type": "object",
+                    "properties": {
+                      "match": {
+                        "default": [],
+                        "maxItems": 50,
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 500
+                        }
+                      },
+                      "noMatch": {
+                        "default": [],
+                        "maxItems": 50,
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 500
+                        }
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "notes": {
+                    "type": "string",
+                    "maxLength": 2000
+                  },
+                  "lang": {
+                    "type": "string",
+                    "pattern": "^[a-z]{2,3}(-[A-Za-z0-9]+)*$"
+                  },
+                  "tokens": {
+                    "minItems": 1,
+                    "maxItems": 12,
+                    "type": "array",
+                    "items": {
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 64
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "pattern": {
+                              "type": "string",
+                              "minLength": 1,
+                              "maxLength": 64
+                            },
+                            "folded": {
+                              "type": "boolean"
+                            }
+                          },
+                          "required": [
+                            "pattern"
+                          ],
+                          "additionalProperties": false
+                        }
+                      ]
+                    }
+                  },
+                  "window": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 64
+                  }
+                },
+                "required": [
+                  "type",
+                  "id",
+                  "threatCategories",
+                  "role",
+                  "weight",
+                  "expectedMatching",
+                  "falsePositiveRisks",
+                  "sources",
+                  "lang",
+                  "tokens",
+                  "window"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "const": "link_purpose"
+                  },
+                  "id": {
+                    "type": "string",
+                    "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+                  },
+                  "organisations": {
+                    "default": [],
+                    "maxItems": 100,
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+                    }
+                  },
+                  "threatCategories": {
+                    "maxItems": 32,
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "role": {
+                    "type": "string",
+                    "enum": [
+                      "supporting",
+                      "context",
+                      "contradicting"
+                    ]
+                  },
+                  "weight": {
+                    "type": "string",
+                    "enum": [
+                      "low",
+                      "medium",
+                      "high"
+                    ]
+                  },
+                  "expectedMatching": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 512
+                  },
+                  "falsePositiveRisks": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 512
+                  },
+                  "sources": {
+                    "minItems": 1,
+                    "maxItems": 20,
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+                    }
+                  },
+                  "tests": {
+                    "type": "object",
+                    "properties": {
+                      "match": {
+                        "default": [],
+                        "maxItems": 50,
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 500
+                        }
+                      },
+                      "noMatch": {
+                        "default": [],
+                        "maxItems": 50,
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 500
+                        }
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "notes": {
+                    "type": "string",
+                    "maxLength": 2000
+                  },
+                  "lang": {
+                    "type": "string",
+                    "pattern": "^[a-z]{2,3}(-[A-Za-z0-9]+)*$"
+                  },
+                  "tokens": {
+                    "minItems": 1,
+                    "maxItems": 12,
+                    "type": "array",
+                    "items": {
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 64
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "pattern": {
+                              "type": "string",
+                              "minLength": 1,
+                              "maxLength": 64
+                            },
+                            "folded": {
+                              "type": "boolean"
+                            }
+                          },
+                          "required": [
+                            "pattern"
+                          ],
+                          "additionalProperties": false
+                        }
+                      ]
+                    }
+                  },
+                  "window": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 64
+                  },
+                  "purpose": {
+                    "type": "string",
+                    "enum": [
+                      "login",
+                      "identify",
+                      "payment",
+                      "credential_update",
+                      "document_view",
+                      "public_information",
+                      "unsubscribe",
+                      "unknown"
+                    ]
+                  }
+                },
+                "required": [
+                  "type",
+                  "id",
+                  "threatCategories",
+                  "role",
+                  "weight",
+                  "expectedMatching",
+                  "falsePositiveRisks",
+                  "sources",
+                  "lang",
+                  "tokens",
+                  "window",
+                  "purpose"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "const": "lookalike_seed"
+                  },
+                  "id": {
+                    "type": "string",
+                    "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+                  },
+                  "organisations": {
+                    "default": [],
+                    "maxItems": 100,
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+                    }
+                  },
+                  "threatCategories": {
+                    "maxItems": 32,
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "role": {
+                    "type": "string",
+                    "enum": [
+                      "supporting",
+                      "context",
+                      "contradicting"
+                    ]
+                  },
+                  "weight": {
+                    "type": "string",
+                    "enum": [
+                      "low",
+                      "medium",
+                      "high"
+                    ]
+                  },
+                  "expectedMatching": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 512
+                  },
+                  "falsePositiveRisks": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 512
+                  },
+                  "sources": {
+                    "minItems": 1,
+                    "maxItems": 20,
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+                    }
+                  },
+                  "tests": {
+                    "type": "object",
+                    "properties": {
+                      "match": {
+                        "default": [],
+                        "maxItems": 50,
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 500
+                        }
+                      },
+                      "noMatch": {
+                        "default": [],
+                        "maxItems": 50,
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 500
+                        }
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "notes": {
+                    "type": "string",
+                    "maxLength": 2000
+                  },
+                  "token": {
+                    "type": "string",
+                    "minLength": 3,
+                    "maxLength": 64
+                  }
+                },
+                "required": [
+                  "type",
+                  "id",
+                  "threatCategories",
+                  "role",
+                  "weight",
+                  "expectedMatching",
+                  "falsePositiveRisks",
+                  "sources",
+                  "token"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "const": "page_form_feature"
+                  },
+                  "id": {
+                    "type": "string",
+                    "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+                  },
+                  "organisations": {
+                    "default": [],
+                    "maxItems": 100,
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+                    }
+                  },
+                  "threatCategories": {
+                    "maxItems": 32,
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "role": {
+                    "type": "string",
+                    "enum": [
+                      "supporting",
+                      "context",
+                      "contradicting"
+                    ]
+                  },
+                  "weight": {
+                    "type": "string",
+                    "enum": [
+                      "low",
+                      "medium",
+                      "high"
+                    ]
+                  },
+                  "expectedMatching": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 512
+                  },
+                  "falsePositiveRisks": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 512
+                  },
+                  "sources": {
+                    "minItems": 1,
+                    "maxItems": 20,
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+                    }
+                  },
+                  "tests": {
+                    "type": "object",
+                    "properties": {
+                      "match": {
+                        "default": [],
+                        "maxItems": 50,
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 500
+                        }
+                      },
+                      "noMatch": {
+                        "default": [],
+                        "maxItems": 50,
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 500
+                        }
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "notes": {
+                    "type": "string",
+                    "maxLength": 2000
+                  },
+                  "fieldKind": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 64
+                  },
+                  "labelTokens": {
+                    "minItems": 1,
+                    "maxItems": 32,
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 64
+                    }
+                  }
+                },
+                "required": [
+                  "type",
+                  "id",
+                  "threatCategories",
+                  "role",
+                  "weight",
+                  "expectedMatching",
+                  "falsePositiveRisks",
+                  "sources",
+                  "fieldKind",
+                  "labelTokens"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "const": "url_pattern"
+                  },
+                  "id": {
+                    "type": "string",
+                    "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+                  },
+                  "organisations": {
+                    "default": [],
+                    "maxItems": 100,
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+                    }
+                  },
+                  "threatCategories": {
+                    "maxItems": 32,
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "role": {
+                    "type": "string",
+                    "enum": [
+                      "supporting",
+                      "context",
+                      "contradicting"
+                    ]
+                  },
+                  "weight": {
+                    "type": "string",
+                    "enum": [
+                      "low",
+                      "medium",
+                      "high"
+                    ]
+                  },
+                  "expectedMatching": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 512
+                  },
+                  "falsePositiveRisks": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 512
+                  },
+                  "sources": {
+                    "minItems": 1,
+                    "maxItems": 20,
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+                    }
+                  },
+                  "tests": {
+                    "type": "object",
+                    "properties": {
+                      "match": {
+                        "default": [],
+                        "maxItems": 50,
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 500
+                        }
+                      },
+                      "noMatch": {
+                        "default": [],
+                        "maxItems": 50,
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 500
+                        }
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "notes": {
+                    "type": "string",
+                    "maxLength": 2000
+                  },
+                  "glob": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 200,
+                    "pattern": "^[a-z0-9.*?_/=+%~-]+$"
+                  }
+                },
+                "required": [
+                  "type",
+                  "id",
+                  "threatCategories",
+                  "role",
+                  "weight",
+                  "expectedMatching",
+                  "falsePositiveRisks",
+                  "sources",
+                  "glob"
+                ],
+                "additionalProperties": false
+              }
+            ]
+          }
+        },
+        "hints": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+              },
+              "lang": {
+                "type": "string",
+                "const": "en"
+              },
+              "text": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 600
+              },
+              "threatCategories": {
+                "maxItems": 32,
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "appliesWhen": {
+                "default": {},
+                "type": "object",
+                "propertyNames": {
+                  "type": "string",
+                  "enum": [
+                    "organisationMatched",
+                    "identificationFlow"
+                  ]
+                },
+                "additionalProperties": {
+                  "type": "boolean"
+                }
+              },
+              "sources": {
+                "minItems": 1,
+                "maxItems": 20,
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+                }
+              },
+              "notes": {
+                "type": "string",
+                "maxLength": 2000
+              }
+            },
+            "required": [
+              "id",
+              "lang",
+              "text",
+              "threatCategories",
+              "sources"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "priorities": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+              },
+              "when": {
+                "type": "object",
+                "properties": {
+                  "languagesAny": {
+                    "minItems": 1,
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^[a-z]{2,3}(-[A-Za-z0-9]+)*$"
+                    }
+                  },
+                  "organisationCategoryAny": {
+                    "minItems": 1,
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": [
+                        "bank",
+                        "identification_broker",
+                        "payment_provider",
+                        "card_issuer",
+                        "government_service",
+                        "logistics",
+                        "telecom",
+                        "email_provider",
+                        "crypto_service",
+                        "marketplace",
+                        "retail",
+                        "other"
+                      ]
+                    }
+                  },
+                  "indicatorRolesAny": {
+                    "minItems": 1,
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": [
+                        "supporting",
+                        "context",
+                        "contradicting",
+                        "decisive"
+                      ]
+                    }
+                  }
+                },
+                "additionalProperties": false
+              },
+              "action": {
+                "type": "string",
+                "enum": [
+                  "request_page_ai_assessment"
+                ]
+              },
+              "notes": {
+                "type": "string",
+                "maxLength": 2000
+              }
+            },
+            "required": [
+              "id",
+              "when",
+              "action"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "destinations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+              },
+              "kind": {
+                "type": "string",
+                "enum": [
+                  "organisation",
+                  "national"
+                ]
+              },
+              "organisation": {
+                "type": "string",
+                "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+              },
+              "name": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128
+              },
+              "localizedNames": {
+                "type": "object",
+                "propertyNames": {
+                  "type": "string",
+                  "pattern": "^[a-z]{2,3}(-[A-Za-z0-9]+)*$"
+                },
+                "additionalProperties": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 128
+                }
+              },
+              "email": {
+                "type": "string",
+                "maxLength": 320,
+                "format": "email",
+                "pattern": "^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$"
+              },
+              "source": {
+                "type": "string",
+                "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+              },
+              "acceptsAutomatedReports": {
+                "type": "boolean"
+              },
+              "payload": {
+                "type": "string",
+                "enum": [
+                  "original_required",
+                  "original_preferred",
+                  "structured_only"
+                ]
+              },
+              "threatCategories": {
+                "minItems": 1,
+                "maxItems": 32,
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "requiredEvidence": {
+                "maxItems": 3,
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "impersonation_confirmed",
+                    "landing_page_captured",
+                    "original_message_available"
+                  ]
+                }
+              },
+              "minAttributionConfidence": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 100
+              },
+              "scope": {
+                "type": "object",
+                "properties": {
+                  "organisationRegionAny": {
+                    "minItems": 1,
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^[A-Z]{2}$"
+                    }
+                  },
+                  "identificationSystemAny": {
+                    "minItems": 1,
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+                    }
+                  },
+                  "resourceCctldAny": {
+                    "minItems": 1,
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^[a-z]{2,63}$"
+                    }
+                  },
+                  "hostingCountryAny": {
+                    "minItems": 1,
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^[A-Z]{2}$"
+                    }
+                  },
+                  "threatCategoryAny": {
+                    "minItems": 1,
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "additionalProperties": false
+              },
+              "fallbackOnly": {
+                "type": "boolean"
+              },
+              "letterLanguage": {
+                "type": "string",
+                "pattern": "^[a-z]{2,3}(-[A-Za-z0-9]+)*$"
+              },
+              "maxPerDay": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 10000
+              },
+              "notes": {
+                "type": "string",
+                "maxLength": 2000
+              }
+            },
+            "required": [
+              "id",
+              "kind",
+              "organisation",
+              "name",
+              "email",
+              "source",
+              "acceptsAutomatedReports",
+              "payload",
+              "threatCategories"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "destinationGroups": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+              },
+              "intakeSharing": {
+                "type": "string",
+                "enum": [
+                  "shared",
+                  "independent"
+                ]
+              },
+              "members": {
+                "minItems": 2,
+                "maxItems": 50,
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+                }
+              },
+              "primary": {
+                "type": "string",
+                "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+              },
+              "source": {
+                "type": "string",
+                "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+              },
+              "notes": {
+                "type": "string",
+                "maxLength": 2000
+              }
+            },
+            "required": [
+              "id",
+              "intakeSharing",
+              "members",
+              "primary",
+              "source"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "cases": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+              },
+              "synthetic": {
+                "type": "boolean",
+                "const": true
+              },
+              "lang": {
+                "type": "string",
+                "pattern": "^[a-z]{2,3}(-[A-Za-z0-9]+)*$"
+              },
+              "from": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 320
+              },
+              "subject": {
+                "default": "",
+                "type": "string",
+                "maxLength": 500
+              },
+              "body": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 10000
+              },
+              "expect": {
+                "type": "object",
+                "properties": {
+                  "attributed": {
+                    "type": "object",
+                    "properties": {
+                      "organisation": {
+                        "type": "string",
+                        "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+                      },
+                      "role": {
+                        "type": "string",
+                        "enum": [
+                          "impersonated_sender",
+                          "impersonated_broker",
+                          "credential_issuer",
+                          "mentioned",
+                          "legitimate_sender"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "organisation",
+                      "role"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "findings": {
+                    "default": [],
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": [
+                        "communication_policy_violation",
+                        "lookalike_domain",
+                        "identification_flow"
+                      ]
+                    }
+                  },
+                  "indicators": {
+                    "default": [],
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+                    }
+                  },
+                  "routeTo": {
+                    "default": [],
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+                    }
+                  }
+                },
+                "additionalProperties": false
+              },
+              "notes": {
+                "type": "string",
+                "maxLength": 2000
+              }
+            },
+            "required": [
+              "id",
+              "synthetic",
+              "from",
+              "body",
+              "expect"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "retired": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+              },
+              "kind": {
+                "type": "string",
+                "enum": [
+                  "organisation",
+                  "indicator",
+                  "hint",
+                  "priority",
+                  "destination",
+                  "destinationGroup",
+                  "identificationSystem",
+                  "case"
+                ]
+              },
+              "retired": {
+                "type": "string",
+                "format": "date",
+                "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+              },
+              "reason": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 500
+              }
+            },
+            "required": [
+              "id",
+              "kind",
+              "retired",
+              "reason"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "format",
+        "country",
+        "name",
+        "languages",
+        "maintainers",
+        "sources"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "title": "section file",
+      "type": "object",
+      "properties": {
+        "sources": {
+          "maxItems": 1000,
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+              },
+              "kind": {
+                "type": "string",
+                "enum": [
+                  "official_site",
+                  "official_register",
+                  "organisation_statement",
+                  "public_advisory",
+                  "observed_reports",
+                  "maintainer_attestation"
+                ]
+              },
+              "url": {
+                "type": "string",
+                "maxLength": 2048,
+                "format": "uri"
+              },
+              "retrieved": {
+                "type": "string",
+                "format": "date",
+                "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+              },
+              "supports": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 512
+              }
+            },
+            "required": [
+              "id",
+              "kind",
+              "retrieved",
+              "supports"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "organisations": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+                  },
+                  "name": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 256
+                  },
+                  "category": {
+                    "type": "string",
+                    "enum": [
+                      "bank",
+                      "identification_broker",
+                      "payment_provider",
+                      "card_issuer",
+                      "government_service",
+                      "logistics",
+                      "telecom",
+                      "email_provider",
+                      "crypto_service",
+                      "marketplace",
+                      "retail",
+                      "other"
+                    ]
+                  },
+                  "organisationType": {
+                    "type": "string",
+                    "enum": [
+                      "private_company",
+                      "listed_company",
+                      "public_sector",
+                      "non_profit",
+                      "educational_institution",
+                      "healthcare_provider",
+                      "international_organisation",
+                      "other"
+                    ]
+                  },
+                  "sector": {
+                    "type": "string",
+                    "enum": [
+                      "financial_services",
+                      "healthcare_pharmaceuticals",
+                      "energy_utilities",
+                      "telecommunications",
+                      "government_public_administration",
+                      "education_research",
+                      "transport_logistics",
+                      "retail_ecommerce",
+                      "technology_software",
+                      "manufacturing_industry",
+                      "media_entertainment",
+                      "professional_services",
+                      "other"
+                    ]
+                  },
+                  "additionalSectors": {
+                    "minItems": 1,
+                    "maxItems": 4,
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": [
+                        "financial_services",
+                        "healthcare_pharmaceuticals",
+                        "energy_utilities",
+                        "telecommunications",
+                        "government_public_administration",
+                        "education_research",
+                        "transport_logistics",
+                        "retail_ecommerce",
+                        "technology_software",
+                        "manufacturing_industry",
+                        "media_entertainment",
+                        "professional_services",
+                        "other"
+                      ]
+                    }
+                  },
+                  "wikidata": {
+                    "type": "string",
+                    "pattern": "^Q[1-9]\\d*$"
+                  },
+                  "languages": {
+                    "minItems": 1,
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^[a-z]{2,3}(-[A-Za-z0-9]+)*$"
+                    }
+                  },
+                  "domains": {
+                    "default": [],
+                    "maxItems": 200,
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "domain": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 253
+                        },
+                        "relationship": {
+                          "type": "string",
+                          "enum": [
+                            "owned",
+                            "authorized",
+                            "associated"
+                          ]
+                        },
+                        "source": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+                        }
+                      },
+                      "required": [
+                        "domain",
+                        "relationship",
+                        "source"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "aliases": {
+                    "default": [],
+                    "maxItems": 64,
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "value": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 128
+                        },
+                        "kind": {
+                          "type": "string",
+                          "enum": [
+                            "brand",
+                            "auth_product",
+                            "app",
+                            "service",
+                            "former_name"
+                          ]
+                        },
+                        "match": {
+                          "type": "string",
+                          "enum": [
+                            "token_exact",
+                            "token_stem"
+                          ]
+                        },
+                        "weight": {
+                          "type": "string",
+                          "enum": [
+                            "low",
+                            "medium",
+                            "high"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "value"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "threatCategories": {
+                    "default": [],
+                    "maxItems": 32,
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "communicationPolicy": {
+                    "type": "object",
+                    "properties": {
+                      "channel": {
+                        "type": "string",
+                        "const": "email"
+                      },
+                      "neverContains": {
+                        "minItems": 1,
+                        "maxItems": 8,
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "enum": [
+                            "link_login",
+                            "link_identify",
+                            "link_payment",
+                            "link_credential_update",
+                            "link_document_view",
+                            "link_public_information",
+                            "link_unsubscribe",
+                            "link_unknown"
+                          ]
+                        }
+                      },
+                      "source": {
+                        "type": "string",
+                        "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+                      }
+                    },
+                    "required": [
+                      "channel",
+                      "neverContains",
+                      "source"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "notes": {
+                    "type": "string",
+                    "maxLength": 2000
+                  }
+                },
+                "required": [
+                  "id",
+                  "name",
+                  "category"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "extends": {
+                    "type": "string",
+                    "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+                  },
+                  "languages": {
+                    "minItems": 1,
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^[a-z]{2,3}(-[A-Za-z0-9]+)*$"
+                    }
+                  },
+                  "domains": {
+                    "default": [],
+                    "maxItems": 200,
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "domain": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 253
+                        },
+                        "relationship": {
+                          "type": "string",
+                          "enum": [
+                            "owned",
+                            "authorized",
+                            "associated"
+                          ]
+                        },
+                        "source": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+                        }
+                      },
+                      "required": [
+                        "domain",
+                        "relationship",
+                        "source"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "aliases": {
+                    "default": [],
+                    "maxItems": 64,
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "value": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 128
+                        },
+                        "kind": {
+                          "type": "string",
+                          "enum": [
+                            "brand",
+                            "auth_product",
+                            "app",
+                            "service",
+                            "former_name"
+                          ]
+                        },
+                        "match": {
+                          "type": "string",
+                          "enum": [
+                            "token_exact",
+                            "token_stem"
+                          ]
+                        },
+                        "weight": {
+                          "type": "string",
+                          "enum": [
+                            "low",
+                            "medium",
+                            "high"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "value"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "threatCategories": {
+                    "default": [],
+                    "maxItems": 32,
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "communicationPolicy": {
+                    "type": "object",
+                    "properties": {
+                      "channel": {
+                        "type": "string",
+                        "const": "email"
+                      },
+                      "neverContains": {
+                        "minItems": 1,
+                        "maxItems": 8,
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "enum": [
+                            "link_login",
+                            "link_identify",
+                            "link_payment",
+                            "link_credential_update",
+                            "link_document_view",
+                            "link_public_information",
+                            "link_unsubscribe",
+                            "link_unknown"
+                          ]
+                        }
+                      },
+                      "source": {
+                        "type": "string",
+                        "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+                      }
+                    },
+                    "required": [
+                      "channel",
+                      "neverContains",
+                      "source"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "notes": {
+                    "type": "string",
+                    "maxLength": 2000
+                  }
+                },
+                "required": [
+                  "extends"
+                ],
+                "additionalProperties": false
+              }
+            ]
+          }
+        },
+        "identificationSystems": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+              },
+              "name": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128
+              },
+              "credentialKind": {
+                "type": "string",
+                "enum": [
+                  "bank_credentials",
+                  "national_eid",
+                  "email_account",
+                  "payment_card",
+                  "crypto_wallet",
+                  "service_account",
+                  "other"
+                ]
+              },
+              "credentialIssuers": {
+                "maxItems": 100,
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+                }
+              },
+              "brokers": {
+                "default": [],
+                "maxItems": 50,
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+                }
+              },
+              "relyingParties": {
+                "default": [],
+                "maxItems": 200,
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+                }
+              },
+              "flowMarkers": {
+                "default": [],
+                "maxItems": 200,
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+                }
+              },
+              "source": {
+                "type": "string",
+                "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+              },
+              "notes": {
+                "type": "string",
+                "maxLength": 2000
+              }
+            },
+            "required": [
+              "id",
+              "name",
+              "credentialKind",
+              "credentialIssuers",
+              "source"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "indicators": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "const": "phrase"
+                  },
+                  "id": {
+                    "type": "string",
+                    "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+                  },
+                  "organisations": {
+                    "default": [],
+                    "maxItems": 100,
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+                    }
+                  },
+                  "threatCategories": {
+                    "maxItems": 32,
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "role": {
+                    "type": "string",
+                    "enum": [
+                      "supporting",
+                      "context",
+                      "contradicting"
+                    ]
+                  },
+                  "weight": {
+                    "type": "string",
+                    "enum": [
+                      "low",
+                      "medium",
+                      "high"
+                    ]
+                  },
+                  "expectedMatching": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 512
+                  },
+                  "falsePositiveRisks": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 512
+                  },
+                  "sources": {
+                    "minItems": 1,
+                    "maxItems": 20,
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+                    }
+                  },
+                  "tests": {
+                    "type": "object",
+                    "properties": {
+                      "match": {
+                        "default": [],
+                        "maxItems": 50,
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 500
+                        }
+                      },
+                      "noMatch": {
+                        "default": [],
+                        "maxItems": 50,
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 500
+                        }
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "notes": {
+                    "type": "string",
+                    "maxLength": 2000
+                  },
+                  "lang": {
+                    "type": "string",
+                    "pattern": "^[a-z]{2,3}(-[A-Za-z0-9]+)*$"
+                  },
+                  "tokens": {
+                    "minItems": 1,
+                    "maxItems": 12,
+                    "type": "array",
+                    "items": {
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 64
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "pattern": {
+                              "type": "string",
+                              "minLength": 1,
+                              "maxLength": 64
+                            },
+                            "folded": {
+                              "type": "boolean"
+                            }
+                          },
+                          "required": [
+                            "pattern"
+                          ],
+                          "additionalProperties": false
+                        }
+                      ]
+                    }
+                  },
+                  "window": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 64
+                  }
+                },
+                "required": [
+                  "type",
+                  "id",
+                  "threatCategories",
+                  "role",
+                  "weight",
+                  "expectedMatching",
+                  "falsePositiveRisks",
+                  "sources",
+                  "lang",
+                  "tokens",
+                  "window"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "const": "sender_claim"
+                  },
+                  "id": {
+                    "type": "string",
+                    "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+                  },
+                  "organisations": {
+                    "default": [],
+                    "maxItems": 100,
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+                    }
+                  },
+                  "threatCategories": {
+                    "maxItems": 32,
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "role": {
+                    "type": "string",
+                    "enum": [
+                      "supporting",
+                      "context",
+                      "contradicting"
+                    ]
+                  },
+                  "weight": {
+                    "type": "string",
+                    "enum": [
+                      "low",
+                      "medium",
+                      "high"
+                    ]
+                  },
+                  "expectedMatching": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 512
+                  },
+                  "falsePositiveRisks": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 512
+                  },
+                  "sources": {
+                    "minItems": 1,
+                    "maxItems": 20,
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+                    }
+                  },
+                  "tests": {
+                    "type": "object",
+                    "properties": {
+                      "match": {
+                        "default": [],
+                        "maxItems": 50,
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 500
+                        }
+                      },
+                      "noMatch": {
+                        "default": [],
+                        "maxItems": 50,
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 500
+                        }
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "notes": {
+                    "type": "string",
+                    "maxLength": 2000
+                  },
+                  "lang": {
+                    "type": "string",
+                    "pattern": "^[a-z]{2,3}(-[A-Za-z0-9]+)*$"
+                  },
+                  "tokens": {
+                    "minItems": 1,
+                    "maxItems": 12,
+                    "type": "array",
+                    "items": {
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 64
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "pattern": {
+                              "type": "string",
+                              "minLength": 1,
+                              "maxLength": 64
+                            },
+                            "folded": {
+                              "type": "boolean"
+                            }
+                          },
+                          "required": [
+                            "pattern"
+                          ],
+                          "additionalProperties": false
+                        }
+                      ]
+                    }
+                  },
+                  "window": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 64
+                  }
+                },
+                "required": [
+                  "type",
+                  "id",
+                  "threatCategories",
+                  "role",
+                  "weight",
+                  "expectedMatching",
+                  "falsePositiveRisks",
+                  "sources",
+                  "lang",
+                  "tokens",
+                  "window"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "const": "link_purpose"
+                  },
+                  "id": {
+                    "type": "string",
+                    "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+                  },
+                  "organisations": {
+                    "default": [],
+                    "maxItems": 100,
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+                    }
+                  },
+                  "threatCategories": {
+                    "maxItems": 32,
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "role": {
+                    "type": "string",
+                    "enum": [
+                      "supporting",
+                      "context",
+                      "contradicting"
+                    ]
+                  },
+                  "weight": {
+                    "type": "string",
+                    "enum": [
+                      "low",
+                      "medium",
+                      "high"
+                    ]
+                  },
+                  "expectedMatching": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 512
+                  },
+                  "falsePositiveRisks": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 512
+                  },
+                  "sources": {
+                    "minItems": 1,
+                    "maxItems": 20,
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+                    }
+                  },
+                  "tests": {
+                    "type": "object",
+                    "properties": {
+                      "match": {
+                        "default": [],
+                        "maxItems": 50,
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 500
+                        }
+                      },
+                      "noMatch": {
+                        "default": [],
+                        "maxItems": 50,
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 500
+                        }
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "notes": {
+                    "type": "string",
+                    "maxLength": 2000
+                  },
+                  "lang": {
+                    "type": "string",
+                    "pattern": "^[a-z]{2,3}(-[A-Za-z0-9]+)*$"
+                  },
+                  "tokens": {
+                    "minItems": 1,
+                    "maxItems": 12,
+                    "type": "array",
+                    "items": {
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 64
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "pattern": {
+                              "type": "string",
+                              "minLength": 1,
+                              "maxLength": 64
+                            },
+                            "folded": {
+                              "type": "boolean"
+                            }
+                          },
+                          "required": [
+                            "pattern"
+                          ],
+                          "additionalProperties": false
+                        }
+                      ]
+                    }
+                  },
+                  "window": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 64
+                  },
+                  "purpose": {
+                    "type": "string",
+                    "enum": [
+                      "login",
+                      "identify",
+                      "payment",
+                      "credential_update",
+                      "document_view",
+                      "public_information",
+                      "unsubscribe",
+                      "unknown"
+                    ]
+                  }
+                },
+                "required": [
+                  "type",
+                  "id",
+                  "threatCategories",
+                  "role",
+                  "weight",
+                  "expectedMatching",
+                  "falsePositiveRisks",
+                  "sources",
+                  "lang",
+                  "tokens",
+                  "window",
+                  "purpose"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "const": "lookalike_seed"
+                  },
+                  "id": {
+                    "type": "string",
+                    "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+                  },
+                  "organisations": {
+                    "default": [],
+                    "maxItems": 100,
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+                    }
+                  },
+                  "threatCategories": {
+                    "maxItems": 32,
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "role": {
+                    "type": "string",
+                    "enum": [
+                      "supporting",
+                      "context",
+                      "contradicting"
+                    ]
+                  },
+                  "weight": {
+                    "type": "string",
+                    "enum": [
+                      "low",
+                      "medium",
+                      "high"
+                    ]
+                  },
+                  "expectedMatching": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 512
+                  },
+                  "falsePositiveRisks": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 512
+                  },
+                  "sources": {
+                    "minItems": 1,
+                    "maxItems": 20,
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+                    }
+                  },
+                  "tests": {
+                    "type": "object",
+                    "properties": {
+                      "match": {
+                        "default": [],
+                        "maxItems": 50,
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 500
+                        }
+                      },
+                      "noMatch": {
+                        "default": [],
+                        "maxItems": 50,
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 500
+                        }
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "notes": {
+                    "type": "string",
+                    "maxLength": 2000
+                  },
+                  "token": {
+                    "type": "string",
+                    "minLength": 3,
+                    "maxLength": 64
+                  }
+                },
+                "required": [
+                  "type",
+                  "id",
+                  "threatCategories",
+                  "role",
+                  "weight",
+                  "expectedMatching",
+                  "falsePositiveRisks",
+                  "sources",
+                  "token"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "const": "page_form_feature"
+                  },
+                  "id": {
+                    "type": "string",
+                    "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+                  },
+                  "organisations": {
+                    "default": [],
+                    "maxItems": 100,
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+                    }
+                  },
+                  "threatCategories": {
+                    "maxItems": 32,
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "role": {
+                    "type": "string",
+                    "enum": [
+                      "supporting",
+                      "context",
+                      "contradicting"
+                    ]
+                  },
+                  "weight": {
+                    "type": "string",
+                    "enum": [
+                      "low",
+                      "medium",
+                      "high"
+                    ]
+                  },
+                  "expectedMatching": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 512
+                  },
+                  "falsePositiveRisks": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 512
+                  },
+                  "sources": {
+                    "minItems": 1,
+                    "maxItems": 20,
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+                    }
+                  },
+                  "tests": {
+                    "type": "object",
+                    "properties": {
+                      "match": {
+                        "default": [],
+                        "maxItems": 50,
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 500
+                        }
+                      },
+                      "noMatch": {
+                        "default": [],
+                        "maxItems": 50,
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 500
+                        }
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "notes": {
+                    "type": "string",
+                    "maxLength": 2000
+                  },
+                  "fieldKind": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 64
+                  },
+                  "labelTokens": {
+                    "minItems": 1,
+                    "maxItems": 32,
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 64
+                    }
+                  }
+                },
+                "required": [
+                  "type",
+                  "id",
+                  "threatCategories",
+                  "role",
+                  "weight",
+                  "expectedMatching",
+                  "falsePositiveRisks",
+                  "sources",
+                  "fieldKind",
+                  "labelTokens"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "const": "url_pattern"
+                  },
+                  "id": {
+                    "type": "string",
+                    "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+                  },
+                  "organisations": {
+                    "default": [],
+                    "maxItems": 100,
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+                    }
+                  },
+                  "threatCategories": {
+                    "maxItems": 32,
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "role": {
+                    "type": "string",
+                    "enum": [
+                      "supporting",
+                      "context",
+                      "contradicting"
+                    ]
+                  },
+                  "weight": {
+                    "type": "string",
+                    "enum": [
+                      "low",
+                      "medium",
+                      "high"
+                    ]
+                  },
+                  "expectedMatching": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 512
+                  },
+                  "falsePositiveRisks": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 512
+                  },
+                  "sources": {
+                    "minItems": 1,
+                    "maxItems": 20,
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+                    }
+                  },
+                  "tests": {
+                    "type": "object",
+                    "properties": {
+                      "match": {
+                        "default": [],
+                        "maxItems": 50,
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 500
+                        }
+                      },
+                      "noMatch": {
+                        "default": [],
+                        "maxItems": 50,
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 500
+                        }
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "notes": {
+                    "type": "string",
+                    "maxLength": 2000
+                  },
+                  "glob": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 200,
+                    "pattern": "^[a-z0-9.*?_/=+%~-]+$"
+                  }
+                },
+                "required": [
+                  "type",
+                  "id",
+                  "threatCategories",
+                  "role",
+                  "weight",
+                  "expectedMatching",
+                  "falsePositiveRisks",
+                  "sources",
+                  "glob"
+                ],
+                "additionalProperties": false
+              }
+            ]
+          }
+        },
+        "hints": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+              },
+              "lang": {
+                "type": "string",
+                "const": "en"
+              },
+              "text": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 600
+              },
+              "threatCategories": {
+                "maxItems": 32,
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "appliesWhen": {
+                "default": {},
+                "type": "object",
+                "propertyNames": {
+                  "type": "string",
+                  "enum": [
+                    "organisationMatched",
+                    "identificationFlow"
+                  ]
+                },
+                "additionalProperties": {
+                  "type": "boolean"
+                }
+              },
+              "sources": {
+                "minItems": 1,
+                "maxItems": 20,
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+                }
+              },
+              "notes": {
+                "type": "string",
+                "maxLength": 2000
+              }
+            },
+            "required": [
+              "id",
+              "lang",
+              "text",
+              "threatCategories",
+              "sources"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "priorities": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+              },
+              "when": {
+                "type": "object",
+                "properties": {
+                  "languagesAny": {
+                    "minItems": 1,
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^[a-z]{2,3}(-[A-Za-z0-9]+)*$"
+                    }
+                  },
+                  "organisationCategoryAny": {
+                    "minItems": 1,
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": [
+                        "bank",
+                        "identification_broker",
+                        "payment_provider",
+                        "card_issuer",
+                        "government_service",
+                        "logistics",
+                        "telecom",
+                        "email_provider",
+                        "crypto_service",
+                        "marketplace",
+                        "retail",
+                        "other"
+                      ]
+                    }
+                  },
+                  "indicatorRolesAny": {
+                    "minItems": 1,
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": [
+                        "supporting",
+                        "context",
+                        "contradicting",
+                        "decisive"
+                      ]
+                    }
+                  }
+                },
+                "additionalProperties": false
+              },
+              "action": {
+                "type": "string",
+                "enum": [
+                  "request_page_ai_assessment"
+                ]
+              },
+              "notes": {
+                "type": "string",
+                "maxLength": 2000
+              }
+            },
+            "required": [
+              "id",
+              "when",
+              "action"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "destinations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+              },
+              "kind": {
+                "type": "string",
+                "enum": [
+                  "organisation",
+                  "national"
+                ]
+              },
+              "organisation": {
+                "type": "string",
+                "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+              },
+              "name": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128
+              },
+              "localizedNames": {
+                "type": "object",
+                "propertyNames": {
+                  "type": "string",
+                  "pattern": "^[a-z]{2,3}(-[A-Za-z0-9]+)*$"
+                },
+                "additionalProperties": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 128
+                }
+              },
+              "email": {
+                "type": "string",
+                "maxLength": 320,
+                "format": "email",
+                "pattern": "^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$"
+              },
+              "source": {
+                "type": "string",
+                "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+              },
+              "acceptsAutomatedReports": {
+                "type": "boolean"
+              },
+              "payload": {
+                "type": "string",
+                "enum": [
+                  "original_required",
+                  "original_preferred",
+                  "structured_only"
+                ]
+              },
+              "threatCategories": {
+                "minItems": 1,
+                "maxItems": 32,
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "requiredEvidence": {
+                "maxItems": 3,
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "impersonation_confirmed",
+                    "landing_page_captured",
+                    "original_message_available"
+                  ]
+                }
+              },
+              "minAttributionConfidence": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 100
+              },
+              "scope": {
+                "type": "object",
+                "properties": {
+                  "organisationRegionAny": {
+                    "minItems": 1,
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^[A-Z]{2}$"
+                    }
+                  },
+                  "identificationSystemAny": {
+                    "minItems": 1,
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+                    }
+                  },
+                  "resourceCctldAny": {
+                    "minItems": 1,
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^[a-z]{2,63}$"
+                    }
+                  },
+                  "hostingCountryAny": {
+                    "minItems": 1,
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^[A-Z]{2}$"
+                    }
+                  },
+                  "threatCategoryAny": {
+                    "minItems": 1,
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "additionalProperties": false
+              },
+              "fallbackOnly": {
+                "type": "boolean"
+              },
+              "letterLanguage": {
+                "type": "string",
+                "pattern": "^[a-z]{2,3}(-[A-Za-z0-9]+)*$"
+              },
+              "maxPerDay": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 10000
+              },
+              "notes": {
+                "type": "string",
+                "maxLength": 2000
+              }
+            },
+            "required": [
+              "id",
+              "kind",
+              "organisation",
+              "name",
+              "email",
+              "source",
+              "acceptsAutomatedReports",
+              "payload",
+              "threatCategories"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "destinationGroups": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+              },
+              "intakeSharing": {
+                "type": "string",
+                "enum": [
+                  "shared",
+                  "independent"
+                ]
+              },
+              "members": {
+                "minItems": 2,
+                "maxItems": 50,
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+                }
+              },
+              "primary": {
+                "type": "string",
+                "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+              },
+              "source": {
+                "type": "string",
+                "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+              },
+              "notes": {
+                "type": "string",
+                "maxLength": 2000
+              }
+            },
+            "required": [
+              "id",
+              "intakeSharing",
+              "members",
+              "primary",
+              "source"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "cases": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+              },
+              "synthetic": {
+                "type": "boolean",
+                "const": true
+              },
+              "lang": {
+                "type": "string",
+                "pattern": "^[a-z]{2,3}(-[A-Za-z0-9]+)*$"
+              },
+              "from": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 320
+              },
+              "subject": {
+                "default": "",
+                "type": "string",
+                "maxLength": 500
+              },
+              "body": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 10000
+              },
+              "expect": {
+                "type": "object",
+                "properties": {
+                  "attributed": {
+                    "type": "object",
+                    "properties": {
+                      "organisation": {
+                        "type": "string",
+                        "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+                      },
+                      "role": {
+                        "type": "string",
+                        "enum": [
+                          "impersonated_sender",
+                          "impersonated_broker",
+                          "credential_issuer",
+                          "mentioned",
+                          "legitimate_sender"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "organisation",
+                      "role"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "findings": {
+                    "default": [],
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": [
+                        "communication_policy_violation",
+                        "lookalike_domain",
+                        "identification_flow"
+                      ]
+                    }
+                  },
+                  "indicators": {
+                    "default": [],
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+                    }
+                  },
+                  "routeTo": {
+                    "default": [],
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+                    }
+                  }
+                },
+                "additionalProperties": false
+              },
+              "notes": {
+                "type": "string",
+                "maxLength": 2000
+              }
+            },
+            "required": [
+              "id",
+              "synthetic",
+              "from",
+              "body",
+              "expect"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "retired": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+              },
+              "kind": {
+                "type": "string",
+                "enum": [
+                  "organisation",
+                  "indicator",
+                  "hint",
+                  "priority",
+                  "destination",
+                  "destinationGroup",
+                  "identificationSystem",
+                  "case"
+                ]
+              },
+              "retired": {
+                "type": "string",
+                "format": "date",
+                "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+              },
+              "reason": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 500
+              }
+            },
+            "required": [
+              "id",
+              "kind",
+              "retired",
+              "reason"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+name: Wrong or outdated information
+description: An address, domain or name in a pack is wrong, outdated or missing.
+labels: [correction]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this when you can't send a pull request. Don't include personal data or the content of phishing messages.
+  - type: input
+    id: organisation
+    attributes:
+      label: Organisation
+      description: Name or primary domain, and the pack (for example "OP, fi").
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: What is wrong
+      description: What the pack says now and what it should say.
+    validations:
+      required: true
+  - type: input
+    id: evidence
+    attributes:
+      label: Evidence
+      description: A page published by the organisation that shows the correct information.
+    validations:
+      required: true

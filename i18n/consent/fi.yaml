@@ -1,0 +1,5 @@
+# See en.yaml. Native review pending (owner).
+language: fi
+originalMessage: "Jaa ilmoittamani huijausviestit alkuperäisinä, sähköpostiosoitteeni mukaan lukien, seuraavalle vastaanottajalle: {recipient}."
+structuredEvidence: "Jaa ilmoittamieni huijausviestien todisteet (linkit, lähettäneet palvelimet ja analyysin tulokset, ilman sähköpostiosoitettani) seuraavalle vastaanottajalle: {recipient}."
+sharedIntake: "Vastaanottaja jakaa ilmoitukset muiden ilmoitusryhmänsä organisaatioiden kanssa."

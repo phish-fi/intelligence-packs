@@ -1,0 +1,51 @@
+# Organisations (from v1 pack fi.payments).
+# Converted from the v1 packs by scripts/packs-convert-v2.ts; edit this file, not the v1 JSON.
+organisations:
+  - id: mobilepay
+    name: MobilePay
+    category: payment_provider
+    domains:
+      - domain: mobilepay.fi
+        relationship: owned
+        source: site-mobilepay
+      - domain: mobilepay.dk
+        relationship: owned
+        source: site-mobilepay-dk
+    aliases:
+      - value: MobilePay
+        match: token_stem
+      - value: Mobile Pay
+    threatCategories:
+      - credential_theft.online_banking
+      - payment_card_theft
+  - id: tori
+    name: Tori.fi
+    category: marketplace
+    domains:
+      - domain: tori.fi
+        relationship: owned
+        source: site-tori
+    aliases:
+      - value: Tori
+      - value: Tori.fi
+      - value: ToriDiili
+        match: token_stem
+    threatCategories:
+      - credential_theft.online_banking
+      - payment_card_theft
+  - id: easypark
+    name: EasyPark
+    category: payment_provider
+    domains:
+      - domain: easypark.com
+        relationship: owned
+        source: site-easypark
+      - domain: easypark.fi
+        relationship: owned
+        source: site-easypark-fi
+    aliases:
+      - value: EasyPark
+        match: token_stem
+      - value: Easy Park
+    threatCategories:
+      - payment_card_theft

@@ -1,0 +1,119 @@
+# Canonical multinational organisations; country packs add profiles with `extends`.
+# Converted from the v1 packs by scripts/packs-convert-v2.ts; edit this file, not the v1 JSON.
+organisations:
+  - id: santander
+    name: Santander
+    category: bank
+    domains:
+      - domain: santander.com
+        relationship: owned
+        source: internal-operator-review
+      - domain: santander.com.ar
+        relationship: owned
+        source: internal-operator-review
+    aliases:
+      - value: santander
+  - id: paypal
+    name: PayPal
+    category: payment_provider
+    domains:
+      - domain: paypal.com
+        relationship: owned
+        source: internal-operator-review
+    aliases:
+      - value: paypal
+  - id: microsoft
+    name: Microsoft
+    category: email_provider
+    domains:
+      - domain: microsoft.com
+        relationship: owned
+        source: internal-operator-review
+    aliases:
+      - value: microsoft
+  - id: apple
+    name: Apple
+    category: other
+    domains:
+      - domain: apple.com
+        relationship: owned
+        source: internal-operator-review
+    aliases:
+      - value: apple
+  - id: google
+    name: Google
+    category: email_provider
+    domains:
+      - domain: google.com
+        relationship: owned
+        source: internal-operator-review
+    aliases:
+      - value: google
+  - id: amazon
+    name: Amazon
+    category: marketplace
+    domains:
+      - domain: amazon.com
+        relationship: owned
+        source: internal-operator-review
+    aliases:
+      - value: amazon
+  - id: dhl
+    name: DHL
+    category: logistics
+    domains:
+      - domain: dhl.com
+        relationship: owned
+        source: internal-operator-review
+    aliases:
+      - value: dhl
+        weight: medium
+  - id: netflix
+    name: Netflix
+    category: other
+    domains:
+      - domain: netflix.com
+        relationship: owned
+        source: internal-operator-review
+    aliases:
+      - value: netflix
+  - id: trustwallet
+    name: Trust Wallet
+    category: crypto_service
+    domains:
+      - domain: trustwallet.com
+        relationship: owned
+        source: internal-operator-review
+    aliases:
+      - value: trustwallet
+      - value: trust wallet
+  - id: metamask
+    name: MetaMask
+    category: crypto_service
+    domains:
+      - domain: metamask.io
+        relationship: owned
+        source: internal-operator-review
+    aliases:
+      - value: metamask
+  - id: coinbase
+    name: Coinbase
+    category: crypto_service
+    domains:
+      - domain: coinbase.com
+        relationship: owned
+        source: internal-operator-review
+    aliases:
+      - value: coinbase
+  - id: binance
+    name: Binance
+    category: crypto_service
+    domains:
+      - domain: binance.com
+        relationship: owned
+        source: internal-operator-review
+      - domain: binance.us
+        relationship: owned
+        source: internal-operator-review
+    aliases:
+      - value: binance

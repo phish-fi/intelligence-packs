@@ -1,0 +1,28 @@
+# Text-message (SMS) lures as read from screenshots (2026-11-11). Synthetic: the
+# wording follows real Finnish smishing seen in owner-provided screenshots, the
+# domains are reserved examples. An SMS has no email sender, so `from` is a bare
+# phone number: no display name, no sender domain, as the gateway sends for
+# screenshot reports. Without a sender claim the brand is attributed as
+# `mentioned`, not `impersonated_sender` (the engine needs a sender for that).
+cases:
+  - id: fi.case.sms_easypark_unpaid_fee
+    synthetic: true
+    lang: fi
+    from: "+358000000001"
+    body: "Hyvä EasyParkin käyttäjä: Tililläsi on maksamaton pysäköintimaksu. Jos et maksa maksua määräaikaan mennessä, toimitamme henkilötietosi asianomaisille viranomaisille. Siirry maksusivulle: https://eucizpark.example/pay?XCyfN=Yra1LV6p Napsauta linkkiä päästäksesi viralliselle maksusivulle välttääksesi lisämaksuja."
+    expect:
+      attributed: { organisation: easypark, role: mentioned }
+  - id: fi.case.sms_easypark_reminder
+    synthetic: true
+    lang: fi
+    from: "+358000000002"
+    body: "EasyPark-muistutus: Maksamaton pysäköintimaksu on rekisteröity. Tarkista maksusi tila. Siirry maksusivulle: https://euicspark.example/pay?tzRbJ=ZHJuv4XD"
+    expect:
+      attributed: { organisation: easypark, role: mentioned }
+  - id: fi.case.sms_matkahuolto_parcel
+    synthetic: true
+    lang: fi
+    from: "+358000000003"
+    body: "Matkahuolto: Kuriiri liikkuu edelleen alueellasi. Vahvistathan toimitustietosi virallisen verkkosivustomme kautta kahden tunnin kuluessa, muuten paketti palautetaan varastoomme. Virallinen osoitteen vahvistussivusto: https://matkahuolto-paketti.example/fi"
+    expect:
+      attributed: { organisation: matkahuolto, role: mentioned }

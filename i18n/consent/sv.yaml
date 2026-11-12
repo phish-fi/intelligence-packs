@@ -1,0 +1,5 @@
+# See en.yaml. Native review pending.
+language: sv
+originalMessage: "Dela de nätfiskemeddelanden jag rapporterar i original, inklusive min e-postadress, med följande mottagare: {recipient}."
+structuredEvidence: "Dela bevisen från de nätfiskemeddelanden jag rapporterar (länkar, avsändande servrar och analysresultat, utan min e-postadress) med följande mottagare: {recipient}."
+sharedIntake: "Mottagaren delar rapporterna med de andra organisationerna i sin rapporteringsgrupp."

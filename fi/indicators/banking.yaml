@@ -1,0 +1,828 @@
+# Indicators (from v1 pack fi.banking).
+# Converted from the v1 packs by scripts/packs-convert-v2.ts; edit this file, not the v1 JSON.
+indicators:
+  - id: fi.banking.link_purpose.login_fi
+    type: link_purpose
+    lang: fi
+    tokens:
+      - kirjaudu~|kirjautu~|sisäänkirjau~
+    window: 1
+    purpose: login
+    threatCategories:
+      - credential_theft.online_banking
+    role: supporting
+    weight: low
+    expectedMatching: "Anchor or URL path asking to log in: 'Kirjaudu verkkopankkiin', 'kirjautumaan', '/kirjaudu'."
+    falsePositiveRisks: Legitimate service mail links to 'Kirjaudu' on its own site; that is why this is only a link purpose, used by the policy and identification rules, never a verdict on its own.
+    sources:
+      - owner-2026-10-28
+    tests:
+      match:
+        - "Kirjaudu verkkopankkiin"
+        - "Siirry kirjautumaan"
+      noMatch:
+        - "Lue lisää palvelustamme"
+  - id: fi.banking.link_purpose.login_url
+    type: link_purpose
+    lang: en
+    tokens:
+      - login|signin|sign-in|logon
+    window: 1
+    purpose: login
+    threatCategories:
+      - credential_theft.online_banking
+    role: supporting
+    weight: low
+    expectedMatching: URL path or anchor words 'login', 'signin', 'sign-in', 'logon', e.g. https://host.example/fi/login.
+    falsePositiveRisks: Many legitimate sites use /login paths; meaningful only together with a bank sender claim or an identification flow.
+    sources:
+      - owner-2026-10-28
+    tests:
+      match:
+        - "Login"
+        - "Sign-in"
+      noMatch:
+        - "Read more"
+  - id: fi.banking.link_purpose.login_en_sv
+    type: link_purpose
+    lang: en
+    tokens:
+      - log|sign|logga
+      - in|on
+    window: 2
+    purpose: login
+    threatCategories:
+      - credential_theft.online_banking
+    role: supporting
+    weight: low
+    expectedMatching: Anchor text 'Log in', 'Sign in', 'Logga in'.
+    falsePositiveRisks: Same as login_url.
+    sources:
+      - owner-2026-10-28
+    tests:
+      match:
+        - "Log in"
+        - "Logga in"
+      noMatch:
+        - "Read the newsletter"
+  - id: fi.banking.link_purpose.identify_fi
+    type: link_purpose
+    lang: fi
+    tokens:
+      - tunnistau~|tunnistus~|tunnistaut~|identifioi~
+    window: 1
+    purpose: identify
+    threatCategories:
+      - credential_theft.online_banking
+    role: supporting
+    weight: low
+    expectedMatching: "Anchor or path asking to identify: 'Tunnistaudu', 'tunnistautumaan', '/tunnistus'."
+    falsePositiveRisks: Real Vero, Kela and Suomi.fi mail uses these words on their own domains; the identification rule treats that as a legitimate flow.
+    sources:
+      - owner-2026-10-28
+    tests:
+      match:
+        - "Tunnistaudu tästä"
+        - "Siirry tunnistautumaan"
+      noMatch:
+        - "Katso tarjoukset"
+  - id: fi.banking.link_purpose.identify_url
+    type: link_purpose
+    lang: en
+    tokens:
+      - auth|authenticate|identify|identifiera~
+    window: 1
+    purpose: identify
+    threatCategories:
+      - credential_theft.online_banking
+    role: supporting
+    weight: low
+    expectedMatching: URL path or anchor 'auth', 'authenticate', 'identify', Swedish 'identifiera dig'.
+    falsePositiveRisks: Generic SSO paths contain 'auth'; meaningful only with a sender claim or flow.
+    sources:
+      - owner-2026-10-28
+    tests:
+      match:
+        - "Authenticate"
+        - "Identifiera dig"
+      noMatch:
+        - "View catalogue"
+  - id: fi.banking.link_purpose.identify_holder_fi
+    type: link_purpose
+    lang: fi
+    tokens:
+      - vahvista~|todenna~|todista~|tarkista~
+      - henkilöllisyy~|haltija~|tilinhaltija~|omistaja~
+    window: 5
+    purpose: identify
+    threatCategories:
+      - credential_theft.online_banking
+    role: supporting
+    weight: low
+    expectedMatching: "Sentence before a link: 'Vahvista henkilöllisyytesi', 'vahvistamaan, että olet tilin haltija'."
+    falsePositiveRisks: Know-your-customer requests are real, but banks do them in the bank's own channel, not through an emailed link.
+    sources:
+      - owner-2026-10-28
+    tests:
+      match:
+        - "Vahvista henkilöllisyytesi tästä"
+        - "Sinun tulee vahvistaa, että olet tilinhaltija"
+      noMatch:
+        - "Lue tiedote tästä"
+  - id: fi.banking.link_purpose.bank_credentials_fi
+    type: link_purpose
+    lang: fi
+    tokens:
+      - pankkitunnu~|verkkopankkitunnu~|bankkod~|nätbankskod~
+    window: 1
+    purpose: login
+    threatCategories:
+      - credential_theft.online_banking
+    role: supporting
+    weight: low
+    expectedMatching: "A link whose sentence asks for bank credentials: 'täytä lomake verkkopankkitunnuksillasi osoitteessa', 'hyväksy maksu syöttämällä verkkopankkitunnuksesi'."
+    falsePositiveRisks: Bank security advice links to pages about protecting pankkitunnukset; those pages are on the bank's own domain.
+    sources:
+      - owner-2026-10-28
+    tests:
+      match:
+        - "Täytä lomake verkkopankkitunnuksillasi osoitteessa"
+        - "Hyväksy maksu syöttämällä pankkitunnuksesi"
+      noMatch:
+        - "Katso uusimmat tarjoukset"
+  - id: fi.banking.link_purpose.payment_fi
+    type: link_purpose
+    lang: fi
+    tokens:
+      - maksa~|maksu~|suorita|betala~
+    window: 1
+    purpose: payment
+    threatCategories:
+      - credential_theft.online_banking
+    role: supporting
+    weight: low
+    expectedMatching: "Anchor or path asking to pay: 'Maksa nyt', 'Siirry maksamaan', '/maksu', Swedish 'Betala'."
+    falsePositiveRisks: Webshop receipts link to 'maksu' pages; only a bank-claimed email or an identification flow turns this into a finding.
+    sources:
+      - owner-2026-10-28
+    tests:
+      match:
+        - "Maksa nyt"
+        - "Siirry maksamaan"
+      noMatch:
+        - "Lue lisää"
+  - id: fi.banking.link_purpose.payment_url
+    type: link_purpose
+    lang: en
+    tokens:
+      - pay|payment|checkout|invoice
+    window: 1
+    purpose: payment
+    threatCategories:
+      - credential_theft.online_banking
+    role: supporting
+    weight: low
+    expectedMatching: URL path or anchor 'pay', 'payment', 'checkout', 'invoice'.
+    falsePositiveRisks: Same as payment_fi.
+    sources:
+      - owner-2026-10-28
+    tests:
+      match:
+        - "Pay now"
+        - "View invoice"
+      noMatch:
+        - "Read more"
+  - id: fi.banking.link_purpose.credential_update_fi
+    type: link_purpose
+    lang: fi
+    tokens:
+      - pattern: paivit~|vahvista~|vahvistetta~|uusi
+        folded: true
+      - tiedot|tietosi|tietojasi|tunnu~
+    window: 3
+    purpose: credential_update
+    threatCategories:
+      - credential_theft.online_banking
+    role: supporting
+    weight: low
+    expectedMatching: Anchor or sentence 'Päivitä tietosi', 'Vahvista tunnuksesi', 'uusi tunnukset'.
+    falsePositiveRisks: Customer-data update reminders exist, but banks do not send them with a link (owner-confirmed).
+    sources:
+      - owner-2026-10-28
+    tests:
+      match:
+        - "Päivitä tietosi"
+        - "Vahvista tunnuksesi"
+      noMatch:
+        - "Lue uutiskirje"
+  - id: fi.banking.link_purpose.credential_update_en
+    type: link_purpose
+    lang: en
+    tokens:
+      - update|verify|confirm|reactivate
+      - details|account|information|credentials
+    window: 3
+    purpose: credential_update
+    threatCategories:
+      - credential_theft.online_banking
+    role: supporting
+    weight: low
+    expectedMatching: Anchor or sentence 'Update your details', 'Verify your account', 'Confirm your information'.
+    falsePositiveRisks: Common in legitimate account mail of non-bank services; finding only with a bank claim.
+    sources:
+      - owner-2026-10-28
+    tests:
+      match:
+        - "Update your details"
+        - "Verify your account"
+      noMatch:
+        - "Read our blog"
+  - id: fi.banking.phrase.identify
+    type: phrase
+    lang: fi
+    tokens:
+      - tunnistau~|tunnistaut~|tunnistuks~|tunnistus
+    window: 1
+    threatCategories:
+      - credential_theft.online_banking
+    role: supporting
+    weight: low
+    expectedMatching: "'Tunnistaudu', 'tunnistautuminen', 'tunnistautumaan', 'Suomi.fi-tunnistuksella', 'tunnistus' in any inflection."
+    falsePositiveRisks: Every legitimate Vero, Kela or Suomi.fi message about logging in uses it; legitimacy is decided by the link and page domains, not this phrase.
+    sources:
+      - owner-2026-10-28
+    tests:
+      match:
+        - "Sinun tulee tunnistautua palveluun pankkitunnuksilla."
+        - "Tunnistus vaaditaan ennen kuin voit jatkaa."
+      noMatch:
+        - "Kiitos tilauksestasi, toimitamme paketin pian."
+  - id: fi.banking.phrase.strong_identification
+    type: phrase
+    lang: fi
+    tokens:
+      - vahva~
+      - tunnistau~|tunnistu~|sähköi~
+    window: 3
+    threatCategories:
+      - credential_theft.online_banking
+    role: supporting
+    weight: low
+    expectedMatching: "'vahva tunnistautuminen', 'vahvan sähköisen tunnistamisen'."
+    falsePositiveRisks: Bank and agency information pages describe strong identification; it marks a flow, not phishing.
+    sources:
+      - owner-2026-10-28
+    tests:
+      match:
+        - "Palvelu edellyttää vahvaa tunnistautumista."
+        - "Kirjaudu vahvan sähköisen tunnistamisen avulla."
+      noMatch:
+        - "Meillä on vahva tiimi ja hyvä asiakaspalvelu."
+  - id: fi.banking.phrase.choose_method
+    type: phrase
+    lang: fi
+    tokens:
+      - valitse
+      - tunnistustap~|tunnistautumistap~|pankki~|tunnistusvälinee~
+    window: 3
+    threatCategories:
+      - credential_theft.online_banking
+    role: supporting
+    weight: low
+    expectedMatching: "'Valitse tunnistustapa', 'Valitse pankkisi', 'valitse tunnistusväline'."
+    falsePositiveRisks: The genuine Suomi.fi selector says this; a page on suomi.fi or a bank domain reads as a legitimate flow.
+    sources:
+      - owner-2026-10-28
+    tests:
+      match:
+        - "Valitse tunnistustapa ja jatka palveluun."
+        - "Valitse pankkisi alla olevasta listasta."
+      noMatch:
+        - "Valitse sopiva toimitustapa tilauksellesi."
+  - id: fi.banking.phrase.bank_credentials
+    type: phrase
+    lang: fi
+    tokens:
+      - pankkitunnu~|verkkopankkitunnu~|tunnuslu~|avainlu~
+    window: 1
+    threatCategories:
+      - credential_theft.online_banking
+    role: supporting
+    weight: low
+    expectedMatching: "'pankkitunnuksillasi', 'verkkopankkitunnukset', 'tunnusluku', 'avainlukulista'."
+    falsePositiveRisks: Bank security notices tell customers never to share their pankkitunnukset; the phrase alone is context, not intent.
+    sources:
+      - owner-2026-10-28
+    tests:
+      match:
+        - "Kirjaudu pankkitunnuksillasi palveluun."
+        - "Syötä tunnusluku avainlukulistasta."
+      noMatch:
+        - "Kiitos yhteydenotostasi, palaamme asiaan pian."
+  - id: fi.banking.phrase.bank_credentials_sv
+    type: phrase
+    lang: sv
+    tokens:
+      - bankkod~|nätbankskod~|bankkoder|identifiera~
+    window: 1
+    threatCategories:
+      - credential_theft.online_banking
+    role: supporting
+    weight: low
+    expectedMatching: "'bankkoder', 'nätbankskoderna', 'identifiera dig'."
+    falsePositiveRisks: Same as the Finnish bank-credential phrase.
+    sources:
+      - owner-2026-10-28
+    tests:
+      match:
+        - "Logga in med dina bankkoder för att fortsätta."
+        - "Du måste identifiera dig med nätbankskoderna."
+      noMatch:
+        - "Tack för din beställning, vi skickar paketet snart."
+  - id: fi.banking.phrase.bank_credentials_en
+    type: phrase
+    lang: en
+    tokens:
+      - online|bank|banking
+      - credentials|codes|id
+    window: 2
+    threatCategories:
+      - credential_theft.online_banking
+    role: supporting
+    weight: low
+    expectedMatching: "'bank credentials', 'online banking codes', 'bank ID'."
+    falsePositiveRisks: English security advice uses the same words.
+    sources:
+      - owner-2026-10-28
+    tests:
+      match:
+        - "Enter your bank credentials to continue."
+        - "Use your online banking codes to confirm."
+      noMatch:
+        - "Your bank statement is now available."
+  - id: fi.banking.phrase.pay_in_netbank
+    type: phrase
+    lang: fi
+    tokens:
+      - maksa~|maksu~
+      - verkkopanki~|verkkopankki~|pankkitunnu~
+    window: 4
+    threatCategories:
+      - credential_theft.online_banking
+    role: supporting
+    weight: low
+    expectedMatching: "'maksa verkkopankissa', 'maksu pankkitunnuksilla' (bank payment button)."
+    falsePositiveRisks: Legitimate webshops offer bank payment buttons; the payment goes through the bank's own domain there.
+    sources:
+      - owner-2026-10-28
+    tests:
+      match:
+        - "Maksa lasku verkkopankissa tänään."
+        - "Suorita maksu pankkitunnuksilla eräpäivään mennessä."
+      noMatch:
+        - "Maksa lasku eräpäivään mennessä."
+  - id: fi.banking.phrase.account_closed
+    type: phrase
+    lang: fi
+    tokens:
+      - tili~|tunnu~|kortti~|palvelu~
+      - suljet~|lukit~|lukkiu~|jäädyt~
+    window: 4
+    threatCategories:
+      - credential_theft.online_banking
+    role: supporting
+    weight: low
+    expectedMatching: "'tilisi suljetaan', 'tunnuksesi on lukittu', 'korttisi on jäädytetty'."
+    falsePositiveRisks: Real fraud-prevention notices also say a card was frozen, but they do not ask to log in through a link.
+    sources:
+      - owner-2026-10-28
+    tests:
+      match:
+        - "Tilisi suljetaan, jos et toimi heti."
+        - "Korttisi on jäädytetty turvallisuussyistä."
+      noMatch:
+        - "Myymälämme on suljettu juhannuksena."
+  - id: fi.banking.phrase.account_restricted
+    type: phrase
+    lang: fi
+    tokens:
+      - tili~|tunnu~|kortti~|palvelu~
+      - rajoit~|estet~|poistet~|vanhent~
+    window: 4
+    threatCategories:
+      - credential_theft.online_banking
+    role: supporting
+    weight: low
+    expectedMatching: "'tiliäsi on rajoitettu', 'tunnuksesi vanhentuvat', 'palvelu poistetaan käytöstä'."
+    falsePositiveRisks: Service-change announcements mention closed services.
+    sources:
+      - owner-2026-10-28
+    tests:
+      match:
+        - "Tiliäsi on rajoitettu epäilyttävän toiminnan vuoksi."
+        - "Tunnuksesi vanhentuvat pian."
+      noMatch:
+        - "Tarjous on voimassa rajoitetun ajan."
+  - id: fi.banking.phrase.urgency_hours
+    type: phrase
+    lang: fi
+    tokens:
+      - 24|48|72
+      - tunni~|h
+    window: 2
+    threatCategories:
+      - phishing
+    role: context
+    weight: low
+    expectedMatching: "'24 tunnin kuluessa', '48 h'."
+    falsePositiveRisks: Delivery and booking mail uses hour deadlines.
+    sources:
+      - owner-2026-10-28
+    tests:
+      match:
+        - "Toimi 24 tunnin kuluessa."
+        - "Vastaa 48 h sisällä."
+      noMatch:
+        - "Asiakaspalvelumme palvelee arkisin."
+  - id: fi.banking.phrase.urgency_otherwise
+    type: phrase
+    lang: fi
+    tokens:
+      - muuten|tai
+      - tili~|tunnu~|palvelu~|etuu~
+      - suljet~|lukit~|poistet~|evät~
+    window: 6
+    threatCategories:
+      - credential_theft.online_banking
+    role: supporting
+    weight: low
+    expectedMatching: "'muuten tilisi suljetaan', 'tai etuutesi evätään'."
+    falsePositiveRisks: Rare in legitimate mail; still only supporting evidence.
+    sources:
+      - owner-2026-10-28
+    tests:
+      match:
+        - "Päivitä tiedot heti, muuten tilisi suljetaan."
+        - "Täytä hakemus tai etuutesi evätään."
+      noMatch:
+        - "Voit maksaa kortilla tai käteisellä."
+  - id: fi.banking.phrase.approve_in_app
+    type: phrase
+    lang: fi
+    tokens:
+      - hyväksy~|vahvista~
+      - sovellu~|mobiili~|kirjautu~|pyyntö~
+    window: 4
+    threatCategories:
+      - authentication_abuse.approval
+    role: supporting
+    weight: low
+    expectedMatching: "'Hyväksy kirjautuminen sovelluksessa', 'vahvista pyyntö OP-mobiilissa'."
+    falsePositiveRisks: Banks show this text inside their own app, not in email; email text with it is unusual but not proof.
+    sources:
+      - owner-2026-10-28
+    tests:
+      match:
+        - "Hyväksy kirjautuminen sovelluksessa."
+        - "Vahvista pyyntö OP-mobiilissa."
+      noMatch:
+        - "Hyväksymme maksut kaikilla korteilla."
+  - id: fi.banking.phrase.approve_in_app_en
+    type: phrase
+    lang: en
+    tokens:
+      - approve|confirm
+      - login|sign-in|request|notification
+    window: 4
+    threatCategories:
+      - authentication_abuse.approval
+    role: supporting
+    weight: low
+    expectedMatching: "'Approve the login', 'confirm the request in the app'."
+    falsePositiveRisks: Some services send genuine approval notifications.
+    sources:
+      - owner-2026-10-28
+    tests:
+      match:
+        - "Approve the login request in the app."
+        - "Please confirm the request now."
+      noMatch:
+        - "Please confirm your attendance at the meeting."
+  - id: fi.banking.phrase.code_request
+    type: phrase
+    lang: fi
+    tokens:
+      - anna|syötä|lähetä|kerro
+      - tunnuslu~|vahvistuskoo~|koodi~|avainlu~
+    window: 4
+    threatCategories:
+      - authentication_abuse.code_theft
+    role: supporting
+    weight: low
+    expectedMatching: "'syötä tunnusluku', 'anna vahvistuskoodi', 'lähetä koodi'."
+    falsePositiveRisks: Two-factor login screens say 'syötä koodi', but an email or SMS asking for it is the abuse pattern.
+    sources:
+      - owner-2026-10-28
+    tests:
+      match:
+        - "Syötä tunnusluku alla olevaan kenttään."
+        - "Anna vahvistuskoodi, jonka lähetimme sinulle."
+      noMatch:
+        - "Anna palautetta palvelustamme."
+  - id: fi.banking.phrase.personal_id
+    type: phrase
+    lang: fi
+    tokens:
+      - henkilötunnu~|henkilötunnukse~|sosiaaliturvatunnu~
+    window: 1
+    threatCategories:
+      - personal_data_theft
+    role: supporting
+    weight: low
+    expectedMatching: "'henkilötunnuksesi', 'henkilötunnus'."
+    falsePositiveRisks: Official forms ask for it legitimately.
+    sources:
+      - owner-2026-10-28
+    tests:
+      match:
+        - "Ilmoita henkilötunnuksesi lomakkeella."
+        - "Tarvitsemme henkilötunnus vahvistusta varten."
+      noMatch:
+        - "Ilmoita nimesi ja osoitteesi lomakkeella."
+  - id: fi.banking.phrase.card_details
+    type: phrase
+    lang: fi
+    tokens:
+      - kortin|kortti~|luottokorti~|pankkikorti~
+      - numero~|tiedot|cvv|turvakoodi~
+    window: 4
+    threatCategories:
+      - payment_card_theft
+    role: supporting
+    weight: low
+    expectedMatching: "'kortin numero', 'korttitiedot', 'luottokortin turvakoodi'."
+    falsePositiveRisks: Shop checkouts ask for card details; this tags card theft, which is not bank-credential theft (05 §4).
+    sources:
+      - owner-2026-10-28
+    tests:
+      match:
+        - "Syötä kortin numero ja turvakoodi."
+        - "Päivitä luottokortin tiedot heti."
+      noMatch:
+        - "Kortin voi tilata konttorista."
+  - id: fi.banking.phrase.tax_refund
+    type: phrase
+    lang: fi
+    tokens:
+      - veronpalau~|veronpalautu~|palautus~|skatteåterbär~
+    window: 1
+    threatCategories:
+      - credential_theft.online_banking
+    role: context
+    weight: low
+    expectedMatching: "'veronpalautuksesi', 'veronpalautus', Swedish 'skatteåterbäring'."
+    falsePositiveRisks: Vero's own mail and bank newsletters discuss tax refunds.
+    sources:
+      - owner-2026-10-28
+    tests:
+      match:
+        - "Veronpalautuksesi odottaa vahvistusta."
+        - "Olet oikeutettu veronpalautukseen."
+      noMatch:
+        - "Veroilmoitus on nyt saatavilla OmaVerossa."
+  - id: fi.banking.phrase.benefit_decision
+    type: phrase
+    lang: fi
+    tokens:
+      - etuu~|etuus~|tukipäätö~|asumistu~
+    window: 1
+    threatCategories:
+      - credential_theft.online_banking
+    role: context
+    weight: low
+    expectedMatching: "'etuutesi', 'etuuspäätös', 'tukipäätöksesi', 'asumistuki'."
+    falsePositiveRisks: Kela's own mail.
+    sources:
+      - owner-2026-10-28
+    tests:
+      match:
+        - "Etuutesi maksu on keskeytetty."
+        - "Tukipäätöksesi on valmis tarkistettavaksi."
+      noMatch:
+        - "Kiitos tilauksestasi."
+  - id: fi.banking.phrase.parcel_fee
+    type: phrase
+    lang: fi
+    tokens:
+      - paketti~|lähety~|toimitu~|tulli~
+      - maksu~|lisämaksu~|maksa~|maksamaton
+    window: 5
+    threatCategories:
+      - credential_theft.online_banking
+    role: context
+    weight: low
+    expectedMatching: "'pakettisi tullimaksu', 'lähetyksen lisämaksu', 'toimitus odottaa maksua'."
+    falsePositiveRisks: Real Posti notices mention customs fees; the payment then happens on posti.fi.
+    sources:
+      - owner-2026-10-28
+    tests:
+      match:
+        - "Pakettisi tullimaksu on maksamatta."
+        - "Lähetyksen lisämaksu on maksettava tänään."
+      noMatch:
+        - "Pakettisi on toimitettu noutopisteeseen."
+  - id: fi.banking.phrase.fine_due
+    type: phrase
+    lang: fi
+    tokens:
+      - sakko~|sakon|rikesak~|maksamaton
+    window: 1
+    threatCategories:
+      - credential_theft.online_banking
+    role: context
+    weight: low
+    expectedMatching: "'sakkosi', 'sakon', 'rikesakko', 'maksamaton'."
+    falsePositiveRisks: Police and Traficom information pages.
+    sources:
+      - owner-2026-10-28
+    tests:
+      match:
+        - "Sinulle on määrätty rikesakko."
+        - "Sakon maksu erääntyy huomenna."
+      noMatch:
+        - "Kiitos maksustasi."
+  - id: fi.banking.phrase.receive_money
+    type: phrase
+    lang: fi
+    tokens:
+      - vastaanota~|vastaanotta~|lunasta~|nosta
+      - maksu~|rahat|rahasi|summa~
+    window: 4
+    threatCategories:
+      - credential_theft.online_banking
+    role: context
+    weight: low
+    expectedMatching: "'vastaanota maksu', 'lunasta rahasi' (marketplace and transfer lures)."
+    falsePositiveRisks: Genuine payment-receipt mail exists, but receiving money never requires a bank login.
+    sources:
+      - owner-2026-10-28
+    tests:
+      match:
+        - "Vastaanota maksu klikkaamalla linkkiä."
+        - "Lunasta rahasi tänään."
+      noMatch:
+        - "Vastaanotimme tilauksesi."
+  - id: fi.banking.lookalike.nordea
+    type: lookalike_seed
+    token: nordea
+    organisations:
+      - nordea
+    threatCategories:
+      - credential_theft.online_banking
+    role: supporting
+    weight: medium
+    expectedMatching: Hosts such as nordea-tunnistus.com, n0rdea.net or norrdea.fi.
+    falsePositiveRisks: Unrelated words one edit from 'nordea' in a label.
+    sources:
+      - owner-sightings-2026-10-31
+  - id: fi.banking.lookalike.osuuspankki
+    type: lookalike_seed
+    token: osuuspankki
+    organisations:
+      - op
+    threatCategories:
+      - credential_theft.online_banking
+    role: supporting
+    weight: medium
+    expectedMatching: Hosts such as osuuspankki-kirjaudu.com.
+    falsePositiveRisks: "Low: the full word is rarely used outside OP Financial Group."
+    sources:
+      - owner-sightings-2026-10-31
+  - id: fi.banking.lookalike.danskebank
+    type: lookalike_seed
+    token: danskebank
+    organisations:
+      - danske_bank_fi
+    threatCategories:
+      - credential_theft.online_banking
+    role: supporting
+    weight: medium
+    expectedMatching: Hosts such as danskebank-fi.com.
+    falsePositiveRisks: Danske Bank domains in other countries not listed in this pack.
+    sources:
+      - owner-sightings-2026-10-31
+  - id: fi.banking.lookalike.handelsbanken
+    type: lookalike_seed
+    token: handelsbanken
+    organisations:
+      - handelsbanken_fi
+    threatCategories:
+      - credential_theft.online_banking
+    role: supporting
+    weight: medium
+    expectedMatching: Hosts such as handelsbanken-login.com.
+    falsePositiveRisks: Handelsbanken domains in other countries not listed in this pack.
+    sources:
+      - owner-sightings-2026-10-31
+  - id: fi.banking.lookalike.saastopankki
+    type: lookalike_seed
+    token: saastopankki
+    organisations:
+      - saastopankki
+    threatCategories:
+      - credential_theft.online_banking
+    role: supporting
+    weight: medium
+    expectedMatching: Hosts such as saastopankki-verkkopankki.com (ä/ö folded).
+    falsePositiveRisks: Säästöpankki-group member banks on their own domains not yet listed in this pack.
+    sources:
+      - owner-sightings-2026-10-31
+  - id: fi.banking.lookalike.omasp
+    type: lookalike_seed
+    token: omasp
+    organisations:
+      - oma_saastopankki
+    threatCategories:
+      - credential_theft.online_banking
+    role: supporting
+    weight: medium
+    expectedMatching: A label or hyphen part 'omasp', as in omasp-tunnistus.com.
+    falsePositiveRisks: Low.
+    sources:
+      - owner-sightings-2026-10-31
+  - id: fi.banking.lookalike.poppankki
+    type: lookalike_seed
+    token: poppankki
+    organisations:
+      - pop_pankki
+    threatCategories:
+      - credential_theft.online_banking
+    role: supporting
+    weight: medium
+    expectedMatching: Hosts such as poppankki-fi.com.
+    falsePositiveRisks: Low.
+    sources:
+      - owner-sightings-2026-10-31
+  - id: fi.banking.lookalike.aktia
+    type: lookalike_seed
+    token: aktia
+    organisations:
+      - aktia
+    threatCategories:
+      - credential_theft.online_banking
+    role: supporting
+    weight: medium
+    expectedMatching: A label or hyphen part 'aktia', as in kirjaudu-…-verkkopankki-aktia.fi-hallitus.com (sighting 2026-10-22).
+    falsePositiveRisks: Other organisations named Aktia; Swedish 'aktie' does not match (short tokens need an exact part).
+    sources:
+      - owner-sightings-2026-10-31
+  - id: fi.banking.lookalike.alandsbanken
+    type: lookalike_seed
+    token: alandsbanken
+    organisations:
+      - alandsbanken
+    threatCategories:
+      - credential_theft.online_banking
+    role: supporting
+    weight: medium
+    expectedMatching: Hosts such as alandsbanken-login.com.
+    falsePositiveRisks: Ålandsbanken domains in Sweden not listed in this pack.
+    sources:
+      - owner-sightings-2026-10-31
+  - id: fi.banking.lookalike.suomi
+    type: lookalike_seed
+    token: suomi
+    organisations:
+      - dvv_suomi_fi
+    threatCategories:
+      - credential_theft.national_eid
+    role: supporting
+    weight: medium
+    expectedMatching: A label or hyphen part 'suomi', as in suomi.paIveIu.fi (2026-10-14) and omakantafi-suomi.online (2026-10-30).
+    falsePositiveRisks: Legitimate Finnish sites with a 'suomi' label or hyphen part; 'suomi24' does not match.
+    sources:
+      - owner-sightings-2026-10-31
+  - id: fi.banking.lookalike.suomifi
+    type: lookalike_seed
+    token: suomifi
+    organisations:
+      - dvv_suomi_fi
+    threatCategories:
+      - credential_theft.national_eid
+    role: supporting
+    weight: medium
+    expectedMatching: "'suomifi' one edit away, as in fi-vero-suomiifi.com (2026-10-07)."
+    falsePositiveRisks: Low.
+    sources:
+      - owner-sightings-2026-10-31
+  - id: fi.banking.url_pattern.multibank_kit_e_path
+    type: url_pattern
+    glob: "*/e/???????????????????????????????????????????=/"
+    threatCategories:
+      - credential_theft.online_banking
+    role: supporting
+    weight: medium
+    expectedMatching: "The multi-bank kit's landing path /e/<43 characters>=/ on any host: fi-vero-suomiifi.com (2026-10-07), omakelapalvelu-…com (2026-10-12), omakantafi-suomi.online (2026-10-30)."
+    falsePositiveRisks: A legitimate site with a /e/ path segment holding a 44-character base64 value; none known. Campaign kits change, hence the 3-month review.
+    sources:
+      - owner-sightings-2026-10-31

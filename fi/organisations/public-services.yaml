@@ -1,0 +1,159 @@
+# Organisations (from v1 pack fi.public_services).
+# Converted from the v1 packs by scripts/packs-convert-v2.ts; edit this file, not the v1 JSON.
+organisations:
+  - id: vero
+    name: Verohallinto
+    category: government_service
+    domains:
+      - domain: vero.fi
+        relationship: owned
+        source: site-vero
+      - domain: omavero.fi
+        relationship: owned
+        source: site-omavero-fi
+    aliases:
+      - value: Vero
+        weight: medium
+      - value: Verohallinto
+        match: token_stem
+      - value: OmaVero
+        match: token_stem
+      - value: Skatteförvaltningen
+        match: token_stem
+      - value: Finnish Tax Administration
+    threatCategories:
+      - credential_theft.online_banking
+      - personal_data_theft
+  - id: kela
+    name: Kela
+    category: government_service
+    domains:
+      - domain: kela.fi
+        relationship: owned
+        source: site-kela
+      - domain: kanta.fi
+        relationship: authorized
+        source: site-kanta
+      - domain: omakela.fi
+        relationship: owned
+        source: site-omakela-fi
+      - domain: omakanta.fi
+        relationship: authorized
+        source: site-omakanta-fi
+    aliases:
+      - value: Kela
+        match: token_stem
+        weight: medium
+      - value: OmaKela
+        match: token_stem
+      - value: Kansaneläkelaitos
+        match: token_stem
+      - value: FPA
+      - value: Omakanta
+        match: token_stem
+      - value: Kanta-palvelut
+        match: token_stem
+    threatCategories:
+      - credential_theft.online_banking
+      - personal_data_theft
+  - id: traficom
+    name: Traficom
+    category: government_service
+    domains:
+      - domain: traficom.fi
+        relationship: owned
+        source: site-traficom
+      - domain: kyberturvallisuuskeskus.fi
+        relationship: owned
+        source: ncsc-fi-report
+    aliases:
+      - value: Traficom
+        match: token_stem
+      - value: Liikenne- ja viestintävirasto
+        match: token_stem
+    threatCategories:
+      - credential_theft.online_banking
+      - personal_data_theft
+  - id: poliisi
+    name: Poliisi
+    category: government_service
+    domains:
+      - domain: poliisi.fi
+        relationship: owned
+        source: site-poliisi
+    aliases:
+      - value: Poliisi
+        match: token_stem
+      - value: Polisen
+      - value: Finnish Police
+    threatCategories:
+      - credential_theft.online_banking
+      - personal_data_theft
+  - id: posti
+    name: Posti
+    category: logistics
+    domains:
+      - domain: posti.fi
+        relationship: owned
+        source: site-posti
+    aliases:
+      - value: Posti
+      - value: OmaPosti
+        match: token_stem
+      - value: Posti Group
+    threatCategories:
+      - credential_theft.online_banking
+      - personal_data_theft
+  - id: prh
+    name: Patentti- ja rekisterihallitus
+    category: government_service
+    domains:
+      - domain: prh.fi
+        relationship: owned
+        source: site-prh
+    aliases:
+      - value: PRH
+        weight: medium
+      - value: Patentti- ja rekisterihallitus
+        match: token_stem
+      - value: Kaupparekisteri
+        match: token_stem
+        weight: low
+    threatCategories:
+      - credential_theft.online_banking
+      - personal_data_theft
+  - id: dvv
+    name: Digi- ja väestötietovirasto
+    category: government_service
+    domains:
+      - domain: dvv.fi
+        relationship: owned
+        source: site-dvv
+    aliases:
+      - value: DVV
+        weight: medium
+      - value: Digi- ja väestötietovirasto
+        match: token_stem
+      - value: Väestörekisterikeskus
+        match: token_stem
+        weight: low
+      - value: Suomi.fi-viestit
+        match: token_stem
+    threatCategories:
+      - credential_theft.online_banking
+      - personal_data_theft
+  - id: matkahuolto
+    name: Matkahuolto
+    category: logistics
+    domains:
+      - domain: matkahuolto.fi
+        relationship: owned
+        source: site-matkahuolto
+    aliases:
+      - value: Matkahuolto
+        match: token_stem
+      - value: Matkahuollo
+        match: token_stem
+    threatCategories:
+      - payment_card_theft
+      - personal_data_theft

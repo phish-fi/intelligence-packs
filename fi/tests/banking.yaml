@@ -1,0 +1,25 @@
+# Whole-message test cases (11-pack-format-v2.md §4.10). Synthetic only: no real
+# messages, reserved example domains. `npm run packs:test` runs them through the
+# analyzer as if every claim were verified and every matcher enabled.
+cases:
+  # A bare "OP" display name is a low alias (a mention, never a sender claim); "OP Asiakaspalvelu" is a claim.
+  - id: fi.case.op_login_link
+    synthetic: true
+    lang: fi
+    from: "OP Asiakaspalvelu <asiakaspalvelu@op-tunnistus.example>"
+    subject: "Verkkopankkitunnuksesi vanhenevat"
+    body: "Hyvä asiakas, tunnuksesi vanhenevat tänään. Kirjaudu verkkopankkiin ja vahvista tietosi: https://op-tunnistus.example/kirjaudu"
+    expect:
+      attributed: { organisation: op, role: impersonated_sender }
+      findings: [communication_policy_violation, identification_flow]
+      # OP's policy rests on the owner's attestation, so it is not decisive and nothing routes (plan §10).
+      routeTo: []
+  - id: fi.case.op_newsletter
+    synthetic: true
+    lang: fi
+    from: "OP <uutiset@op-uutiset.example>"
+    subject: "Uutiskirje: säästämisen vinkit"
+    body: "Lue syksyn säästövinkit OP:n sivuilta."
+    expect:
+      findings: []
+      routeTo: []

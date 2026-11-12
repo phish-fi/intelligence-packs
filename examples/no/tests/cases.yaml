@@ -1,0 +1,33 @@
+# Whole-message test cases, run by npm run packs:test as if every claim were
+# verified and every matcher enabled. Synthetic only: reserved example
+# domains, no real messages, no personal data.
+cases:
+  - id: no.case.nordbank_login_link
+    synthetic: true
+    lang: nb
+    from: "Nordbank Kundeservice <varsel@nordbank-sikker.example>"
+    subject: "Kontoen din er sperret"
+    body: "Logg inn her for å oppheve sperren: https://nordbank-sikker.example/logg-inn"
+    expect:
+      attributed: { organisation: nordbank, role: impersonated_sender }
+      # communication_policy_violation | lookalike_domain | identification_flow. The login link is a NordID
+      # flow marker and Nordbank a NordID issuer, so this is also a bank-login flow.
+      findings: [communication_policy_violation, identification_flow]
+      routeTo: [nordbank.phishing_report]
+
+  - id: no.case.nordbank_newsletter
+    synthetic: true
+    lang: nb
+    from: "Nordbank <nyhetsbrev@nordbank-nyheter.example>"
+    subject: "Nytt i nettbanken"
+    body: "Les om høstens nyheter i nettbanken."
+    expect:
+      findings: []
+      routeTo: []
+
+# Ids that must never be reused (removed organisations, indicators, destinations...).
+retired:
+  - id: no.phrase.old_wording
+    kind: indicator
+    retired: 2026-10-01
+    reason: "Replaced by no.phrase.bekreft_nordid"

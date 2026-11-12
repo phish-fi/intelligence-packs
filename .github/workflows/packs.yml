@@ -1,0 +1,175 @@
+# Validates the intelligence packs.
+#
+# On main (push or manual run): the whole repository is checked, the
+# examples are checked against it, and an unsigned release is built as an
+# artifact. Signing and publishing a release are separate maintainer steps.
+#
+# On pull requests: contributions come from forks and are untrusted data.
+# - `pull_request_target` runs THIS file and the toolchain from the base
+#   branch, so a pull request cannot change what checks it or how;
+# - the pull request's files are checked out as data only; nothing from them
+#   is executed, and symbolic links fail the run before any file is read;
+# - the token is read-only and no secrets are used. The checks report; they
+#   never merge, label or comment. The maintainer reviews and merges.
+name: packs
+
+on:
+  push:
+    branches: [main]
+  pull_request_target:
+    types: [opened, synchronize, reopened]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: packs-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  repository:
+    name: Repository check
+    if: github.event_name != 'pull_request_target'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 22
+      - name: No symbolic links
+        run: |
+          links="$(find . -path ./.git -prune -o -type l -print)"
+          if [ -n "$links" ]; then echo "::error::Symbolic links are not allowed:"; echo "$links"; exit 1; fi
+      # Schema, references, conflicts, privacy. Warnings are printed; errors fail the job.
+      - name: Check packs
+        run: node tools/packs-check.cjs . --warnings | tee -a check.txt
+      # The examples must stay valid: overlay them on the real packs and check the result.
+      - name: Check examples
+        run: |
+          tree="$RUNNER_TEMP/examples"
+          mkdir -p "$tree"
+          tar cf - --exclude=.git --exclude=tools --exclude=examples . | tar xf - -C "$tree"
+          cp -r examples/no "$tree/no"
+          cp examples/i18n/consent/*.yaml "$tree/i18n/consent/"
+          cp -r examples/contribution/fi/. "$tree/fi/"
+          node tools/packs-check.cjs "$tree"
+      - name: Build release (unsigned)
+        run: node tools/packs-release.cjs --root . --out release.json --commit "$GITHUB_SHA"
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: release-unsigned
+          path: release.json
+          retention-days: 30
+      - name: Summary
+        if: always()
+        run: |
+          { echo "### Pack check"; echo '~~~~text'; cat check.txt 2>/dev/null; echo '~~~~'; } >> "$GITHUB_STEP_SUMMARY"
+
+  pack-check:
+    name: Pack check
+    if: github.event_name == 'pull_request_target'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout toolchain (base branch, trusted)
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.pull_request.base.sha }}
+          path: trusted
+          persist-credentials: false
+      - name: Checkout pull request (data only)
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+          ref: ${{ github.event.pull_request.head.sha }}
+          path: head
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 22
+      - name: No symbolic links
+        run: |
+          links="$(find head -path head/.git -prune -o -type l -print)"
+          if [ -n "$links" ]; then echo "::error::Symbolic links are not allowed:"; echo "$links"; exit 1; fi
+      - name: Check packs
+        run: node trusted/tools/packs-check.cjs head --warnings | tee check.txt
+      - name: Release builds
+        run: node trusted/tools/packs-release.cjs --root head --out "$RUNNER_TEMP/release.json"
+      - name: Summary
+        if: always()
+        run: |
+          { echo "### Pack check"; echo '~~~~text'; cat check.txt 2>/dev/null; echo '~~~~'; } >> "$GITHUB_STEP_SUMMARY"
+
+  contribution:
+    name: Contribution rules
+    if: github.event_name == 'pull_request_target'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout base branch (trusted toolchain and base data)
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.pull_request.base.sha }}
+          path: base
+          persist-credentials: false
+      - name: Checkout pull request (data only)
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+          ref: ${{ github.event.pull_request.head.sha }}
+          path: head
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 22
+      # Audit only: the checker never reads who opened the pull request, and authorship grants nothing.
+      - name: Record pull request
+        env:
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          PR_AUTHOR: ${{ github.event.pull_request.user.login }}
+        run: echo "Pull request ${PR_NUMBER} by ${PR_AUTHOR}"
+      # One organisation of one country pack: its entry, its destinations and the sources they cite.
+      # Symbolic links are refused before anything else reads the tree.
+      - name: Check contribution
+        run: node base/tools/packs-contribution-check.cjs --base base --head head | tee contribution.txt
+      - name: Summary
+        if: always()
+        run: |
+          {
+            echo "### Contribution rules"
+            echo '~~~~text'; cat contribution.txt 2>/dev/null; echo '~~~~'
+            echo
+            echo "Passing grants no trust. New domains and addresses are verified automatically only after the maintainer merges and releases them."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  sign-off:
+    name: DCO sign-off
+    if: github.event_name == 'pull_request_target'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      pull-requests: read
+    steps:
+      - name: Every commit has a Signed-off-by line
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          missing="$(gh api --paginate "repos/$REPO/pulls/$PR_NUMBER/commits" \
+            --jq '.[] | select(.commit.message | test("(?m)^Signed-off-by: .+ <[^>]+>") | not) | .sha[0:12]')"
+          if [ -n "$missing" ]; then
+            echo "::error::These commits have no Signed-off-by line: $(echo $missing)"
+            echo "Sign off with 'git commit -s' (fix existing commits with 'git rebase --signoff main' and force-push). See CONTRIBUTING.md."
+            exit 1
+          fi
+          echo "All commits are signed off."
