@@ -128,7 +128,8 @@ node tools/packs-contribution-check.cjs --base <clean checkout of main> --head .
 
 The maintainer builds and signs releases from `main`, and phish.fi imports
 them. Each push to `main` also builds an unsigned test release as a workflow
-artifact, just to prove the data compiles.
+artifact, just to prove the data compiles. Maintainer how-to:
+[MAINTAINING.md](MAINTAINING.md).
 
 ## Licence
 
