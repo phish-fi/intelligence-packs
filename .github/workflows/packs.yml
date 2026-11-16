@@ -92,6 +92,10 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha }}
           path: head
           persist-credentials: false
+          # actions/checkout v7 refuses fork code under pull_request_target unless told
+          # otherwise. Safe here: these files are only read by the base branch's checker,
+          # never executed, and the token is read-only with no secrets.
+          allow-unsafe-pr-checkout: true
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: 22
@@ -130,6 +134,10 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha }}
           path: head
           persist-credentials: false
+          # actions/checkout v7 refuses fork code under pull_request_target unless told
+          # otherwise. Safe here: these files are only read by the base branch's checker,
+          # never executed, and the token is read-only with no secrets.
+          allow-unsafe-pr-checkout: true
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: 22
