@@ -97,6 +97,20 @@ destinations:
     scope:
       identificationSystemAny:
         - fi.bank_eid
+  - id: easypark.phishing_report
+    kind: organisation
+    organisation: easypark
+    name: EasyPark phishing reports
+    email: info@easypark.net
+    source: easypark-scam-report
+    publicSourceUrl: https://www.easypark.com/en-dk/how-to-spot-a-scam
+    acceptsAutomatedReports: true
+    payload: original_preferred
+    threatCategories:
+      - phishing
+      - brand_impersonation
+      - payment_card_theft
+      - payment_fraud
   - id: cert_fi
     kind: national
     organisation: traficom
