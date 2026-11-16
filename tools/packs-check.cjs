@@ -1000,14 +1000,14 @@ var require_foldFlowLines = __commonJS({
     var FOLD_FLOW = "flow";
     var FOLD_BLOCK = "block";
     var FOLD_QUOTED = "quoted";
-    function foldFlowLines(text2, indent, mode = "flow", { indentAtStart, lineWidth = 80, minContentWidth = 20, onFold, onOverflow } = {}) {
+    function foldFlowLines(text3, indent, mode = "flow", { indentAtStart, lineWidth = 80, minContentWidth = 20, onFold, onOverflow } = {}) {
       if (!lineWidth || lineWidth < 0)
-        return text2;
+        return text3;
       if (lineWidth < minContentWidth)
         minContentWidth = 0;
       const endStep = Math.max(1 + minContentWidth, 1 + lineWidth - indent.length);
-      if (text2.length <= endStep)
-        return text2;
+      if (text3.length <= endStep)
+        return text3;
       const folds = [];
       const escapedFolds = {};
       let end = lineWidth - indent.length;
@@ -1024,14 +1024,14 @@ var require_foldFlowLines = __commonJS({
       let escStart = -1;
       let escEnd = -1;
       if (mode === FOLD_BLOCK) {
-        i = consumeMoreIndentedLines(text2, i, indent.length);
+        i = consumeMoreIndentedLines(text3, i, indent.length);
         if (i !== -1)
           end = i + endStep;
       }
-      for (let ch; ch = text2[i += 1]; ) {
+      for (let ch; ch = text3[i += 1]; ) {
         if (mode === FOLD_QUOTED && ch === "\\") {
           escStart = i;
-          switch (text2[i + 1]) {
+          switch (text3[i + 1]) {
             case "x":
               i += 3;
               break;
@@ -1048,12 +1048,12 @@ var require_foldFlowLines = __commonJS({
         }
         if (ch === "\n") {
           if (mode === FOLD_BLOCK)
-            i = consumeMoreIndentedLines(text2, i, indent.length);
+            i = consumeMoreIndentedLines(text3, i, indent.length);
           end = i + indent.length + endStep;
           split = void 0;
         } else {
           if (ch === " " && prev && prev !== " " && prev !== "\n" && prev !== "	") {
-            const next = text2[i + 1];
+            const next = text3[i + 1];
             if (next && next !== " " && next !== "\n" && next !== "	")
               split = i;
           }
@@ -1065,12 +1065,12 @@ var require_foldFlowLines = __commonJS({
             } else if (mode === FOLD_QUOTED) {
               while (prev === " " || prev === "	") {
                 prev = ch;
-                ch = text2[i += 1];
+                ch = text3[i += 1];
                 overflow = true;
               }
               const j = i > escEnd + 1 ? i - 2 : escStart - 1;
               if (escapedFolds[j])
-                return text2;
+                return text3;
               folds.push(j);
               escapedFolds[j] = true;
               end = j + endStep;
@@ -1085,39 +1085,39 @@ var require_foldFlowLines = __commonJS({
       if (overflow && onOverflow)
         onOverflow();
       if (folds.length === 0)
-        return text2;
+        return text3;
       if (onFold)
         onFold();
-      let res = text2.slice(0, folds[0]);
+      let res = text3.slice(0, folds[0]);
       for (let i2 = 0; i2 < folds.length; ++i2) {
         const fold = folds[i2];
-        const end2 = folds[i2 + 1] || text2.length;
+        const end2 = folds[i2 + 1] || text3.length;
         if (fold === 0)
           res = `
-${indent}${text2.slice(0, end2)}`;
+${indent}${text3.slice(0, end2)}`;
         else {
           if (mode === FOLD_QUOTED && escapedFolds[fold])
-            res += `${text2[fold]}\\`;
+            res += `${text3[fold]}\\`;
           res += `
-${indent}${text2.slice(fold + 1, end2)}`;
+${indent}${text3.slice(fold + 1, end2)}`;
         }
       }
       return res;
     }
-    function consumeMoreIndentedLines(text2, i, indent) {
+    function consumeMoreIndentedLines(text3, i, indent) {
       let end = i;
       let start = i + 1;
-      let ch = text2[start];
+      let ch = text3[start];
       while (ch === " " || ch === "	") {
         if (i < start + indent) {
-          ch = text2[++i];
+          ch = text3[++i];
         } else {
           do {
-            ch = text2[++i];
+            ch = text3[++i];
           } while (ch && ch !== "\n");
           end = i;
           start = i + 1;
-          ch = text2[start];
+          ch = text3[start];
         }
       }
       return end;
@@ -3996,10 +3996,10 @@ var require_resolve_block_map = __commonJS({
       let offset = bm.offset;
       let commentEnd = null;
       for (const collItem of bm.items) {
-        const { start, key, sep: sep2, value } = collItem;
+        const { start, key, sep: sep3, value } = collItem;
         const keyProps = resolveProps.resolveProps(start, {
           indicator: "explicit-key-ind",
-          next: key ?? sep2?.[0],
+          next: key ?? sep3?.[0],
           offset,
           onError,
           parentIndent: bm.indent,
@@ -4013,7 +4013,7 @@ var require_resolve_block_map = __commonJS({
             else if ("indent" in key && key.indent !== bm.indent)
               onError(offset, "BAD_INDENT", startColMsg);
           }
-          if (!keyProps.anchor && !keyProps.tag && !sep2) {
+          if (!keyProps.anchor && !keyProps.tag && !sep3) {
             commentEnd = keyProps.end;
             if (keyProps.comment) {
               if (map2.comment)
@@ -4037,7 +4037,7 @@ var require_resolve_block_map = __commonJS({
         ctx.atKey = false;
         if (utilMapIncludes.mapIncludes(ctx, map2.items, keyNode))
           onError(keyStart, "DUPLICATE_KEY", "Map keys must be unique");
-        const valueProps = resolveProps.resolveProps(sep2 ?? [], {
+        const valueProps = resolveProps.resolveProps(sep3 ?? [], {
           indicator: "map-value-ind",
           next: value,
           offset: keyNode.range[2],
@@ -4053,7 +4053,7 @@ var require_resolve_block_map = __commonJS({
             if (ctx.options.strict && keyProps.start < valueProps.found.offset - 1024)
               onError(keyNode.range, "KEY_OVER_1024_CHARS", "The : indicator must be at most 1024 chars after the start of an implicit block mapping key");
           }
-          const valueNode = value ? composeNode(ctx, value, valueProps, onError) : composeEmptyNode(ctx, offset, sep2, null, valueProps, onError);
+          const valueNode = value ? composeNode(ctx, value, valueProps, onError) : composeEmptyNode(ctx, offset, sep3, null, valueProps, onError);
           if (ctx.schema.compat)
             utilFlowIndentCheck.flowIndentCheck(bm.indent, value, onError);
           offset = valueNode.range[2];
@@ -4144,7 +4144,7 @@ var require_resolve_end = __commonJS({
       let comment = "";
       if (end) {
         let hasSpace = false;
-        let sep2 = "";
+        let sep3 = "";
         for (const token of end) {
           const { source, type } = token;
           switch (type) {
@@ -4158,13 +4158,13 @@ var require_resolve_end = __commonJS({
               if (!comment)
                 comment = cb;
               else
-                comment += sep2 + cb;
-              sep2 = "";
+                comment += sep3 + cb;
+              sep3 = "";
               break;
             }
             case "newline":
               if (comment)
-                sep2 += source;
+                sep3 += source;
               hasSpace = true;
               break;
             default:
@@ -4207,18 +4207,18 @@ var require_resolve_flow_collection = __commonJS({
       let offset = fc.offset + fc.start.source.length;
       for (let i = 0; i < fc.items.length; ++i) {
         const collItem = fc.items[i];
-        const { start, key, sep: sep2, value } = collItem;
+        const { start, key, sep: sep3, value } = collItem;
         const props = resolveProps.resolveProps(start, {
           flow: fcName,
           indicator: "explicit-key-ind",
-          next: key ?? sep2?.[0],
+          next: key ?? sep3?.[0],
           offset,
           onError,
           parentIndent: fc.indent,
           startOnNewline: false
         });
         if (!props.found) {
-          if (!props.anchor && !props.tag && !sep2 && !value) {
+          if (!props.anchor && !props.tag && !sep3 && !value) {
             if (i === 0 && props.comma)
               onError(props.comma, "UNEXPECTED_TOKEN", `Unexpected , in ${fcName}`);
             else if (i < fc.items.length - 1)
@@ -4272,8 +4272,8 @@ var require_resolve_flow_collection = __commonJS({
             }
           }
         }
-        if (!isMap && !sep2 && !props.found) {
-          const valueNode = value ? composeNode(ctx, value, props, onError) : composeEmptyNode(ctx, props.end, sep2, null, props, onError);
+        if (!isMap && !sep3 && !props.found) {
+          const valueNode = value ? composeNode(ctx, value, props, onError) : composeEmptyNode(ctx, props.end, sep3, null, props, onError);
           coll.items.push(valueNode);
           offset = valueNode.range[2];
           if (isBlock(value))
@@ -4285,7 +4285,7 @@ var require_resolve_flow_collection = __commonJS({
           if (isBlock(key))
             onError(keyNode.range, "BLOCK_IN_FLOW", blockMsg);
           ctx.atKey = false;
-          const valueProps = resolveProps.resolveProps(sep2 ?? [], {
+          const valueProps = resolveProps.resolveProps(sep3 ?? [], {
             flow: fcName,
             indicator: "map-value-ind",
             next: value,
@@ -4296,8 +4296,8 @@ var require_resolve_flow_collection = __commonJS({
           });
           if (valueProps.found) {
             if (!isMap && !props.found && ctx.options.strict) {
-              if (sep2)
-                for (const st of sep2) {
+              if (sep3)
+                for (const st of sep3) {
                   if (st === valueProps.found)
                     break;
                   if (st.type === "newline") {
@@ -4314,7 +4314,7 @@ var require_resolve_flow_collection = __commonJS({
             else
               onError(valueProps.start, "MISSING_CHAR", `Missing , or : between ${fcName} items`);
           }
-          const valueNode = value ? composeNode(ctx, value, valueProps, onError) : valueProps.found ? composeEmptyNode(ctx, valueProps.end, sep2, null, valueProps, onError) : null;
+          const valueNode = value ? composeNode(ctx, value, valueProps, onError) : valueProps.found ? composeEmptyNode(ctx, valueProps.end, sep3, null, valueProps, onError) : null;
           if (valueNode) {
             if (isBlock(value))
               onError(valueNode.range, "BLOCK_IN_FLOW", blockMsg);
@@ -4494,7 +4494,7 @@ var require_resolve_block_scalar = __commonJS({
           chompStart = i + 1;
       }
       let value = "";
-      let sep2 = "";
+      let sep3 = "";
       let prevMoreIndented = false;
       for (let i = 0; i < contentStart; ++i)
         value += lines[i][0].slice(trimIndent) + "\n";
@@ -4511,24 +4511,24 @@ var require_resolve_block_scalar = __commonJS({
           indent = "";
         }
         if (type === Scalar.Scalar.BLOCK_LITERAL) {
-          value += sep2 + indent.slice(trimIndent) + content;
-          sep2 = "\n";
+          value += sep3 + indent.slice(trimIndent) + content;
+          sep3 = "\n";
         } else if (indent.length > trimIndent || content[0] === "	") {
-          if (sep2 === " ")
-            sep2 = "\n";
-          else if (!prevMoreIndented && sep2 === "\n")
-            sep2 = "\n\n";
-          value += sep2 + indent.slice(trimIndent) + content;
-          sep2 = "\n";
+          if (sep3 === " ")
+            sep3 = "\n";
+          else if (!prevMoreIndented && sep3 === "\n")
+            sep3 = "\n\n";
+          value += sep3 + indent.slice(trimIndent) + content;
+          sep3 = "\n";
           prevMoreIndented = true;
         } else if (content === "") {
-          if (sep2 === "\n")
+          if (sep3 === "\n")
             value += "\n";
           else
-            sep2 = "\n";
+            sep3 = "\n";
         } else {
-          value += sep2 + content;
-          sep2 = " ";
+          value += sep3 + content;
+          sep3 = " ";
           prevMoreIndented = false;
         }
       }
@@ -4711,25 +4711,25 @@ var require_resolve_flow_scalar = __commonJS({
         trimBoth = /^[ \t]+|[ \t]+$/g;
       }
       let res = match[1].replace(trimEnd, "");
-      let sep2 = " ";
+      let sep3 = " ";
       let pos = line.lastIndex;
       while (match = line.exec(source)) {
         const lm = match[1].replace(trimBoth, "");
         if (lm === "") {
-          if (sep2 === "\n")
-            res += sep2;
+          if (sep3 === "\n")
+            res += sep3;
           else
-            sep2 = "\n";
+            sep3 = "\n";
         } else {
-          res += sep2 + lm;
-          sep2 = " ";
+          res += sep3 + lm;
+          sep3 = " ";
         }
         pos = line.lastIndex;
       }
       const last = /[ \t]*(.*)/sy;
       last.lastIndex = pos;
       match = last.exec(source);
-      return res + sep2 + (match?.[1] ?? "");
+      return res + sep3 + (match?.[1] ?? "");
     }
     function doubleQuotedValue(source, onError) {
       let res = "";
@@ -5539,14 +5539,14 @@ var require_cst_stringify = __commonJS({
         }
       }
     }
-    function stringifyItem({ start, key, sep: sep2, value }) {
+    function stringifyItem({ start, key, sep: sep3, value }) {
       let res = "";
       for (const st of start)
         res += st.source;
       if (key)
         res += stringifyToken(key);
-      if (sep2)
-        for (const st of sep2)
+      if (sep3)
+        for (const st of sep3)
           res += st.source;
       if (value)
         res += stringifyToken(value);
@@ -6713,18 +6713,18 @@ var require_parser = __commonJS({
         if (this.type === "map-value-ind") {
           const prev = getPrevProps(this.peek(2));
           const start = getFirstKeyStartProps(prev);
-          let sep2;
+          let sep3;
           if (scalar.end) {
-            sep2 = scalar.end;
-            sep2.push(this.sourceToken);
+            sep3 = scalar.end;
+            sep3.push(this.sourceToken);
             delete scalar.end;
           } else
-            sep2 = [this.sourceToken];
+            sep3 = [this.sourceToken];
           const map2 = {
             type: "block-map",
             offset: scalar.offset,
             indent: scalar.indent,
-            items: [{ start, key: scalar, sep: sep2 }]
+            items: [{ start, key: scalar, sep: sep3 }]
           };
           this.onKeyLine = true;
           this.stack[this.stack.length - 1] = map2;
@@ -6877,15 +6877,15 @@ var require_parser = __commonJS({
                 } else if (isFlowToken(it.key) && !includesToken(it.sep, "newline")) {
                   const start2 = getFirstKeyStartProps(it.start);
                   const key = it.key;
-                  const sep2 = it.sep;
-                  sep2.push(this.sourceToken);
+                  const sep3 = it.sep;
+                  sep3.push(this.sourceToken);
                   delete it.key;
                   delete it.sep;
                   this.stack.push({
                     type: "block-map",
                     offset: this.offset,
                     indent: this.indent,
-                    items: [{ start: start2, key, sep: sep2 }]
+                    items: [{ start: start2, key, sep: sep3 }]
                   });
                 } else if (start.length > 0) {
                   it.sep = it.sep.concat(start, this.sourceToken);
@@ -7079,13 +7079,13 @@ var require_parser = __commonJS({
             const prev = getPrevProps(parent);
             const start = getFirstKeyStartProps(prev);
             fixFlowSeqItems(fc);
-            const sep2 = fc.end.splice(1, fc.end.length);
-            sep2.push(this.sourceToken);
+            const sep3 = fc.end.splice(1, fc.end.length);
+            sep3.push(this.sourceToken);
             const map2 = {
               type: "block-map",
               offset: fc.offset,
               indent: fc.indent,
-              items: [{ start, key: fc, sep: sep2 }]
+              items: [{ start, key: fc, sep: sep3 }]
             };
             this.onKeyLine = true;
             this.stack[this.stack.length - 1] = map2;
@@ -8149,12 +8149,12 @@ var require_cjs = __commonJS({
   }
 });
 
-// ../sc-gateway/scripts/packs-check.ts
-var import_node_path2 = require("node:path");
+// ../sc-gateway/.worktrees/simple-org/scripts/packs-check.ts
+var import_node_path3 = require("node:path");
 
-// ../sc-gateway/src/packs/v2/repository.ts
+// ../sc-gateway/.worktrees/simple-org/src/packs/v2/repository.ts
 var import_node_fs = require("node:fs");
-var import_node_path = require("node:path");
+var import_node_path2 = require("node:path");
 var import_yaml2 = __toESM(require_dist());
 
 // ../sc-gateway/node_modules/zod/v4/classic/external.js
@@ -17507,8 +17507,8 @@ function ko_default() {
 }
 
 // ../sc-gateway/node_modules/zod/v4/locales/lt.js
-var capitalizeFirstCharacter = (text2) => {
-  return text2.charAt(0).toUpperCase() + text2.slice(1);
+var capitalizeFirstCharacter = (text3) => {
+  return text3.charAt(0).toUpperCase() + text3.slice(1);
 };
 function getUnitTypeFromNumber(number4) {
   const abs = Math.abs(number4);
@@ -27874,10 +27874,10 @@ function date4(params) {
   return _coercedDate(ZodDate, params);
 }
 
-// ../sc-gateway/src/packs/v2/check.ts
+// ../sc-gateway/.worktrees/simple-org/src/packs/v2/check.ts
 var import_tldts = __toESM(require_cjs());
 
-// ../sc-gateway/src/packs/v2/taxonomy.ts
+// ../sc-gateway/.worktrees/simple-org/src/packs/v2/taxonomy.ts
 var THREAT_CATEGORIES = [
   "phishing",
   "credential_theft",
@@ -27896,9 +27896,6 @@ var THREAT_CATEGORIES = [
   "malware_delivery"
 ];
 var THREAT_CATEGORY_SET = new Set(THREAT_CATEGORIES);
-function isThreatCategory(value) {
-  return THREAT_CATEGORY_SET.has(value);
-}
 var VICTIM_ACTIONS = [
   "enter_credentials",
   "enter_one_time_code",
@@ -27987,7 +27984,7 @@ var ORGANISATION_SECTORS = [
 var SECTORS = ["banking", "payments", "government", "logistics", "telecom", "general"];
 var SECTOR_SET = new Set(SECTORS);
 
-// ../sc-gateway/src/packs/v2/schema.ts
+// ../sc-gateway/.worktrees/simple-org/src/packs/v2/schema.ts
 var PACK_FORMAT = "phish.fi-pack/2";
 var COUNTRY_PATTERN = /^[A-Z]{2}$/;
 var LANGUAGE_PATTERN = /^[a-z]{2,3}(-[A-Za-z0-9]+)*$/;
@@ -28022,7 +28019,10 @@ var SOURCE_KINDS_FOR_ORGANISATION_FACTS = /* @__PURE__ */ new Set([
   "organisation_statement",
   "maintainer_attestation"
 ]);
+var DOMAIN_RELATIONSHIPS = ["owned", "authorized", "associated"];
 var ALIAS_KINDS = ["brand", "auth_product", "app", "service", "former_name"];
+var ALIAS_MATCHES = ["token_exact", "token_stem"];
+var ALIAS_WEIGHTS = ["low", "medium", "high"];
 var DESTINATION_PAYLOADS = ["original_required", "original_preferred", "structured_only"];
 var REQUIRED_EVIDENCE = ["impersonation_confirmed", "landing_page_captured", "original_message_available"];
 var HINT_CONDITIONS = ["organisationMatched", "identificationFlow"];
@@ -28044,10 +28044,12 @@ var CATEGORY_SECTOR = {
   other: "general"
 };
 var isoDate = external_exports.iso.date();
-var id = external_exports.string().regex(ID_PATTERN, "must match ^[a-z0-9][a-z0-9_.-]{1,95}$");
+var idSchema = external_exports.string().regex(ID_PATTERN, "must match ^[a-z0-9][a-z0-9_.-]{1,95}$");
+var id = idSchema;
 var lang = external_exports.string().regex(LANGUAGE_PATTERN, "must be a BCP 47 primary language tag, e.g. fi");
 var text = (max) => external_exports.string().trim().min(1).max(max);
-var threatCategory = external_exports.string().refine(isThreatCategory, "unknown threat category");
+var threatCategorySchema = external_exports.enum(THREAT_CATEGORIES);
+var threatCategory = threatCategorySchema;
 var threatCategories = external_exports.array(threatCategory).max(32);
 var sourceRef = id;
 var notes = external_exports.string().max(2e3).optional();
@@ -28064,15 +28066,15 @@ var sourceSchema = external_exports.object({
 }).strict();
 var domainSchema = external_exports.object({
   domain: external_exports.string().min(1).max(253),
-  relationship: external_exports.enum(["owned", "authorized", "associated"]),
+  relationship: external_exports.enum(DOMAIN_RELATIONSHIPS),
   source: sourceRef
 }).strict();
 var aliasSchema = external_exports.object({
   value: text(128),
   kind: external_exports.enum(ALIAS_KINDS).optional(),
   // token_stem: the alias's last word is a stem ("Kela" also matches "Kelalta").
-  match: external_exports.enum(["token_exact", "token_stem"]).optional(),
-  weight: external_exports.enum(["low", "medium", "high"]).optional()
+  match: external_exports.enum(ALIAS_MATCHES).optional(),
+  weight: external_exports.enum(ALIAS_WEIGHTS).optional()
 }).strict();
 var communicationPolicySchema = external_exports.object({
   channel: external_exports.literal("email"),
@@ -28288,7 +28290,7 @@ function packIdOf(country) {
   return country === "global" ? "global" : country.toLowerCase();
 }
 
-// ../sc-gateway/src/packs/v2/normalize.ts
+// ../sc-gateway/.worktrees/simple-org/src/packs/v2/normalize.ts
 var REVIEW_MONTHS = {
   phrase: 6,
   sender_claim: 6,
@@ -28393,16 +28395,26 @@ function normalizePack(source) {
   };
 }
 
-// ../sc-gateway/src/packs/v2/check.ts
+// ../sc-gateway/.worktrees/simple-org/src/packs/v2/check.ts
 var EMAIL_PATTERN = /[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/g;
 var IPV4_PATTERN = /\b(?:\d{1,3}\.){3}\d{1,3}\b/;
 var RESERVED_EXAMPLE_DOMAIN = /(^|\.)(example|test|invalid|localhost)$|(^|\.)example\.[a-z]{2,}$/;
 var PHRASE_LIKE = new Set(PHRASE_LIKE_TYPES);
+function locate(pack, path) {
+  const [section, index, ...rest] = path.split(".");
+  const origin = pack.origins.get(`${section}.${index}`);
+  if (!origin) return { file: "pack.yaml", line: void 0, path };
+  const located = origin.locate(rest.map((segment) => /^d+$/.test(segment) ? Number(segment) : segment));
+  return { file: origin.file, line: located.line ?? origin.line ?? void 0, path: located.path || void 0 };
+}
+function describeLocation(pack, path) {
+  const where = locate(pack, path);
+  return `${pack.directory}/${where.file}${where.line ? ` line ${where.line}` : ""}${where.path ? ` (${where.path})` : ""}`;
+}
 function emitterFor(pack, issues) {
   return (severity, code, path, message) => {
-    const [section, index] = path.split(".");
-    const origin = pack.origins.get(`${section}.${index}`);
-    issues.push({ severity, code, message, pack: pack.directory, path, file: origin?.file ?? "pack.yaml", line: origin?.line ?? void 0 });
+    const where = locate(pack, path);
+    issues.push({ severity, code, message, pack: pack.directory, ...where.path ? { path: where.path } : {}, file: where.file, line: where.line });
   };
 }
 function isCanonicalDomain(domain2) {
@@ -28447,7 +28459,7 @@ function checkSources(doc, emit) {
 }
 function requireSource(kinds, sourceId, path, emit, allowed) {
   const kind = kinds.get(sourceId);
-  if (!kind) emit("error", "unknown_source", path, `Source ${sourceId} is not declared in pack.yaml sources`);
+  if (!kind) emit("error", "unknown_source", path, `Source ${sourceId} is not declared in any sources list of this pack`);
   else if (allowed && !allowed.has(kind)) emit("error", "source_kind_not_allowed", path, `A ${kind} source cannot back this claim`);
 }
 function checkOrganisations(doc, kinds, emit) {
@@ -28579,8 +28591,8 @@ function checkDestinations(doc, kinds, emit) {
   doc.destinationGroups.forEach((group, index) => {
     const at = `destinationGroups.${index}`;
     requireSource(kinds, group.source, `${at}.source`, emit, SOURCE_KINDS_FOR_ORGANISATION_FACTS);
-    group.members.forEach((member, memberIndex) => {
-      if (!destinationIds.has(member)) emit("error", "unknown_destination", `${at}.members.${memberIndex}`, `${member} is not a destination of this pack`);
+    group.members.forEach((member, memberIndex2) => {
+      if (!destinationIds.has(member)) emit("error", "unknown_destination", `${at}.members.${memberIndex2}`, `${member} is not a destination of this pack`);
     });
     if (!group.members.includes(group.primary)) emit("error", "group_primary_not_member", `${at}.primary`, `${group.primary} is not a member of ${group.id}`);
   });
@@ -28636,6 +28648,7 @@ function checkPack(pack, context) {
 function checkPackSet(packs) {
   const issues = [];
   const emitFor = new Map(packs.map((entry) => [entry.document.id, emitterFor(entry.pack, issues)]));
+  const loadedFor = new Map(packs.map((entry) => [entry.document.id, entry.pack]));
   const definitions = /* @__PURE__ */ new Map();
   for (const { document } of packs) {
     document.organisations.forEach((organisation, index) => {
@@ -28673,8 +28686,14 @@ function checkPackSet(packs) {
     });
     document.destinations.forEach((destination, index) => {
       const at = `destinations.${index}`;
-      if (destinationIds.has(destination.id)) emit("error", "duplicate_id", `${at}.id`, `Destination ${destination.id} is also defined in pack ${destinationIds.get(destination.id)}`);
-      destinationIds.set(destination.id, document.id);
+      const first = destinationIds.get(destination.id);
+      const pack = loadedFor.get(document.id);
+      if (first) {
+        const places = `${describeLocation(first.pack, first.path)} and ${describeLocation(pack, at)}`;
+        emit("error", "duplicate_id", `${at}.id`, `Destination id ${destination.id} is used twice: ${places}`);
+      } else {
+        destinationIds.set(destination.id, { pack, path: at });
+      }
       const email3 = destination.email.toLowerCase();
       if (destinationEmails.has(email3)) emit("error", "destination_email_twice", `${at}.email`, `${email3} is already used by ${destinationEmails.get(email3)}`);
       destinationEmails.set(email3, destination.id);
@@ -28715,13 +28734,239 @@ function checkSetReferences(document, definitions, emit) {
   });
 }
 
-// ../sc-gateway/src/packs/v2/load.ts
+// ../sc-gateway/.worktrees/simple-org/src/packs/v2/load.ts
+var import_node_path = require("node:path");
 var import_yaml = __toESM(require_dist());
+
+// ../sc-gateway/.worktrees/simple-org/src/packs/v2/simpleOrganisation.ts
+var import_node_crypto = require("node:crypto");
+var EVIDENCE_KINDS = ["official_site", "official_register", "organisation_statement"];
+var DEFAULT_RELATIONSHIP = "owned";
+var DEFAULT_EVIDENCE_KIND = "official_site";
+var DEFAULT_REPORT_TO = {
+  threatCategories: ["phishing"],
+  payload: "structured_only",
+  acceptsAutomatedReports: false,
+  kind: "organisation"
+};
+var text2 = (max) => external_exports.string().trim().min(1).max(max);
+var evidenceFields = {
+  evidence: external_exports.url({ protocol: /^https?$/ }).max(2048).optional().describe(
+    "Link (https://...) to a public page that proves this entry. For a domain: a page showing the domain belongs to the organisation. For a reporting address: a page of the organisation that shows this address and asks people to send scam reports there. Required. phish.fi opens the page after release and looks for the domain or address on it."
+  ),
+  checked: external_exports.iso.date().optional().describe("The date you looked at the evidence page, written as YYYY-MM-DD. Needed once per page: when several entries cite the same page, write it on one of them."),
+  says: text2(512).optional().describe("What the evidence page shows, in a sentence of your own words (no email addresses). Needed once per page, like checked."),
+  evidenceKind: external_exports.enum(EVIDENCE_KINDS).optional().describe("What kind of page the evidence is. Default: official_site. A reporting address can only use official_site or organisation_statement; official_register is for domains."),
+  source: idSchema.optional().describe("Maintainer only: the id of a source declared in pack.yaml, used in place of evidence, checked and says.")
+};
+var domainEntrySchema = external_exports.object({
+  domain: external_exports.string().min(1).max(253).describe("A registrable domain of the organisation, in lower case, without www, https:// or a path (for example esimerkkikauppa.example)."),
+  relationship: external_exports.enum(DOMAIN_RELATIONSHIPS).optional().describe("How the domain relates to the organisation. Default: owned."),
+  ...evidenceFields
+}).strict().describe("One domain of the organisation and the evidence that it belongs to the organisation.");
+var aliasObjectSchema = aliasSchema.extend({
+  value: aliasSchema.shape.value.describe("Another name messages may use for the organisation."),
+  kind: aliasSchema.shape.kind.describe("What kind of name this is. Optional."),
+  match: aliasSchema.shape.match.describe(
+    "How the name is matched. Default: token_exact."
+  ),
+  weight: aliasSchema.shape.weight.describe("How strongly the name alone points to the organisation. Default: low for names of 4 characters or fewer, otherwise medium.")
+}).strict().describe("A name with matching options.");
+var aliasEntrySchema = external_exports.union([text2(128).describe("Another name messages may use for the organisation."), aliasObjectSchema]).describe("Another name: plain text, or an object with value, kind, match and weight.");
+var scopeSchema = scopeConditionsSchema.extend({
+  organisationRegionAny: scopeConditionsSchema.shape.organisationRegionAny.describe("Use the address only when the organisation's region is one of these countries."),
+  identificationSystemAny: scopeConditionsSchema.shape.identificationSystemAny.describe("Use the address only when one of these identification systems is involved."),
+  resourceCctldAny: scopeConditionsSchema.shape.resourceCctldAny.describe("Use the address only when a link's country-code top-level domain is one of these."),
+  hostingCountryAny: scopeConditionsSchema.shape.hostingCountryAny.describe("Use the address only when the phishing page is hosted in one of these countries."),
+  threatCategoryAny: scopeConditionsSchema.shape.threatCategoryAny.describe("Use the address only for these threat categories.")
+}).strict();
+var policySchema = communicationPolicySchema.extend({
+  channel: communicationPolicySchema.shape.channel.describe("The channel the policy covers: email."),
+  neverContains: communicationPolicySchema.shape.neverContains.describe("Kinds of link the organisation's messages never contain, as its published policy states."),
+  source: communicationPolicySchema.shape.source.describe("The id of the source in pack.yaml that documents the policy.")
+}).strict();
+var reportToEntrySchema = external_exports.object({
+  email: external_exports.email().max(320).describe("The reporting address exactly as the organisation's page shows it. It must be on one of the organisation's owned or authorized domains."),
+  ...evidenceFields,
+  threatCategories: external_exports.array(threatCategorySchema).min(1).max(32).optional().describe("What kinds of attack this address takes reports about. phish.fi sends a report here only when the report has one of these categories. Default: [phishing]."),
+  payload: external_exports.enum(DESTINATION_PAYLOADS).optional().describe("Whether reports sent here include the original message. Default: structured_only."),
+  acceptsAutomatedReports: external_exports.boolean().optional().describe("true when the organisation's page says it accepts reports sent by automated services. It is recorded with the address and does not by itself make phish.fi send anything automatically. Default: false."),
+  name: text2(128).optional().describe('A display name for the address, shown to the person reporting. Default: "<organisation name> phishing reports".'),
+  localizedNames: external_exports.record(external_exports.string().regex(/^[a-z]{2,3}(-[A-Za-z0-9]+)*$/), text2(128)).optional().describe("Maintainer only: the display name in other languages, keyed by language code."),
+  publicSourceUrl: external_exports.url({ protocol: /^https$/ }).max(2048).optional().describe("Maintainer only: the organisation's own https page that tells people to report to this address. Once the address is verified, phish.fi lists it publicly with a link to this page."),
+  scope: scopeSchema.optional().describe("Maintainer only: conditions that limit when this address is used."),
+  kind: external_exports.enum(["organisation", "national"]).optional().describe("Maintainer only: organisation (the default) for the organisation's own address, or national for a CERT or authority, which needs scope."),
+  notes: external_exports.string().max(2e3).optional().describe("Maintainer only: notes for reviewers."),
+  id: idSchema.optional().describe("Maintainer only: keeps an existing destination id. Default: <organisation id>.<the address's local part>.")
+}).strict().describe("An email address where the organisation asks people to report phishing that imitates it, and the evidence for it.");
+var simpleOrganisationSchema = external_exports.object({
+  name: text2(256).describe("The organisation's name as people know it. It is also matched as a name in messages."),
+  category: external_exports.enum(ORGANISATION_CATEGORIES).describe("What kind of organisation this is. phish.fi groups organisations by it (it sets the organisation's sector); it does not change which names or domains match."),
+  domains: external_exports.array(domainEntrySchema).min(1).max(200).describe("The organisation's own web domains, each with evidence. The first is the primary domain; a new organisation's file is named after it."),
+  aliases: external_exports.array(aliasEntrySchema).max(LIMITS.aliasesPerOrganisation - 1).optional().describe("Other names messages may use for the organisation. Write each as plain text, or as an object with value, kind, match and weight. The organisation's name is added automatically."),
+  reportTo: external_exports.array(reportToEntrySchema).max(20).optional().describe("Email addresses where the organisation asks people to report phishing that imitates it. A new organisation needs at least one."),
+  threatCategories: external_exports.array(threatCategorySchema).max(32).optional().describe("Threat categories typical of attacks that imitate this organisation. Optional."),
+  organisationType: external_exports.enum(ORGANISATION_TYPES).optional().describe("Optional. The organisation's legal or institutional type. Descriptive only: it does not change matching or routing."),
+  sector: external_exports.enum(ORGANISATION_SECTORS).optional().describe("Optional. The organisation's main industry sector. Descriptive only: it does not change matching or routing."),
+  additionalSectors: external_exports.array(external_exports.enum(ORGANISATION_SECTORS)).min(1).max(4).optional().describe("Optional. Up to 4 further sectors, same values as sector. Needs sector. Descriptive only."),
+  communicationPolicy: policySchema.optional().describe("Maintainer only: what the organisation's emails never contain, from its published policy.")
+}).strict().describe("One organisation of a country pack: its name, category, domains, other names and reporting addresses, each with evidence.");
+var LONG_FORM_KEYS = new Set(SECTION_KEYS);
+function isSimpleOrganisationData(data) {
+  if (!data || typeof data !== "object" || Array.isArray(data)) return true;
+  return !Object.keys(data).some((key) => LONG_FORM_KEYS.has(key));
+}
+function organisationFileStem(file2) {
+  const match = /^organisations\/([^/]+)\.ya?ml$/.exec(file2);
+  return match ? match[1] : null;
+}
+function generatedSourceId(organisationId, kind, url2) {
+  return `${organisationId}.src-${(0, import_node_crypto.createHash)("sha256").update(`${kind}
+${url2}`).digest("hex").slice(0, 8)}`;
+}
+function generatedDestinationId(organisationId, email3) {
+  const local = (email3.split("@")[0] ?? "").toLowerCase().replace(/[^a-z0-9_.-]/g, "-");
+  return `${organisationId}.${local}`;
+}
+function originalPath(paths, expanded) {
+  const segments = expanded.map(String);
+  for (let depth = segments.length; depth >= 0; depth -= 1) {
+    const mapped = paths.get(segments.slice(0, depth).join("."));
+    if (mapped) return [...mapped, ...expanded.slice(depth).map((segment) => typeof segment === "number" ? segment : String(segment))];
+  }
+  return expanded.map((segment) => typeof segment === "number" ? segment : String(segment));
+}
+var FIELD_LABEL = { checked: "checked date", says: "says text", evidenceKind: "evidenceKind" };
+function expandSimpleOrganisation(organisationId, data) {
+  const issues = [];
+  const migrationKeys = [];
+  const paths = /* @__PURE__ */ new Map([
+    ["organisations", []],
+    ["organisations.0", []],
+    ["organisations.0.id", []],
+    ["organisations.0.domains", ["domains"]],
+    ["organisations.0.aliases", ["aliases"]],
+    ["destinations", ["reportTo"]],
+    ["sources", []]
+  ]);
+  const citations = /* @__PURE__ */ new Map();
+  const evidenceOf = (entry, path) => {
+    if (entry.source !== void 0) {
+      const extra = ["evidence", "checked", "says", "evidenceKind"].filter((key) => entry[key] !== void 0);
+      if (extra.length > 0) {
+        issues.push({ code: "evidence_and_source", message: `${path.join(".")}: source replaces evidence, checked and says; give either source or ${extra.join(", ")}`, path: [...path, extra[0]] });
+      }
+      return { sourceId: entry.source, field: "source" };
+    }
+    if (entry.evidence === void 0) {
+      issues.push({ code: "evidence_required", message: `${path.join(".")}.evidence is required: the link to a public page that proves this entry`, path: [...path, "evidence"] });
+      return { sourceId: null, field: "evidence" };
+    }
+    const list = citations.get(entry.evidence) ?? [];
+    list.push({ path, entry });
+    citations.set(entry.evidence, list);
+    return { sourceId: null, field: "evidence" };
+  };
+  const domainEvidence = data.domains.map((entry, index) => evidenceOf(entry, ["domains", index]));
+  const reportTo = data.reportTo ?? [];
+  const reportEvidence = reportTo.map((entry, index) => evidenceOf(entry, ["reportTo", index]));
+  const sources = [];
+  const sourceIdOfUrl = /* @__PURE__ */ new Map();
+  for (const [url2, cited] of citations) {
+    const agreed = {};
+    for (const { path, entry } of cited) {
+      for (const field of Object.keys(FIELD_LABEL)) {
+        const value = entry[field];
+        if (value === void 0) continue;
+        const first = agreed[field];
+        if (!first) agreed[field] = { value, path: [...path, field] };
+        else if (first.value !== value) {
+          issues.push({
+            code: "evidence_conflict",
+            message: `The page ${url2} is cited twice with a different ${FIELD_LABEL[field]} ("${first.value}" and "${value}"); write it once, or make both the same`,
+            path: [...path, field],
+            related: first.path
+          });
+        }
+      }
+    }
+    const firstPath = cited[0].path;
+    for (const field of ["checked", "says"]) {
+      if (!agreed[field]) {
+        const what = field === "checked" ? "the date you looked at the page, as YYYY-MM-DD" : "what the page shows, in your own words";
+        issues.push({ code: "evidence_incomplete", message: `${firstPath.join(".")}.${field} is required: ${what}`, path: [...firstPath, field] });
+      }
+    }
+    const kind = agreed.evidenceKind?.value ?? DEFAULT_EVIDENCE_KIND;
+    const id2 = generatedSourceId(organisationId, kind, url2);
+    sourceIdOfUrl.set(url2, id2);
+    const at = `sources.${sources.length}`;
+    paths.set(at, firstPath);
+    paths.set(`${at}.id`, firstPath);
+    paths.set(`${at}.url`, [...firstPath, "evidence"]);
+    paths.set(`${at}.retrieved`, agreed.checked?.path ?? [...firstPath, "checked"]);
+    paths.set(`${at}.supports`, agreed.says?.path ?? [...firstPath, "says"]);
+    paths.set(`${at}.kind`, agreed.evidenceKind?.path ?? firstPath);
+    sources.push({ id: id2, kind, url: url2, retrieved: agreed.checked?.value, supports: agreed.says?.value });
+  }
+  const sourceOf = (entry, resolved) => resolved.sourceId ?? (entry.evidence !== void 0 ? sourceIdOfUrl.get(entry.evidence) : void 0) ?? "";
+  const domains = data.domains.map((entry, index) => {
+    const at = `organisations.0.domains.${index}`;
+    paths.set(at, ["domains", index]);
+    paths.set(`${at}.source`, ["domains", index, domainEvidence[index].field]);
+    if (entry.source !== void 0) migrationKeys.push({ key: "source", path: ["domains", index, "source"], value: entry.source, domain: entry.domain });
+    return { domain: entry.domain, relationship: entry.relationship ?? DEFAULT_RELATIONSHIP, source: sourceOf(entry, domainEvidence[index]) };
+  });
+  const written = (data.aliases ?? []).map((alias) => typeof alias === "string" ? { value: alias } : alias);
+  const named = written.some((alias) => alias.value.toLocaleLowerCase() === data.name.toLocaleLowerCase());
+  const aliases = named ? written : [{ value: data.name }, ...written];
+  if (!named) paths.set("organisations.0.aliases.0", ["name"]);
+  written.forEach((_alias, index) => paths.set(`organisations.0.aliases.${named ? index : index + 1}`, ["aliases", index]));
+  const organisation = {
+    id: organisationId,
+    name: data.name,
+    category: data.category,
+    ...data.organisationType !== void 0 ? { organisationType: data.organisationType } : {},
+    ...data.sector !== void 0 ? { sector: data.sector } : {},
+    ...data.additionalSectors !== void 0 ? { additionalSectors: data.additionalSectors } : {},
+    domains,
+    aliases,
+    ...data.threatCategories !== void 0 ? { threatCategories: data.threatCategories } : {},
+    ...data.communicationPolicy !== void 0 ? { communicationPolicy: data.communicationPolicy } : {}
+  };
+  const destinations = reportTo.map((entry, index) => {
+    const at = `destinations.${index}`;
+    const id2 = entry.id ?? generatedDestinationId(organisationId, entry.email);
+    paths.set(at, ["reportTo", index]);
+    paths.set(`${at}.source`, ["reportTo", index, reportEvidence[index].field]);
+    if (entry.id !== void 0) migrationKeys.push({ key: "id", path: ["reportTo", index, "id"], value: entry.id, destination: id2 });
+    if (entry.source !== void 0) migrationKeys.push({ key: "source", path: ["reportTo", index, "source"], value: entry.source, destination: id2 });
+    return {
+      id: id2,
+      kind: entry.kind ?? DEFAULT_REPORT_TO.kind,
+      organisation: organisationId,
+      name: entry.name ?? `${data.name} phishing reports`,
+      ...entry.localizedNames !== void 0 ? { localizedNames: entry.localizedNames } : {},
+      email: entry.email,
+      source: sourceOf(entry, reportEvidence[index]),
+      ...entry.publicSourceUrl !== void 0 ? { publicSourceUrl: entry.publicSourceUrl } : {},
+      acceptsAutomatedReports: entry.acceptsAutomatedReports ?? DEFAULT_REPORT_TO.acceptsAutomatedReports,
+      payload: entry.payload ?? DEFAULT_REPORT_TO.payload,
+      threatCategories: entry.threatCategories ?? [...DEFAULT_REPORT_TO.threatCategories],
+      ...entry.scope !== void 0 ? { scope: entry.scope } : {},
+      ...entry.notes !== void 0 ? { notes: entry.notes } : {}
+    };
+  });
+  return { organisations: [organisation], destinations, sources, paths, issues, migrationKeys };
+}
+
+// ../sc-gateway/.worktrees/simple-org/src/packs/v2/load.ts
 var HEADER_FILE = "pack.yaml";
 function loadPackFiles(directory, files) {
   const issues = [];
   const merged = Object.fromEntries(SECTION_KEYS.map((key) => [key, []]));
   const origins = /* @__PURE__ */ new Map();
+  const simpleOrganisations = /* @__PURE__ */ new Map();
   let totalBytes = 0;
   if (!files.has(HEADER_FILE)) {
     issues.push({ severity: "error", code: "pack_header_missing", message: `A pack needs a ${HEADER_FILE}`, pack: directory });
@@ -28730,13 +28975,15 @@ function loadPackFiles(directory, files) {
     const raw = files.get(file2).replace(/\r\n?/g, "\n");
     totalBytes += Buffer.byteLength(raw, "utf8");
     const parsed = parseFile(directory, file2, raw, issues);
-    if (parsed) mergeFile(file2, parsed, merged, origins);
+    if (!parsed) continue;
+    mergeFile(file2, parsed, merged, origins);
+    if (parsed.simple) simpleOrganisations.set(parsed.simple.organisationId, { file: file2, migrationKeys: parsed.simple.migrationKeys });
   }
   if (totalBytes > LIMITS.packBytes) {
     issues.push({ severity: "error", code: "pack_too_large", message: `Pack is ${totalBytes} bytes; the limit is ${LIMITS.packBytes}`, pack: directory });
   }
   if (issues.some((issue2) => issue2.severity === "error")) return { ok: false, issues };
-  return { ok: true, issues, pack: { directory, document: merged, origins } };
+  return { ok: true, issues, pack: { directory, document: merged, origins, simpleOrganisations } };
 }
 function parseFile(directory, file2, raw, issues) {
   const bytes = Buffer.byteLength(raw, "utf8");
@@ -28753,31 +29000,93 @@ function parseFile(directory, file2, raw, issues) {
     }
     return null;
   }
+  const report = (code, message, path = []) => issues.push({ severity: "error", code, message, pack: directory, file: file2, ...path.length > 0 ? { path: path.map(String).join(".") } : {}, line: lineOf(path) ?? void 0 });
   const isHeader = file2 === HEADER_FILE;
-  const parsed = (isHeader ? headerFileSchema : sectionFileSchema).safeParse(doc.toJS() ?? {});
-  if (parsed.success) return { data: parsed.data, lineOf };
-  for (const issue2 of parsed.error.issues) {
+  const data = doc.toJS() ?? {};
+  if (!isHeader && isSimpleOrganisationData(data)) {
+    const stem = organisationFileStem(file2);
+    if (stem !== null) return parseSimpleFile(file2, stem, data, lineOf, report);
+    if (looksLikeOrganisationFile(file2, data)) {
+      report("organisation_file_misplaced", `${file2} looks like an organisation file; it belongs directly in the organisations folder: organisations/${suggestFileName((0, import_node_path.basename)(file2).replace(/\.ya?ml$/, ""), data)}.yaml`);
+      return null;
+    }
+  }
+  const schema = isHeader ? headerFileSchema : sectionFileSchema;
+  const parsed = schema.safeParse(data);
+  if (parsed.success) return { data: parsed.data, lineOf, pathOf: (path) => path.map(String).join(".") };
+  for (const issue2 of flattenUnions(parsed.error.issues, schema, data)) {
     const misplacedHeader = !isHeader && issue2.code === "unrecognized_keys" && issue2.keys.some((key) => HEADER_KEYS.includes(key));
-    issues.push({
-      severity: "error",
-      code: misplacedHeader ? "header_key_outside_pack_yaml" : `schema_${issue2.code}`,
-      message: misplacedHeader ? `${issue2.keys.join(", ")} may only appear in ${HEADER_FILE}` : issue2.message,
-      pack: directory,
-      file: file2,
-      path: issue2.path.map(String).join("."),
-      line: lineOf(issue2.path) ?? void 0
-    });
+    if (misplacedHeader) report("header_key_outside_pack_yaml", `${issue2.keys.join(", ")} may only appear in ${HEADER_FILE}`, issue2.path);
+    else report(`schema_${issue2.code}`, issueMessage(issue2, schema, data, issue2.path.map(String).join(".")), issue2.path);
   }
   return null;
 }
-function mergeFile(file2, { data, lineOf }, merged, origins) {
+function looksLikeOrganisationFile(file2, data) {
+  if (!data || typeof data !== "object" || Array.isArray(data)) return false;
+  const keys = Object.keys(data);
+  if (keys.length === 0) return false;
+  return file2.startsWith("organisations/") || keys.some((key) => key === "domains" || key === "reportTo" || key === "category");
+}
+function suggestFileName(stem, data) {
+  const lower = stem.toLowerCase();
+  if (ID_PATTERN.test(lower)) return lower;
+  const domain2 = data?.domains?.[0]?.domain;
+  if (typeof domain2 === "string" && ID_PATTERN.test(domain2.trim().toLowerCase())) return domain2.trim().toLowerCase();
+  const cleaned = lower.replace(/[^a-z0-9_.-]+/g, "-").replace(/^[^a-z0-9]+/, "");
+  return ID_PATTERN.test(cleaned) ? cleaned : "<primary-domain>";
+}
+function parseSimpleFile(file2, stem, data, lineOf, report) {
+  let failed = false;
+  if (!ID_PATTERN.test(stem)) {
+    report(
+      "organisation_file_name",
+      `${file2}: the file name is the organisation id (for a new organisation, its first domain), written in lower case letters, digits, ".", "_" or "-": rename it to organisations/${suggestFileName(stem, data)}.yaml`
+    );
+    failed = true;
+  }
+  const parsed = simpleOrganisationSchema.safeParse(data);
+  if (!parsed.success) {
+    for (const issue2 of flattenUnions(parsed.error.issues, simpleOrganisationSchema, data)) {
+      report(`schema_${issue2.code}`, issueMessage(issue2, simpleOrganisationSchema, data, issue2.path.map(String).join(".")), issue2.path);
+    }
+    return null;
+  }
+  if (failed) return null;
+  const expansion = expandSimpleOrganisation(stem, parsed.data);
+  const at = (path) => `${path.join(".")} (line ${lineOf(path) ?? "?"})`;
+  for (const issue2 of expansion.issues) {
+    report(issue2.code, issue2.related ? `${issue2.message}: ${at(issue2.related)} and ${at(issue2.path)}` : issue2.message, issue2.path);
+  }
+  if (expansion.issues.length > 0) return null;
+  const expanded = { organisations: expansion.organisations, destinations: expansion.destinations, sources: expansion.sources };
+  const sections2 = sectionFileSchema.safeParse(expanded);
+  const back = (path) => originalPath(expansion.paths, path);
+  if (!sections2.success) {
+    for (const issue2 of flattenUnions(sections2.error.issues, sectionFileSchema, expanded)) {
+      const original = back(issue2.path);
+      report(`schema_${issue2.code}`, issueMessage(issue2, sectionFileSchema, expanded, original.join(".")), original);
+    }
+    return null;
+  }
+  return {
+    data: sections2.data,
+    lineOf: (path) => lineOf(back(path)),
+    pathOf: (path) => back(path).join("."),
+    simple: { organisationId: stem, migrationKeys: expansion.migrationKeys.map((use) => ({ ...use, line: lineOf(use.path) })) }
+  };
+}
+function mergeFile(file2, { data, lineOf, pathOf }, merged, origins) {
   if (file2 === HEADER_FILE) {
     for (const key of HEADER_KEYS) merged[key] = data[key];
   }
   for (const key of SECTION_KEYS) {
     const target = merged[key];
     (data[key] ?? []).forEach((entry, index) => {
-      origins.set(`${key}.${target.length}`, { file: file2, line: lineOf([key, index]) });
+      origins.set(`${key}.${target.length}`, {
+        file: file2,
+        line: lineOf([key, index]),
+        locate: (rest) => ({ path: pathOf([key, index, ...rest]), line: lineOf([key, index, ...rest]) })
+      });
       target.push(entry);
     });
   }
@@ -28789,8 +29098,124 @@ function lineAt(doc, lineCounter, path) {
   }
   return null;
 }
+function valueAt(data, path) {
+  let value = data;
+  for (const segment of path) {
+    if (!value || typeof value !== "object") return void 0;
+    value = value[segment];
+  }
+  return value;
+}
+function unwrap(schema) {
+  let current = schema;
+  for (; ; ) {
+    const def = current._zod.def;
+    if (def.innerType) current = def.innerType;
+    else if (def.type === "pipe" && def.in) current = def.in;
+    else return current;
+  }
+}
+function shapeOf(schema) {
+  const def = schema._zod.def;
+  return def.type === "object" && def.shape ? def.shape : null;
+}
+function memberIndex(options, value) {
+  const isObject2 = value !== null && typeof value === "object" && !Array.isArray(value);
+  let best = -1;
+  let bestScore = -1;
+  options.forEach((option, index) => {
+    const shape = shapeOf(unwrap(option));
+    if (!isObject2) {
+      if (!shape && best < 0) best = index;
+      return;
+    }
+    if (!shape) return;
+    const score = Object.keys(value).filter((key) => key in shape).length;
+    if (score > bestScore) [best, bestScore] = [index, score];
+  });
+  return best;
+}
+function schemaAt(root2, data, path) {
+  let schema = unwrap(root2);
+  for (let depth = 0; depth <= path.length && schema; depth += 1) {
+    const def = schema._zod.def;
+    if (def.type === "union" && def.options) {
+      const index = memberIndex(def.options, valueAt(data, path.slice(0, depth)));
+      schema = index >= 0 ? unwrap(def.options[index]) : null;
+      if (!schema) return null;
+    }
+    if (depth === path.length) return schema;
+    const segment = path[depth];
+    const current = schema._zod.def;
+    const shape = shapeOf(schema);
+    if (typeof segment === "number" && current.element) schema = unwrap(current.element);
+    else if (shape && typeof segment === "string" && shape[segment]) schema = unwrap(shape[segment]);
+    else if (current.valueType) schema = unwrap(current.valueType);
+    else return null;
+  }
+  return schema;
+}
+function flattenUnions(issues, root2, data) {
+  const out = [];
+  for (const issue2 of issues) {
+    if (issue2.code === "invalid_union" && issue2.errors.length > 0) {
+      const options = unionAt(root2, data, issue2.path);
+      const index = options ? memberIndex(options, valueAt(data, issue2.path)) : -1;
+      const branch = index >= 0 ? issue2.errors[index] : void 0;
+      if (branch && branch.length > 0) {
+        out.push(...flattenUnions(branch.map((sub) => ({ ...sub, path: [...issue2.path, ...sub.path] })), root2, data));
+        continue;
+      }
+    }
+    out.push(issue2);
+  }
+  return out;
+}
+function unionAt(root2, data, path) {
+  if (path.length === 0) {
+    const def2 = unwrap(root2)._zod.def;
+    return def2.type === "union" && def2.options ? def2.options : null;
+  }
+  const parent = schemaAt(root2, data, path.slice(0, -1));
+  if (!parent) return null;
+  const segment = path[path.length - 1];
+  const def = parent._zod.def;
+  const shape = shapeOf(parent);
+  const child = typeof segment === "number" && def.element ? def.element : shape && typeof segment === "string" ? shape[segment] : def.valueType;
+  if (!child) return null;
+  const childDef = unwrap(child)._zod.def;
+  return childDef.type === "union" && childDef.options ? childDef.options : null;
+}
+var FORMAT_HINTS = {
+  date: "must be a date written as YYYY-MM-DD",
+  url: "must be a full web address, starting with https://",
+  email: "must be an email address"
+};
+function issueMessage(issue2, root2, data, field) {
+  const prefix = field ? `${field}: ` : "";
+  if ((issue2.code === "invalid_type" || issue2.code === "invalid_value") && field && valueAt(data, issue2.path) === void 0) return `${field} is required`;
+  switch (issue2.code) {
+    case "invalid_type":
+      return `${prefix}${issue2.message}`;
+    case "invalid_value": {
+      if (issue2.values.length < 2) return `${prefix}${issue2.message}`;
+      const value = valueAt(data, issue2.path);
+      return `${prefix}${JSON.stringify(value)} is not allowed; use one of: ${issue2.values.map(String).join(", ")}`;
+    }
+    case "unrecognized_keys": {
+      const shape = shapeOf(schemaAt(root2, data, issue2.path) ?? root2);
+      const allowed = shape ? ` Allowed keys: ${Object.keys(shape).join(", ")}.` : "";
+      const keys = issue2.keys.map((key) => `"${key}"`).join(", ");
+      return `${prefix}unknown key${issue2.keys.length > 1 ? "s" : ""} ${keys}.${allowed}`;
+    }
+    case "invalid_format":
+      return `${prefix}${FORMAT_HINTS[issue2.format] ?? issue2.message}`;
+    default:
+      return `${prefix}${issue2.message}`;
+  }
+}
 
-// ../sc-gateway/src/packs/v2/repository.ts
+// ../sc-gateway/.worktrees/simple-org/src/packs/v2/repository.ts
 var PACK_DIRECTORY = /^([a-z]{2}|global)$/;
 var CONSENT_FILE = /^i18n\/consent\/([a-z]{2,3}(?:-[A-Za-z0-9]+)*)\.yaml$/;
 var consentTemplateSchema = external_exports.object({
@@ -28810,12 +29235,12 @@ function readRepositoryFiles(root2) {
   const files = /* @__PURE__ */ new Map();
   const walk = (dir) => {
     for (const name of (0, import_node_fs.readdirSync)(dir).sort((a, b) => a.localeCompare(b))) {
-      const path = (0, import_node_path.join)(dir, name);
+      const path = (0, import_node_path2.join)(dir, name);
       if ((0, import_node_fs.statSync)(path).isDirectory()) {
         walk(path);
         continue;
       }
-      const key = (0, import_node_path.relative)(root2, path).split(import_node_path.sep).join("/");
+      const key = (0, import_node_path2.relative)(root2, path).split(import_node_path2.sep).join("/");
       if (isReleaseFile(key)) files.set(key, (0, import_node_fs.readFileSync)(path, "utf8"));
     }
   };
@@ -28874,14 +29299,14 @@ function loadRepository(root2) {
   return loadRepositoryFiles(readRepositoryFiles(root2));
 }
 
-// ../sc-gateway/scripts/packs-check.ts
+// ../sc-gateway/.worktrees/simple-org/scripts/packs-check.ts
 var args = process.argv.slice(2);
-var root = args.find((arg) => !arg.startsWith("--")) ?? (0, import_node_path2.join)(__dirname, "..", "packs");
+var root = args.find((arg) => !arg.startsWith("--")) ?? (0, import_node_path3.join)(__dirname, "..", "packs");
 var showWarnings = args.includes("--warnings");
 var result = loadRepository(root);
 for (const issue2 of result.issues) {
   if (issue2.severity === "warning" && !showWarnings) continue;
-  const where = [issue2.pack, issue2.file, issue2.line ? `line ${issue2.line}` : null, issue2.path].filter(Boolean).join(" ");
+  const where = [issue2.pack, issue2.file, issue2.line ? `line ${issue2.line}` : null, issue2.path && !issue2.message.startsWith(`${issue2.path}:`) ? issue2.path : null].filter(Boolean).join(" ");
   console.log(`${issue2.severity.toUpperCase()} ${issue2.code} ${where}: ${issue2.message}`);
 }
 var errors = result.issues.filter((issue2) => issue2.severity === "error").length;

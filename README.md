@@ -46,7 +46,9 @@ Three things, in one file at `<country>/organisations/<your-domain>.yaml`:
 
 Plus the public pages that prove each of them, usually your own website. Copy
 [the example](examples/contribution/fi/organisations/esimerkkikauppa.example.yaml),
-replace the values, and open a pull request.
+replace the values, and open a pull request. Every field and allowed value is
+explained in [CONTRIBUTING.md](CONTRIBUTING.md#how-to-write-the-file) and
+listed in the [organisation file reference](docs/organisation-file.md).
 
 **Don't do Git?** Use the [web form](https://phish.fi/docs/packs/contribute). It
 checks your entry and gives you the finished file.
@@ -90,7 +92,8 @@ intelligence-packs/
 ├── global/                              organisations imitated in many countries (maintainer)
 ├── i18n/consent/                        consent wording, one file per language
 ├── examples/                            copy-paste examples (not loaded)
-├── docs/pack-format.md                  every field explained
+├── docs/organisation-file.md            every field and value of an organisation file
+├── docs/pack-format.md                  the wider pack format, for maintainers and reviewers
 ├── schema/                              JSON Schema for your editor
 └── tools/                               the checker CI runs, bundled
 ```
@@ -99,7 +102,7 @@ intelligence-packs/
 | --- | --- |
 | Add your organisation | PR a new `<cc>/organisations/<your-domain>.yaml` |
 | Fix your existing entry | PR an edit to it, wherever it is now |
-| Add your country details to a global brand | PR `<cc>/organisations/<id>.yaml` with `extends: <id>` |
+| Add your country's details (domains, names, address) to a global brand | Open an issue with the **Wrong or outdated information** form; the maintainer adds regional profiles of global organisations, because the `global` folder is maintainer-only and an organisation file has no way to extend one |
 | Add a whole new country | Open an issue first; the maintainer sets up the pack |
 | Suggest detection rules | Open an issue; rules are maintainer-only for now |
 

@@ -3,11 +3,13 @@
 The checker that validates packs, bundled into plain Node.js files (Node 20 or
 newer) with their dependencies inlined, so nothing needs to be installed:
 
-| File | What it does |
+Run them from the repository root:
+
+| Command | What it does |
 | --- | --- |
-| `packs-check.cjs <root> [--warnings]` | Schema, references, conflicts and privacy for every pack |
-| `packs-contribution-check.cjs --base <dir> --head <dir> [--json]` | The single-organisation contribution rules for a change between two checkouts |
-| `packs-release.cjs --root <dir> --out <file> [--commit <sha>] [--key <pem> --key-id <id>]` | Builds a release; signs it when a key is given |
+| `node tools/packs-check.cjs . --warnings` | Schema, references, conflicts and privacy for every pack |
+| `node tools/packs-contribution-check.cjs --base <dir> --head <dir>` | The single-organisation contribution rules for a change between two checkouts (`--base` a clean checkout of `main`, `--head` your branch, for example `.`; add `--json` for machine-readable output) |
+| `node tools/packs-release.cjs --root . --out <file>` | Builds a release into `<file>` (optional: `--commit <sha>`, and `--key <pem> --key-id <id>` to sign) |
 
 The source lives in the phish.fi gateway. `TOOLCHAIN_VERSION` records the
 commit the bundles were built from. Maintainers rebuild them with

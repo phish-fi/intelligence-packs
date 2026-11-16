@@ -1,0 +1,5 @@
+{
+  "yaml.schemas": {
+    "./schema/organisation.v2.schema.json": "*/organisations/*.yaml"
+  }
+}

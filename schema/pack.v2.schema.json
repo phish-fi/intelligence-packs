@@ -290,7 +290,24 @@
                     "maxItems": 32,
                     "type": "array",
                     "items": {
-                      "type": "string"
+                      "type": "string",
+                      "enum": [
+                        "phishing",
+                        "credential_theft",
+                        "credential_theft.online_banking",
+                        "credential_theft.email_account",
+                        "credential_theft.national_eid",
+                        "authentication_abuse",
+                        "authentication_abuse.code_theft",
+                        "authentication_abuse.approval",
+                        "payment_card_theft",
+                        "personal_data_theft",
+                        "brand_impersonation",
+                        "payment_fraud",
+                        "payment_fraud.invoice",
+                        "payment_fraud.advance_fee",
+                        "malware_delivery"
+                      ]
                     }
                   },
                   "communicationPolicy": {
@@ -439,7 +456,24 @@
                     "maxItems": 32,
                     "type": "array",
                     "items": {
-                      "type": "string"
+                      "type": "string",
+                      "enum": [
+                        "phishing",
+                        "credential_theft",
+                        "credential_theft.online_banking",
+                        "credential_theft.email_account",
+                        "credential_theft.national_eid",
+                        "authentication_abuse",
+                        "authentication_abuse.code_theft",
+                        "authentication_abuse.approval",
+                        "payment_card_theft",
+                        "personal_data_theft",
+                        "brand_impersonation",
+                        "payment_fraud",
+                        "payment_fraud.invoice",
+                        "payment_fraud.advance_fee",
+                        "malware_delivery"
+                      ]
                     }
                   },
                   "communicationPolicy": {
@@ -600,7 +634,24 @@
                     "maxItems": 32,
                     "type": "array",
                     "items": {
-                      "type": "string"
+                      "type": "string",
+                      "enum": [
+                        "phishing",
+                        "credential_theft",
+                        "credential_theft.online_banking",
+                        "credential_theft.email_account",
+                        "credential_theft.national_eid",
+                        "authentication_abuse",
+                        "authentication_abuse.code_theft",
+                        "authentication_abuse.approval",
+                        "payment_card_theft",
+                        "personal_data_theft",
+                        "brand_impersonation",
+                        "payment_fraud",
+                        "payment_fraud.invoice",
+                        "payment_fraud.advance_fee",
+                        "malware_delivery"
+                      ]
                     }
                   },
                   "role": {
@@ -748,7 +799,24 @@
                     "maxItems": 32,
                     "type": "array",
                     "items": {
-                      "type": "string"
+                      "type": "string",
+                      "enum": [
+                        "phishing",
+                        "credential_theft",
+                        "credential_theft.online_banking",
+                        "credential_theft.email_account",
+                        "credential_theft.national_eid",
+                        "authentication_abuse",
+                        "authentication_abuse.code_theft",
+                        "authentication_abuse.approval",
+                        "payment_card_theft",
+                        "personal_data_theft",
+                        "brand_impersonation",
+                        "payment_fraud",
+                        "payment_fraud.invoice",
+                        "payment_fraud.advance_fee",
+                        "malware_delivery"
+                      ]
                     }
                   },
                   "role": {
@@ -896,7 +964,24 @@
                     "maxItems": 32,
                     "type": "array",
                     "items": {
-                      "type": "string"
+                      "type": "string",
+                      "enum": [
+                        "phishing",
+                        "credential_theft",
+                        "credential_theft.online_banking",
+                        "credential_theft.email_account",
+                        "credential_theft.national_eid",
+                        "authentication_abuse",
+                        "authentication_abuse.code_theft",
+                        "authentication_abuse.approval",
+                        "payment_card_theft",
+                        "personal_data_theft",
+                        "brand_impersonation",
+                        "payment_fraud",
+                        "payment_fraud.invoice",
+                        "payment_fraud.advance_fee",
+                        "malware_delivery"
+                      ]
                     }
                   },
                   "role": {
@@ -1058,7 +1143,24 @@
                     "maxItems": 32,
                     "type": "array",
                     "items": {
-                      "type": "string"
+                      "type": "string",
+                      "enum": [
+                        "phishing",
+                        "credential_theft",
+                        "credential_theft.online_banking",
+                        "credential_theft.email_account",
+                        "credential_theft.national_eid",
+                        "authentication_abuse",
+                        "authentication_abuse.code_theft",
+                        "authentication_abuse.approval",
+                        "payment_card_theft",
+                        "personal_data_theft",
+                        "brand_impersonation",
+                        "payment_fraud",
+                        "payment_fraud.invoice",
+                        "payment_fraud.advance_fee",
+                        "malware_delivery"
+                      ]
                     }
                   },
                   "role": {
@@ -1169,7 +1271,24 @@
                     "maxItems": 32,
                     "type": "array",
                     "items": {
-                      "type": "string"
+                      "type": "string",
+                      "enum": [
+                        "phishing",
+                        "credential_theft",
+                        "credential_theft.online_banking",
+                        "credential_theft.email_account",
+                        "credential_theft.national_eid",
+                        "authentication_abuse",
+                        "authentication_abuse.code_theft",
+                        "authentication_abuse.approval",
+                        "payment_card_theft",
+                        "personal_data_theft",
+                        "brand_impersonation",
+                        "payment_fraud",
+                        "payment_fraud.invoice",
+                        "payment_fraud.advance_fee",
+                        "malware_delivery"
+                      ]
                     }
                   },
                   "role": {
@@ -1291,7 +1410,24 @@
                     "maxItems": 32,
                     "type": "array",
                     "items": {
-                      "type": "string"
+                      "type": "string",
+                      "enum": [
+                        "phishing",
+                        "credential_theft",
+                        "credential_theft.online_banking",
+                        "credential_theft.email_account",
+                        "credential_theft.national_eid",
+                        "authentication_abuse",
+                        "authentication_abuse.code_theft",
+                        "authentication_abuse.approval",
+                        "payment_card_theft",
+                        "personal_data_theft",
+                        "brand_impersonation",
+                        "payment_fraud",
+                        "payment_fraud.invoice",
+                        "payment_fraud.advance_fee",
+                        "malware_delivery"
+                      ]
                     }
                   },
                   "role": {
@@ -1404,7 +1540,24 @@
                 "maxItems": 32,
                 "type": "array",
                 "items": {
-                  "type": "string"
+                  "type": "string",
+                  "enum": [
+                    "phishing",
+                    "credential_theft",
+                    "credential_theft.online_banking",
+                    "credential_theft.email_account",
+                    "credential_theft.national_eid",
+                    "authentication_abuse",
+                    "authentication_abuse.code_theft",
+                    "authentication_abuse.approval",
+                    "payment_card_theft",
+                    "personal_data_theft",
+                    "brand_impersonation",
+                    "payment_fraud",
+                    "payment_fraud.invoice",
+                    "payment_fraud.advance_fee",
+                    "malware_delivery"
+                  ]
                 }
               },
               "appliesWhen": {
@@ -1589,7 +1742,24 @@
                 "maxItems": 32,
                 "type": "array",
                 "items": {
-                  "type": "string"
+                  "type": "string",
+                  "enum": [
+                    "phishing",
+                    "credential_theft",
+                    "credential_theft.online_banking",
+                    "credential_theft.email_account",
+                    "credential_theft.national_eid",
+                    "authentication_abuse",
+                    "authentication_abuse.code_theft",
+                    "authentication_abuse.approval",
+                    "payment_card_theft",
+                    "personal_data_theft",
+                    "brand_impersonation",
+                    "payment_fraud",
+                    "payment_fraud.invoice",
+                    "payment_fraud.advance_fee",
+                    "malware_delivery"
+                  ]
                 }
               },
               "requiredEvidence": {
@@ -1648,7 +1818,24 @@
                     "minItems": 1,
                     "type": "array",
                     "items": {
-                      "type": "string"
+                      "type": "string",
+                      "enum": [
+                        "phishing",
+                        "credential_theft",
+                        "credential_theft.online_banking",
+                        "credential_theft.email_account",
+                        "credential_theft.national_eid",
+                        "authentication_abuse",
+                        "authentication_abuse.code_theft",
+                        "authentication_abuse.approval",
+                        "payment_card_theft",
+                        "personal_data_theft",
+                        "brand_impersonation",
+                        "payment_fraud",
+                        "payment_fraud.invoice",
+                        "payment_fraud.advance_fee",
+                        "malware_delivery"
+                      ]
                     }
                   }
                 },
@@ -2122,7 +2309,24 @@
                     "maxItems": 32,
                     "type": "array",
                     "items": {
-                      "type": "string"
+                      "type": "string",
+                      "enum": [
+                        "phishing",
+                        "credential_theft",
+                        "credential_theft.online_banking",
+                        "credential_theft.email_account",
+                        "credential_theft.national_eid",
+                        "authentication_abuse",
+                        "authentication_abuse.code_theft",
+                        "authentication_abuse.approval",
+                        "payment_card_theft",
+                        "personal_data_theft",
+                        "brand_impersonation",
+                        "payment_fraud",
+                        "payment_fraud.invoice",
+                        "payment_fraud.advance_fee",
+                        "malware_delivery"
+                      ]
                     }
                   },
                   "communicationPolicy": {
@@ -2271,7 +2475,24 @@
                     "maxItems": 32,
                     "type": "array",
                     "items": {
-                      "type": "string"
+                      "type": "string",
+                      "enum": [
+                        "phishing",
+                        "credential_theft",
+                        "credential_theft.online_banking",
+                        "credential_theft.email_account",
+                        "credential_theft.national_eid",
+                        "authentication_abuse",
+                        "authentication_abuse.code_theft",
+                        "authentication_abuse.approval",
+                        "payment_card_theft",
+                        "personal_data_theft",
+                        "brand_impersonation",
+                        "payment_fraud",
+                        "payment_fraud.invoice",
+                        "payment_fraud.advance_fee",
+                        "malware_delivery"
+                      ]
                     }
                   },
                   "communicationPolicy": {
@@ -2432,7 +2653,24 @@
                     "maxItems": 32,
                     "type": "array",
                     "items": {
-                      "type": "string"
+                      "type": "string",
+                      "enum": [
+                        "phishing",
+                        "credential_theft",
+                        "credential_theft.online_banking",
+                        "credential_theft.email_account",
+                        "credential_theft.national_eid",
+                        "authentication_abuse",
+                        "authentication_abuse.code_theft",
+                        "authentication_abuse.approval",
+                        "payment_card_theft",
+                        "personal_data_theft",
+                        "brand_impersonation",
+                        "payment_fraud",
+                        "payment_fraud.invoice",
+                        "payment_fraud.advance_fee",
+                        "malware_delivery"
+                      ]
                     }
                   },
                   "role": {
@@ -2580,7 +2818,24 @@
                     "maxItems": 32,
                     "type": "array",
                     "items": {
-                      "type": "string"
+                      "type": "string",
+                      "enum": [
+                        "phishing",
+                        "credential_theft",
+                        "credential_theft.online_banking",
+                        "credential_theft.email_account",
+                        "credential_theft.national_eid",
+                        "authentication_abuse",
+                        "authentication_abuse.code_theft",
+                        "authentication_abuse.approval",
+                        "payment_card_theft",
+                        "personal_data_theft",
+                        "brand_impersonation",
+                        "payment_fraud",
+                        "payment_fraud.invoice",
+                        "payment_fraud.advance_fee",
+                        "malware_delivery"
+                      ]
                     }
                   },
                   "role": {
@@ -2728,7 +2983,24 @@
                     "maxItems": 32,
                     "type": "array",
                     "items": {
-                      "type": "string"
+                      "type": "string",
+                      "enum": [
+                        "phishing",
+                        "credential_theft",
+                        "credential_theft.online_banking",
+                        "credential_theft.email_account",
+                        "credential_theft.national_eid",
+                        "authentication_abuse",
+                        "authentication_abuse.code_theft",
+                        "authentication_abuse.approval",
+                        "payment_card_theft",
+                        "personal_data_theft",
+                        "brand_impersonation",
+                        "payment_fraud",
+                        "payment_fraud.invoice",
+                        "payment_fraud.advance_fee",
+                        "malware_delivery"
+                      ]
                     }
                   },
                   "role": {
@@ -2890,7 +3162,24 @@
                     "maxItems": 32,
                     "type": "array",
                     "items": {
-                      "type": "string"
+                      "type": "string",
+                      "enum": [
+                        "phishing",
+                        "credential_theft",
+                        "credential_theft.online_banking",
+                        "credential_theft.email_account",
+                        "credential_theft.national_eid",
+                        "authentication_abuse",
+                        "authentication_abuse.code_theft",
+                        "authentication_abuse.approval",
+                        "payment_card_theft",
+                        "personal_data_theft",
+                        "brand_impersonation",
+                        "payment_fraud",
+                        "payment_fraud.invoice",
+                        "payment_fraud.advance_fee",
+                        "malware_delivery"
+                      ]
                     }
                   },
                   "role": {
@@ -3001,7 +3290,24 @@
                     "maxItems": 32,
                     "type": "array",
                     "items": {
-                      "type": "string"
+                      "type": "string",
+                      "enum": [
+                        "phishing",
+                        "credential_theft",
+                        "credential_theft.online_banking",
+                        "credential_theft.email_account",
+                        "credential_theft.national_eid",
+                        "authentication_abuse",
+                        "authentication_abuse.code_theft",
+                        "authentication_abuse.approval",
+                        "payment_card_theft",
+                        "personal_data_theft",
+                        "brand_impersonation",
+                        "payment_fraud",
+                        "payment_fraud.invoice",
+                        "payment_fraud.advance_fee",
+                        "malware_delivery"
+                      ]
                     }
                   },
                   "role": {
@@ -3123,7 +3429,24 @@
                     "maxItems": 32,
                     "type": "array",
                     "items": {
-                      "type": "string"
+                      "type": "string",
+                      "enum": [
+                        "phishing",
+                        "credential_theft",
+                        "credential_theft.online_banking",
+                        "credential_theft.email_account",
+                        "credential_theft.national_eid",
+                        "authentication_abuse",
+                        "authentication_abuse.code_theft",
+                        "authentication_abuse.approval",
+                        "payment_card_theft",
+                        "personal_data_theft",
+                        "brand_impersonation",
+                        "payment_fraud",
+                        "payment_fraud.invoice",
+                        "payment_fraud.advance_fee",
+                        "malware_delivery"
+                      ]
                     }
                   },
                   "role": {
@@ -3236,7 +3559,24 @@
                 "maxItems": 32,
                 "type": "array",
                 "items": {
-                  "type": "string"
+                  "type": "string",
+                  "enum": [
+                    "phishing",
+                    "credential_theft",
+                    "credential_theft.online_banking",
+                    "credential_theft.email_account",
+                    "credential_theft.national_eid",
+                    "authentication_abuse",
+                    "authentication_abuse.code_theft",
+                    "authentication_abuse.approval",
+                    "payment_card_theft",
+                    "personal_data_theft",
+                    "brand_impersonation",
+                    "payment_fraud",
+                    "payment_fraud.invoice",
+                    "payment_fraud.advance_fee",
+                    "malware_delivery"
+                  ]
                 }
               },
               "appliesWhen": {
@@ -3421,7 +3761,24 @@
                 "maxItems": 32,
                 "type": "array",
                 "items": {
-                  "type": "string"
+                  "type": "string",
+                  "enum": [
+                    "phishing",
+                    "credential_theft",
+                    "credential_theft.online_banking",
+                    "credential_theft.email_account",
+                    "credential_theft.national_eid",
+                    "authentication_abuse",
+                    "authentication_abuse.code_theft",
+                    "authentication_abuse.approval",
+                    "payment_card_theft",
+                    "personal_data_theft",
+                    "brand_impersonation",
+                    "payment_fraud",
+                    "payment_fraud.invoice",
+                    "payment_fraud.advance_fee",
+                    "malware_delivery"
+                  ]
                 }
               },
               "requiredEvidence": {
@@ -3480,7 +3837,24 @@
                     "minItems": 1,
                     "type": "array",
                     "items": {
-                      "type": "string"
+                      "type": "string",
+                      "enum": [
+                        "phishing",
+                        "credential_theft",
+                        "credential_theft.online_banking",
+                        "credential_theft.email_account",
+                        "credential_theft.national_eid",
+                        "authentication_abuse",
+                        "authentication_abuse.code_theft",
+                        "authentication_abuse.approval",
+                        "payment_card_theft",
+                        "personal_data_theft",
+                        "brand_impersonation",
+                        "payment_fraud",
+                        "payment_fraud.invoice",
+                        "payment_fraud.advance_fee",
+                        "malware_delivery"
+                      ]
                     }
                   }
                 },
