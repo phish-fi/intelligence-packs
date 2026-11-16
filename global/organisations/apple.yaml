@@ -3,6 +3,6 @@ name: Apple
 category: other
 domains:
   - domain: apple.com
-    source: internal-operator-review
+    source: site-apple-com
 aliases:
   - apple

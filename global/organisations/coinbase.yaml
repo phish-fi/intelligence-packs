@@ -3,6 +3,6 @@ name: Coinbase
 category: crypto_service
 domains:
   - domain: coinbase.com
-    source: internal-operator-review
+    source: site-coinbase-com
 aliases:
   - coinbase

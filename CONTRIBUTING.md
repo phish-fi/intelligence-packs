@@ -313,7 +313,7 @@ The **Contribution rules** check enforces these:
 2. **Review**: the maintainer opens your sources and compares them with the
    entry.
 3. **Merge and release**: merged changes go into the next signed release.
-4. **Independent verification**: passing the checks grants no trust. phish.fi
+4. **Verification after release**: passing the checks grants no trust. phish.fi
    treats new domains as claims and new addresses as unverified until it
    confirms them itself. For example, a reporting address is used only when it
    appears on the organisation's verified website, on one of its own domains,

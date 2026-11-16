@@ -3,6 +3,6 @@ name: PayPal
 category: payment_provider
 domains:
   - domain: paypal.com
-    source: internal-operator-review
+    source: site-paypal-com
 aliases:
   - paypal

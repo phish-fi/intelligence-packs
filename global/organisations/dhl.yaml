@@ -3,7 +3,7 @@ name: DHL
 category: logistics
 domains:
   - domain: dhl.com
-    source: internal-operator-review
+    source: site-dhl-com
 aliases:
   - value: dhl
     weight: medium
