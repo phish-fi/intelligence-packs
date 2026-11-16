@@ -1,0 +1,31 @@
+# The source ids below are declared in ../pack.yaml.
+name: Danske Bank
+category: bank
+domains:
+  - domain: danskebank.fi
+    source: site-danske
+  - domain: danskebank.com
+    source: site-danskebank-com
+  - domain: danskebank.dk
+    source: site-danskebank-dk
+  - domain: danskebank.se
+    source: site-danskebank-se
+  - domain: danskebank.no
+    source: site-danskebank-no
+aliases:
+  - value: Danske Bank
+    match: token_stem
+  - value: Danske ID
+    kind: auth_product
+threatCategories:
+  - credential_theft.online_banking
+  - authentication_abuse.code_theft
+  - authentication_abuse.approval
+communicationPolicy:
+  channel: email
+  neverContains:
+    - link_login
+    - link_identify
+    - link_payment
+    - link_credential_update
+  source: owner-2026-10-28

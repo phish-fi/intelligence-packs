@@ -1,0 +1,14 @@
+# The source ids below are declared in ../pack.yaml.
+name: Posti
+category: logistics
+domains:
+  - domain: posti.fi
+    source: site-posti
+aliases:
+  - Posti
+  - value: OmaPosti
+    match: token_stem
+  - Posti Group
+threatCategories:
+  - credential_theft.online_banking
+  - personal_data_theft

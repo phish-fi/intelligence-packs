@@ -1,0 +1,30 @@
+# The source ids below are declared in ../pack.yaml.
+name: Kela
+category: government_service
+domains:
+  - domain: kela.fi
+    source: site-kela
+  - domain: kanta.fi
+    relationship: authorized
+    source: site-kanta
+  - domain: omakela.fi
+    source: site-omakela-fi
+  - domain: omakanta.fi
+    relationship: authorized
+    source: site-omakanta-fi
+aliases:
+  - value: Kela
+    match: token_stem
+    weight: medium
+  - value: OmaKela
+    match: token_stem
+  - value: Kansaneläkelaitos
+    match: token_stem
+  - FPA
+  - value: Omakanta
+    match: token_stem
+  - value: Kanta-palvelut
+    match: token_stem
+threatCategories:
+  - credential_theft.online_banking
+  - personal_data_theft

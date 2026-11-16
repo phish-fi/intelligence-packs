@@ -1,0 +1,9 @@
+# The source ids below are declared in ../pack.yaml.
+name: DHL
+category: logistics
+domains:
+  - domain: dhl.com
+    source: internal-operator-review
+aliases:
+  - value: dhl
+    weight: medium

@@ -1,0 +1,9 @@
+# The source ids below are declared in ../pack.yaml.
+name: Trust Wallet
+category: crypto_service
+domains:
+  - domain: trustwallet.com
+    source: internal-operator-review
+aliases:
+  - trustwallet
+  - trust wallet

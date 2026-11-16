@@ -1,0 +1,57 @@
+# The source ids below are declared in ../pack.yaml.
+name: OP
+category: bank
+domains:
+  - domain: op.fi
+    source: site-op
+  - domain: osuuspankki.fi
+    source: site-osuuspankki-fi
+aliases:
+  - OP
+  - OP-ryhmä
+  - OP Financial Group
+  - value: OP Pankki
+    match: token_stem
+  - OP Asiakaspalvelu
+  - OP-Pohjola
+  - value: Osuuspankki
+    match: token_stem
+  - op.fi
+  - value: OP-mobiili
+    kind: auth_product
+  - value: Pohjola
+    weight: low
+threatCategories:
+  - credential_theft.online_banking
+  - authentication_abuse.code_theft
+  - authentication_abuse.approval
+communicationPolicy:
+  channel: email
+  neverContains:
+    - link_login
+    - link_identify
+    - link_payment
+    - link_credential_update
+  source: owner-2026-10-28
+reportTo:
+  - email: huijaushavainnot@op.fi
+    id: op.phishing_report_fi
+    source: op-scam-report
+    localizedNames:
+      fi: OP:n huijaushavainnot
+      sv: OP:s bedrägerirapporter
+    payload: original_required
+    acceptsAutomatedReports: true
+    threatCategories:
+      - phishing
+      - brand_impersonation
+      - credential_theft
+      - credential_theft.online_banking
+      - authentication_abuse
+      - authentication_abuse.code_theft
+      - authentication_abuse.approval
+      - payment_card_theft
+    publicSourceUrl: https://www.op.fi/henkiloasiakkaat/asiakkuus/turvallisuus/nain-toimit-huijaustilanteissa
+    scope:
+      identificationSystemAny:
+        - fi.bank_eid

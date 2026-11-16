@@ -1,0 +1,21 @@
+# The source ids below are declared in ../pack.yaml.
+name: Aktia
+category: bank
+domains:
+  - domain: aktia.fi
+    source: site-aktia
+aliases:
+  - value: Aktia
+    match: token_stem
+threatCategories:
+  - credential_theft.online_banking
+  - authentication_abuse.code_theft
+  - authentication_abuse.approval
+communicationPolicy:
+  channel: email
+  neverContains:
+    - link_login
+    - link_identify
+    - link_payment
+    - link_credential_update
+  source: owner-2026-10-28

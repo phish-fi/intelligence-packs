@@ -1,0 +1,29 @@
+# The source ids below are declared in ../pack.yaml.
+name: Handelsbanken
+category: bank
+domains:
+  - domain: handelsbanken.fi
+    source: site-handelsbanken
+  - domain: handelsbanken.com
+    source: site-handelsbanken-com
+  - domain: handelsbanken.se
+    source: site-handelsbanken-se
+  - domain: handelsbanken.no
+    source: site-handelsbanken-no
+  - domain: handelsbanken.dk
+    source: site-handelsbanken-dk
+aliases:
+  - value: Handelsbanken
+    match: token_stem
+threatCategories:
+  - credential_theft.online_banking
+  - authentication_abuse.code_theft
+  - authentication_abuse.approval
+communicationPolicy:
+  channel: email
+  neverContains:
+    - link_login
+    - link_identify
+    - link_payment
+    - link_credential_update
+  source: owner-2026-10-28

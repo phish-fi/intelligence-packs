@@ -1,0 +1,8 @@
+# The source ids below are declared in ../pack.yaml.
+name: Apple
+category: other
+domains:
+  - domain: apple.com
+    source: internal-operator-review
+aliases:
+  - apple

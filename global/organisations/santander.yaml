@@ -1,0 +1,10 @@
+# The source ids below are declared in ../pack.yaml.
+name: Santander
+category: bank
+domains:
+  - domain: santander.com
+    source: internal-operator-review
+  - domain: santander.com.ar
+    source: internal-operator-review
+aliases:
+  - santander

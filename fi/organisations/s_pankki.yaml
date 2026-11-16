@@ -1,0 +1,47 @@
+# The source ids below are declared in ../pack.yaml.
+name: S-Pankki
+category: bank
+domains:
+  - domain: s-pankki.fi
+    source: site-s-pankki
+aliases:
+  - value: S-Pankki
+    match: token_stem
+  - S-Bank
+  - value: S-mobiili
+    kind: auth_product
+    match: token_stem
+threatCategories:
+  - credential_theft.online_banking
+  - authentication_abuse.code_theft
+  - authentication_abuse.approval
+communicationPolicy:
+  channel: email
+  neverContains:
+    - link_login
+    - link_identify
+    - link_payment
+    - link_credential_update
+  source: owner-2026-10-28
+reportTo:
+  - email: huijaushavainnot@s-pankki.fi
+    id: s_pankki.phishing_report_fi
+    source: s-pankki-scam-report
+    localizedNames:
+      fi: S-Pankin huijaushavainnot
+      sv: S-Bankens bedrägerirapporter
+    payload: original_required
+    acceptsAutomatedReports: true
+    threatCategories:
+      - phishing
+      - brand_impersonation
+      - credential_theft
+      - credential_theft.online_banking
+      - authentication_abuse
+      - authentication_abuse.code_theft
+      - authentication_abuse.approval
+      - payment_card_theft
+    publicSourceUrl: https://www.s-pankki.fi/fi/turvallisuus-s-pankissa/turvallinen-pankkiasiointi/
+    scope:
+      identificationSystemAny:
+        - fi.bank_eid
