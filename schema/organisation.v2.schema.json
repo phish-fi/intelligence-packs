@@ -1,0 +1,801 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://phish.fi/schema/organisation.v2.schema.json",
+  "title": "Organisation file",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "description": "The organisation's name as people know it. It is also matched as a name in messages."
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "bank",
+        "identification_broker",
+        "payment_provider",
+        "card_issuer",
+        "government_service",
+        "logistics",
+        "telecom",
+        "email_provider",
+        "crypto_service",
+        "marketplace",
+        "retail",
+        "other"
+      ],
+      "description": "What kind of organisation this is. phish.fi groups organisations by it (it sets the organisation's sector); it does not change which names or domains match.",
+      "enumDescriptions": [
+        "A bank or other credit institution.",
+        "A service that relays strong electronic identification to other services.",
+        "A payment service, such as a payment app, payment processor or parking payment service.",
+        "A payment card issuer or card network.",
+        "A government agency or public service.",
+        "A postal, parcel or delivery company.",
+        "A mobile, broadband or other telecom operator.",
+        "An email or webmail provider.",
+        "A cryptocurrency exchange or wallet service.",
+        "An online marketplace where others sell.",
+        "A shop or online store.",
+        "Anything else."
+      ],
+      "markdownEnumDescriptions": [
+        "A bank or other credit institution.",
+        "A service that relays strong electronic identification to other services.",
+        "A payment service, such as a payment app, payment processor or parking payment service.",
+        "A payment card issuer or card network.",
+        "A government agency or public service.",
+        "A postal, parcel or delivery company.",
+        "A mobile, broadband or other telecom operator.",
+        "An email or webmail provider.",
+        "A cryptocurrency exchange or wallet service.",
+        "An online marketplace where others sell.",
+        "A shop or online store.",
+        "Anything else."
+      ]
+    },
+    "domains": {
+      "minItems": 1,
+      "maxItems": 200,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "domain": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 253,
+            "description": "A registrable domain of the organisation, in lower case, without www, https:// or a path (for example esimerkkikauppa.example)."
+          },
+          "relationship": {
+            "description": "How the domain relates to the organisation. Default: owned.",
+            "type": "string",
+            "enum": [
+              "owned",
+              "authorized",
+              "associated"
+            ],
+            "enumDescriptions": [
+              "The organisation owns the domain and uses it itself.",
+              "Someone else runs the domain for the organisation, with its permission (for example a service provider).",
+              "Linked to the organisation but not its own. phish.fi does not treat it as the organisation's domain, and a reporting address cannot be on it."
+            ],
+            "markdownEnumDescriptions": [
+              "The organisation owns the domain and uses it itself.",
+              "Someone else runs the domain for the organisation, with its permission (for example a service provider).",
+              "Linked to the organisation but not its own. phish.fi does not treat it as the organisation's domain, and a reporting address cannot be on it."
+            ]
+          },
+          "evidence": {
+            "description": "Link (https://...) to a public page that proves this entry. For a domain: a page showing the domain belongs to the organisation. For a reporting address: a page of the organisation that shows this address and asks people to send scam reports there. Required. phish.fi opens the page after release and looks for the domain or address on it.",
+            "type": "string",
+            "maxLength": 2048,
+            "pattern": "^https?:\\/\\/[^\\s/]+\\S*$",
+            "patternErrorMessage": "Write the full web link, starting with https://, for example https://www.example.com/page."
+          },
+          "checked": {
+            "description": "The date you looked at the evidence page, written as YYYY-MM-DD. Needed once per page: when several entries cite the same page, write it on one of them.",
+            "type": "string",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$",
+            "patternErrorMessage": "Write the date as YYYY-MM-DD, for example 2026-11-12."
+          },
+          "says": {
+            "description": "What the evidence page shows, in a sentence of your own words (no email addresses). Needed once per page, like checked.",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 512
+          },
+          "evidenceKind": {
+            "description": "What kind of page the evidence is. Default: official_site. A reporting address can only use official_site or organisation_statement; official_register is for domains.",
+            "type": "string",
+            "enum": [
+              "official_site",
+              "official_register",
+              "organisation_statement"
+            ],
+            "enumDescriptions": [
+              "A page on the organisation's own website (the default).",
+              "An entry in an official register, such as a company register. For domains only; a reporting address cannot cite it.",
+              "A public statement the organisation publishes or endorses outside its own website."
+            ],
+            "markdownEnumDescriptions": [
+              "A page on the organisation's own website (the default).",
+              "An entry in an official register, such as a company register. For domains only; a reporting address cannot cite it.",
+              "A public statement the organisation publishes or endorses outside its own website."
+            ]
+          },
+          "source": {
+            "description": "Maintainer only: the id of a source declared in pack.yaml, used in place of evidence, checked and says.",
+            "type": "string",
+            "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+          }
+        },
+        "required": [
+          "domain"
+        ],
+        "additionalProperties": false,
+        "description": "One domain of the organisation and the evidence that it belongs to the organisation."
+      },
+      "description": "The organisation's own web domains, each with evidence. The first is the primary domain; a new organisation's file is named after it."
+    },
+    "aliases": {
+      "description": "Other names messages may use for the organisation. Write each as plain text, or as an object with value, kind, match and weight. The organisation's name is added automatically.",
+      "maxItems": 63,
+      "type": "array",
+      "items": {
+        "anyOf": [
+          {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "description": "Another name messages may use for the organisation."
+          },
+          {
+            "type": "object",
+            "properties": {
+              "value": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128,
+                "description": "Another name messages may use for the organisation."
+              },
+              "kind": {
+                "description": "What kind of name this is. Optional.",
+                "type": "string",
+                "enum": [
+                  "brand",
+                  "auth_product",
+                  "app",
+                  "service",
+                  "former_name"
+                ],
+                "enumDescriptions": [
+                  "A brand or trading name.",
+                  "The name of an identification or sign-in product.",
+                  "The name of a mobile or desktop app.",
+                  "The name of a service the organisation offers.",
+                  "A name the organisation used before."
+                ],
+                "markdownEnumDescriptions": [
+                  "A brand or trading name.",
+                  "The name of an identification or sign-in product.",
+                  "The name of a mobile or desktop app.",
+                  "The name of a service the organisation offers.",
+                  "A name the organisation used before."
+                ]
+              },
+              "match": {
+                "description": "How the name is matched. Default: token_exact.",
+                "type": "string",
+                "enum": [
+                  "token_exact",
+                  "token_stem"
+                ],
+                "enumDescriptions": [
+                  "The words of the name must appear exactly (the default).",
+                  "The last word of the name is a stem, so inflected forms also match (\"Kela\" matches \"Kelalta\"). The last word needs at least 4 characters."
+                ],
+                "markdownEnumDescriptions": [
+                  "The words of the name must appear exactly (the default).",
+                  "The last word of the name is a stem, so inflected forms also match (\"Kela\" matches \"Kelalta\"). The last word needs at least 4 characters."
+                ]
+              },
+              "weight": {
+                "description": "How strongly the name alone points to the organisation. Default: low for names of 4 characters or fewer, otherwise medium.",
+                "type": "string",
+                "enum": [
+                  "low",
+                  "medium",
+                  "high"
+                ],
+                "enumDescriptions": [
+                  "A weak hint: the name alone does not count as a sign that a message claims to be from the organisation. Use it for short or common names.",
+                  "A moderate hint: the name alone counts as a sign that a message claims to be from the organisation (the default for names longer than 4 characters).",
+                  "A strong hint. It is never the default; use it only for a long, unmistakable name."
+                ],
+                "markdownEnumDescriptions": [
+                  "A weak hint: the name alone does not count as a sign that a message claims to be from the organisation. Use it for short or common names.",
+                  "A moderate hint: the name alone counts as a sign that a message claims to be from the organisation (the default for names longer than 4 characters).",
+                  "A strong hint. It is never the default; use it only for a long, unmistakable name."
+                ]
+              }
+            },
+            "required": [
+              "value"
+            ],
+            "additionalProperties": false,
+            "description": "A name with matching options."
+          }
+        ],
+        "description": "Another name: plain text, or an object with value, kind, match and weight."
+      }
+    },
+    "reportTo": {
+      "description": "Email addresses where the organisation asks people to report phishing that imitates it. A new organisation needs at least one.",
+      "maxItems": 20,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "maxLength": 320,
+            "pattern": "^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$",
+            "description": "The reporting address exactly as the organisation's page shows it. It must be on one of the organisation's owned or authorized domains.",
+            "patternErrorMessage": "Write one email address, for example abuse@example.com."
+          },
+          "evidence": {
+            "description": "Link (https://...) to a public page that proves this entry. For a domain: a page showing the domain belongs to the organisation. For a reporting address: a page of the organisation that shows this address and asks people to send scam reports there. Required. phish.fi opens the page after release and looks for the domain or address on it.",
+            "type": "string",
+            "maxLength": 2048,
+            "pattern": "^https?:\\/\\/[^\\s/]+\\S*$",
+            "patternErrorMessage": "Write the full web link, starting with https://, for example https://www.example.com/page."
+          },
+          "checked": {
+            "description": "The date you looked at the evidence page, written as YYYY-MM-DD. Needed once per page: when several entries cite the same page, write it on one of them.",
+            "type": "string",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$",
+            "patternErrorMessage": "Write the date as YYYY-MM-DD, for example 2026-11-12."
+          },
+          "says": {
+            "description": "What the evidence page shows, in a sentence of your own words (no email addresses). Needed once per page, like checked.",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 512
+          },
+          "evidenceKind": {
+            "description": "What kind of page the evidence is. Default: official_site. A reporting address can only use official_site or organisation_statement; official_register is for domains.",
+            "type": "string",
+            "enum": [
+              "official_site",
+              "official_register",
+              "organisation_statement"
+            ],
+            "enumDescriptions": [
+              "A page on the organisation's own website (the default).",
+              "An entry in an official register, such as a company register. For domains only; a reporting address cannot cite it.",
+              "A public statement the organisation publishes or endorses outside its own website."
+            ],
+            "markdownEnumDescriptions": [
+              "A page on the organisation's own website (the default).",
+              "An entry in an official register, such as a company register. For domains only; a reporting address cannot cite it.",
+              "A public statement the organisation publishes or endorses outside its own website."
+            ]
+          },
+          "source": {
+            "description": "Maintainer only: the id of a source declared in pack.yaml, used in place of evidence, checked and says.",
+            "type": "string",
+            "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+          },
+          "threatCategories": {
+            "description": "What kinds of attack this address takes reports about. phish.fi sends a report here only when the report has one of these categories. Default: [phishing].",
+            "minItems": 1,
+            "maxItems": 32,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "phishing",
+                "credential_theft",
+                "credential_theft.online_banking",
+                "credential_theft.email_account",
+                "credential_theft.national_eid",
+                "authentication_abuse",
+                "authentication_abuse.code_theft",
+                "authentication_abuse.approval",
+                "payment_card_theft",
+                "personal_data_theft",
+                "brand_impersonation",
+                "payment_fraud",
+                "payment_fraud.invoice",
+                "payment_fraud.advance_fee",
+                "malware_delivery"
+              ],
+              "enumDescriptions": [
+                "The general category: tricking people into giving away credentials, codes, card details or personal data.",
+                "Stealing login credentials.",
+                "Stealing online banking credentials.",
+                "Stealing email account credentials.",
+                "Stealing national electronic identification credentials.",
+                "Misusing strong sign-in: getting the victim to hand over a one-time code or approve a sign-in.",
+                "Getting the victim to hand over a one-time or verification code.",
+                "Getting the victim to approve a sign-in or payment in an app.",
+                "Stealing payment card details.",
+                "Stealing personal data such as identity numbers or addresses.",
+                "Pretending to be the organisation, whatever the goal.",
+                "Tricking people into paying money.",
+                "Fake or altered invoices.",
+                "Asking for a small payment up front to release something larger.",
+                "Getting people to install malware or open a malicious file."
+              ],
+              "markdownEnumDescriptions": [
+                "The general category: tricking people into giving away credentials, codes, card details or personal data.",
+                "Stealing login credentials.",
+                "Stealing online banking credentials.",
+                "Stealing email account credentials.",
+                "Stealing national electronic identification credentials.",
+                "Misusing strong sign-in: getting the victim to hand over a one-time code or approve a sign-in.",
+                "Getting the victim to hand over a one-time or verification code.",
+                "Getting the victim to approve a sign-in or payment in an app.",
+                "Stealing payment card details.",
+                "Stealing personal data such as identity numbers or addresses.",
+                "Pretending to be the organisation, whatever the goal.",
+                "Tricking people into paying money.",
+                "Fake or altered invoices.",
+                "Asking for a small payment up front to release something larger.",
+                "Getting people to install malware or open a malicious file."
+              ]
+            }
+          },
+          "payload": {
+            "description": "Whether reports sent here include the original message. Default: structured_only.",
+            "type": "string",
+            "enum": [
+              "original_required",
+              "original_preferred",
+              "structured_only"
+            ],
+            "enumDescriptions": [
+              "Only send a report that includes the original message.",
+              "Include the original message when the reporter agrees; otherwise send the structured details.",
+              "Send only the structured details (sender, links, findings), never the original message."
+            ],
+            "markdownEnumDescriptions": [
+              "Only send a report that includes the original message.",
+              "Include the original message when the reporter agrees; otherwise send the structured details.",
+              "Send only the structured details (sender, links, findings), never the original message."
+            ]
+          },
+          "acceptsAutomatedReports": {
+            "description": "true when the organisation's page says it accepts reports sent by automated services. It is recorded with the address and does not by itself make phish.fi send anything automatically. Default: false.",
+            "type": "boolean"
+          },
+          "name": {
+            "description": "A display name for the address, shown to the person reporting. Default: \"<organisation name> phishing reports\".",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "localizedNames": {
+            "description": "Maintainer only: the display name in other languages, keyed by language code.",
+            "type": "object",
+            "propertyNames": {
+              "type": "string",
+              "pattern": "^[a-z]{2,3}(-[A-Za-z0-9]+)*$"
+            },
+            "additionalProperties": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            }
+          },
+          "publicSourceUrl": {
+            "description": "Maintainer only: the organisation's own https page that tells people to report to this address. Once the address is verified, phish.fi lists it publicly with a link to this page.",
+            "type": "string",
+            "maxLength": 2048,
+            "pattern": "^https?:\\/\\/[^\\s/]+\\S*$",
+            "patternErrorMessage": "Write the full web link, starting with https://, for example https://www.example.com/page."
+          },
+          "scope": {
+            "description": "Maintainer only: conditions that limit when this address is used.",
+            "type": "object",
+            "properties": {
+              "organisationRegionAny": {
+                "description": "Use the address only when the organisation's region is one of these countries.",
+                "minItems": 1,
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^[A-Z]{2}$"
+                }
+              },
+              "identificationSystemAny": {
+                "description": "Use the address only when one of these identification systems is involved.",
+                "minItems": 1,
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+                }
+              },
+              "resourceCctldAny": {
+                "description": "Use the address only when a link's country-code top-level domain is one of these.",
+                "minItems": 1,
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^[a-z]{2,63}$"
+                }
+              },
+              "hostingCountryAny": {
+                "description": "Use the address only when the phishing page is hosted in one of these countries.",
+                "minItems": 1,
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^[A-Z]{2}$"
+                }
+              },
+              "threatCategoryAny": {
+                "description": "Use the address only for these threat categories.",
+                "minItems": 1,
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "phishing",
+                    "credential_theft",
+                    "credential_theft.online_banking",
+                    "credential_theft.email_account",
+                    "credential_theft.national_eid",
+                    "authentication_abuse",
+                    "authentication_abuse.code_theft",
+                    "authentication_abuse.approval",
+                    "payment_card_theft",
+                    "personal_data_theft",
+                    "brand_impersonation",
+                    "payment_fraud",
+                    "payment_fraud.invoice",
+                    "payment_fraud.advance_fee",
+                    "malware_delivery"
+                  ],
+                  "enumDescriptions": [
+                    "The general category: tricking people into giving away credentials, codes, card details or personal data.",
+                    "Stealing login credentials.",
+                    "Stealing online banking credentials.",
+                    "Stealing email account credentials.",
+                    "Stealing national electronic identification credentials.",
+                    "Misusing strong sign-in: getting the victim to hand over a one-time code or approve a sign-in.",
+                    "Getting the victim to hand over a one-time or verification code.",
+                    "Getting the victim to approve a sign-in or payment in an app.",
+                    "Stealing payment card details.",
+                    "Stealing personal data such as identity numbers or addresses.",
+                    "Pretending to be the organisation, whatever the goal.",
+                    "Tricking people into paying money.",
+                    "Fake or altered invoices.",
+                    "Asking for a small payment up front to release something larger.",
+                    "Getting people to install malware or open a malicious file."
+                  ],
+                  "markdownEnumDescriptions": [
+                    "The general category: tricking people into giving away credentials, codes, card details or personal data.",
+                    "Stealing login credentials.",
+                    "Stealing online banking credentials.",
+                    "Stealing email account credentials.",
+                    "Stealing national electronic identification credentials.",
+                    "Misusing strong sign-in: getting the victim to hand over a one-time code or approve a sign-in.",
+                    "Getting the victim to hand over a one-time or verification code.",
+                    "Getting the victim to approve a sign-in or payment in an app.",
+                    "Stealing payment card details.",
+                    "Stealing personal data such as identity numbers or addresses.",
+                    "Pretending to be the organisation, whatever the goal.",
+                    "Tricking people into paying money.",
+                    "Fake or altered invoices.",
+                    "Asking for a small payment up front to release something larger.",
+                    "Getting people to install malware or open a malicious file."
+                  ]
+                }
+              }
+            },
+            "additionalProperties": false
+          },
+          "kind": {
+            "description": "Maintainer only: organisation (the default) for the organisation's own address, or national for a CERT or authority, which needs scope.",
+            "type": "string",
+            "enum": [
+              "organisation",
+              "national"
+            ],
+            "enumDescriptions": [
+              "The organisation's own address for reports about messages that imitate it (the default).",
+              "An address of a CERT or authority that takes reports about many organisations. It needs scope."
+            ],
+            "markdownEnumDescriptions": [
+              "The organisation's own address for reports about messages that imitate it (the default).",
+              "An address of a CERT or authority that takes reports about many organisations. It needs scope."
+            ]
+          },
+          "notes": {
+            "description": "Maintainer only: notes for reviewers.",
+            "type": "string",
+            "maxLength": 2000
+          },
+          "id": {
+            "description": "Maintainer only: keeps an existing destination id. Default: <organisation id>.<the address's local part>.",
+            "type": "string",
+            "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+          }
+        },
+        "required": [
+          "email"
+        ],
+        "additionalProperties": false,
+        "description": "An email address where the organisation asks people to report phishing that imitates it, and the evidence for it."
+      }
+    },
+    "threatCategories": {
+      "description": "Threat categories typical of attacks that imitate this organisation. Optional.",
+      "maxItems": 32,
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "phishing",
+          "credential_theft",
+          "credential_theft.online_banking",
+          "credential_theft.email_account",
+          "credential_theft.national_eid",
+          "authentication_abuse",
+          "authentication_abuse.code_theft",
+          "authentication_abuse.approval",
+          "payment_card_theft",
+          "personal_data_theft",
+          "brand_impersonation",
+          "payment_fraud",
+          "payment_fraud.invoice",
+          "payment_fraud.advance_fee",
+          "malware_delivery"
+        ],
+        "enumDescriptions": [
+          "The general category: tricking people into giving away credentials, codes, card details or personal data.",
+          "Stealing login credentials.",
+          "Stealing online banking credentials.",
+          "Stealing email account credentials.",
+          "Stealing national electronic identification credentials.",
+          "Misusing strong sign-in: getting the victim to hand over a one-time code or approve a sign-in.",
+          "Getting the victim to hand over a one-time or verification code.",
+          "Getting the victim to approve a sign-in or payment in an app.",
+          "Stealing payment card details.",
+          "Stealing personal data such as identity numbers or addresses.",
+          "Pretending to be the organisation, whatever the goal.",
+          "Tricking people into paying money.",
+          "Fake or altered invoices.",
+          "Asking for a small payment up front to release something larger.",
+          "Getting people to install malware or open a malicious file."
+        ],
+        "markdownEnumDescriptions": [
+          "The general category: tricking people into giving away credentials, codes, card details or personal data.",
+          "Stealing login credentials.",
+          "Stealing online banking credentials.",
+          "Stealing email account credentials.",
+          "Stealing national electronic identification credentials.",
+          "Misusing strong sign-in: getting the victim to hand over a one-time code or approve a sign-in.",
+          "Getting the victim to hand over a one-time or verification code.",
+          "Getting the victim to approve a sign-in or payment in an app.",
+          "Stealing payment card details.",
+          "Stealing personal data such as identity numbers or addresses.",
+          "Pretending to be the organisation, whatever the goal.",
+          "Tricking people into paying money.",
+          "Fake or altered invoices.",
+          "Asking for a small payment up front to release something larger.",
+          "Getting people to install malware or open a malicious file."
+        ]
+      }
+    },
+    "organisationType": {
+      "description": "Optional. The organisation's legal or institutional type. Descriptive only: it does not change matching or routing.",
+      "type": "string",
+      "enum": [
+        "private_company",
+        "listed_company",
+        "public_sector",
+        "non_profit",
+        "educational_institution",
+        "healthcare_provider",
+        "international_organisation",
+        "other"
+      ],
+      "enumDescriptions": [
+        "A privately owned company.",
+        "A company whose shares trade on a stock exchange.",
+        "A government body or other public authority.",
+        "A non-profit organisation, association or foundation.",
+        "A school, college or university.",
+        "A hospital, clinic or other provider of health care.",
+        "An organisation set up by several countries.",
+        "Anything else."
+      ],
+      "markdownEnumDescriptions": [
+        "A privately owned company.",
+        "A company whose shares trade on a stock exchange.",
+        "A government body or other public authority.",
+        "A non-profit organisation, association or foundation.",
+        "A school, college or university.",
+        "A hospital, clinic or other provider of health care.",
+        "An organisation set up by several countries.",
+        "Anything else."
+      ]
+    },
+    "sector": {
+      "description": "Optional. The organisation's main industry sector. Descriptive only: it does not change matching or routing.",
+      "type": "string",
+      "enum": [
+        "financial_services",
+        "healthcare_pharmaceuticals",
+        "energy_utilities",
+        "telecommunications",
+        "government_public_administration",
+        "education_research",
+        "transport_logistics",
+        "retail_ecommerce",
+        "technology_software",
+        "manufacturing_industry",
+        "media_entertainment",
+        "professional_services",
+        "other"
+      ],
+      "enumDescriptions": [
+        "Banks, insurance, payments and investment.",
+        "Health care and medicines.",
+        "Electricity, gas, heating, water and similar utilities.",
+        "Telephone, mobile and internet services.",
+        "Government and public administration.",
+        "Education and research.",
+        "Transport, postal, parcel and delivery services.",
+        "Shops and online stores.",
+        "Technology and software.",
+        "Manufacturing and industry.",
+        "Media and entertainment.",
+        "Consulting, legal, accounting and similar services.",
+        "Anything else."
+      ],
+      "markdownEnumDescriptions": [
+        "Banks, insurance, payments and investment.",
+        "Health care and medicines.",
+        "Electricity, gas, heating, water and similar utilities.",
+        "Telephone, mobile and internet services.",
+        "Government and public administration.",
+        "Education and research.",
+        "Transport, postal, parcel and delivery services.",
+        "Shops and online stores.",
+        "Technology and software.",
+        "Manufacturing and industry.",
+        "Media and entertainment.",
+        "Consulting, legal, accounting and similar services.",
+        "Anything else."
+      ]
+    },
+    "additionalSectors": {
+      "description": "Optional. Up to 4 further sectors, same values as sector. Needs sector. Descriptive only.",
+      "minItems": 1,
+      "maxItems": 4,
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "financial_services",
+          "healthcare_pharmaceuticals",
+          "energy_utilities",
+          "telecommunications",
+          "government_public_administration",
+          "education_research",
+          "transport_logistics",
+          "retail_ecommerce",
+          "technology_software",
+          "manufacturing_industry",
+          "media_entertainment",
+          "professional_services",
+          "other"
+        ],
+        "enumDescriptions": [
+          "Banks, insurance, payments and investment.",
+          "Health care and medicines.",
+          "Electricity, gas, heating, water and similar utilities.",
+          "Telephone, mobile and internet services.",
+          "Government and public administration.",
+          "Education and research.",
+          "Transport, postal, parcel and delivery services.",
+          "Shops and online stores.",
+          "Technology and software.",
+          "Manufacturing and industry.",
+          "Media and entertainment.",
+          "Consulting, legal, accounting and similar services.",
+          "Anything else."
+        ],
+        "markdownEnumDescriptions": [
+          "Banks, insurance, payments and investment.",
+          "Health care and medicines.",
+          "Electricity, gas, heating, water and similar utilities.",
+          "Telephone, mobile and internet services.",
+          "Government and public administration.",
+          "Education and research.",
+          "Transport, postal, parcel and delivery services.",
+          "Shops and online stores.",
+          "Technology and software.",
+          "Manufacturing and industry.",
+          "Media and entertainment.",
+          "Consulting, legal, accounting and similar services.",
+          "Anything else."
+        ]
+      }
+    },
+    "communicationPolicy": {
+      "description": "Maintainer only: what the organisation's emails never contain, from its published policy.",
+      "type": "object",
+      "properties": {
+        "channel": {
+          "type": "string",
+          "const": "email",
+          "description": "The channel the policy covers: email."
+        },
+        "neverContains": {
+          "minItems": 1,
+          "maxItems": 8,
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "link_login",
+              "link_identify",
+              "link_payment",
+              "link_credential_update",
+              "link_document_view",
+              "link_public_information",
+              "link_unsubscribe",
+              "link_unknown"
+            ],
+            "enumDescriptions": [
+              "A link to a sign-in page.",
+              "A link that asks the person to identify themselves strongly, for example with online banking codes.",
+              "A link to a payment page.",
+              "A link to a page for updating credentials or account details.",
+              "A link to view a document.",
+              "A link to public information.",
+              "A link to unsubscribe.",
+              "A link whose purpose is not known."
+            ],
+            "markdownEnumDescriptions": [
+              "A link to a sign-in page.",
+              "A link that asks the person to identify themselves strongly, for example with online banking codes.",
+              "A link to a payment page.",
+              "A link to a page for updating credentials or account details.",
+              "A link to view a document.",
+              "A link to public information.",
+              "A link to unsubscribe.",
+              "A link whose purpose is not known."
+            ]
+          },
+          "description": "Kinds of link the organisation's messages never contain, as its published policy states."
+        },
+        "source": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$",
+          "description": "The id of the source in pack.yaml that documents the policy."
+        }
+      },
+      "required": [
+        "channel",
+        "neverContains",
+        "source"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "name",
+    "category",
+    "domains"
+  ],
+  "additionalProperties": false
+}

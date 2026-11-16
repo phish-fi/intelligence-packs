@@ -47,9 +47,10 @@ who can.
 1. **Fork** this repository and create a branch.
 2. **Write one file**, `<cc>/organisations/<primary-domain>.yaml`, for
    example `fi/organisations/verkkokauppa.com.yaml`. Start from
-   [the example](examples/contribution/fi/organisations/esimerkkikauppa.example.yaml).
-   To fix an organisation that is already listed, edit its existing entry
-   wherever it is instead.
+   [the example](examples/contribution/fi/organisations/esimerkkikauppa.example.yaml)
+   and see [How to write the file](#how-to-write-the-file) below.
+   To fix an organisation that is already listed, edit its existing file (or
+   its entry in an older file that groups several organisations) instead.
 3. **Check it locally** (Node.js 20 or newer, nothing to install):
 
    ```sh
@@ -71,45 +72,233 @@ The country pack must already exist. To start a pack for a new country, open
 an issue first: a new pack needs its languages, consent wording and a
 maintainer.
 
-## What a contribution file contains
+## How to write the file
 
-Exactly three sections, nothing else:
+One file describes one organisation. The **file name is the organisation's
+primary domain** (its main website): lower case, without `https://`, path or
+trailing slash, for example `verkkokauppa.com.yaml`. You never invent an id.
+Ids never change after publication.
 
-| Section | Contents |
+Next to each domain and each reporting address you write the **evidence**: the
+public page that shows it. Here is a complete file, made up on the reserved
+`.example` domain:
+
+```yaml
+name: Esimerkkikauppa
+category: retail
+domains:
+  - domain: esimerkkikauppa.example          # the first domain is the primary one
+    evidence: https://www.esimerkkikauppa.example/
+    checked: 2026-11-12
+    says: Esimerkkikauppa's own website
+aliases:
+  - Esimerkkikauppa Oy
+reportTo:
+  - email: abuse@esimerkkikauppa.example
+    evidence: https://www.esimerkkikauppa.example/turvallisuus/huijaukset
+    checked: 2026-11-12
+    says: Security page asks customers to report scams to this address
+```
+
+The same file with comments is in
+[the example](examples/contribution/fi/organisations/esimerkkikauppa.example.yaml).
+
+**Editor help.** Open this folder in VS Code and install the YAML extension it
+recommends (`redhat.vscode-yaml`). While you edit a file in
+`<cc>/organisations/`, hover over a key to read what it means, and press
+Ctrl+Space to see the allowed values with their meanings. Mistakes are
+underlined as you type.
+Every field and value is also listed in the generated
+[organisation file reference](docs/organisation-file.md).
+
+Your file may contain only the keys explained below, plus the optional
+organisation keys `threatCategories`, `organisationType`, `sector` and
+`additionalSectors`, which are described only in the
+[organisation file reference](docs/organisation-file.md). Anything else is
+reported as an error that lists the allowed keys. Existing files may also hold
+a few keys that the maintainer sets (for example `publicSourceUrl` or
+`notes`); when you correct a file, leave those as they are.
+
+### `name` and `category` (required)
+
+`name` is the organisation's usual name, as customers know it.
+
+#### Categories
+
+`category` says what kind of organisation it is. phish.fi groups organisations
+by it; it does not change which names or domains match. Pick the closest one:
+
+| Value | Meaning |
 | --- | --- |
-| `organisations` | Exactly one entry: id, name, category, domains, aliases, threat categories |
-| `destinations` | That organisation's reporting addresses |
-| `sources` | The public pages the entries above cite |
+| `bank` | A bank or other credit institution. |
+| `identification_broker` | A service that relays strong electronic identification to other services. |
+| `payment_provider` | A payment service, such as a payment app, payment processor or parking payment service. |
+| `card_issuer` | A payment card issuer or card network. |
+| `government_service` | A government agency or public service. |
+| `logistics` | A postal, parcel or delivery company. |
+| `telecom` | A mobile, broadband or other telecom operator. |
+| `email_provider` | An email or webmail provider. |
+| `crypto_service` | A cryptocurrency exchange or wallet service. |
+| `marketplace` | An online marketplace where others sell. |
+| `retail` | A shop or online store. |
+| `other` | Anything else. |
 
-Categories are `bank`, `identification_broker`, `payment_provider`,
-`card_issuer`, `government_service`, `logistics`, `telecom`, `email_provider`,
-`crypto_service`, `marketplace`, `retail` and `other`. Every field is
-described in the [format reference](docs/pack-format.md).
+### `domains` (required, at least one)
+
+The domains the organisation really uses. The first one is the primary domain
+and must match the file name. Use registrable domains only (`kela.fi`, not
+`asiointi.kela.fi`); subdomains are covered automatically. Each entry needs
+`domain` and its evidence (see [Evidence](#evidence)). It may also have a
+`relationship`:
+
+| Value | Meaning |
+| --- | --- |
+| `owned` | The organisation owns the domain and uses it itself. |
+| `authorized` | Someone else runs the domain for the organisation, with its permission (for example a service provider). |
+| `associated` | Linked to the organisation but not its own. phish.fi does not treat it as the organisation's domain, and a reporting address cannot be on it. |
+
+The primary domain must be `owned`.
+
+### `aliases` (optional)
+
+Other names people and scammers use for the organisation: brands, app names,
+login service names. The organisation's `name` is added automatically, so do
+not repeat it. Phish.fi looks for these names in the sender name and subject
+of a reported message. An alias is usually just text:
+
+```yaml
+aliases:
+  - Esimerkkikauppa Oy
+  - value: Esimerkki
+    match: token_stem
+    weight: low
+    kind: app
+```
+
+Besides `value`, an alias has three optional keys: `match`, `weight` and `kind`.
+Leave them out unless you have a reason.
+
+`match` (default `token_exact`):
+
+| Value | Meaning |
+| --- | --- |
+| `token_exact` | The words of the name must appear exactly (the default). |
+| `token_stem` | The last word of the name is a stem, so inflected forms also match ("Kela" matches "Kelalta"). The last word needs at least 4 characters. |
+
+`weight` (default `low` for names of 4 characters or fewer, otherwise
+`medium`). The checker warns if a name of 3 characters or fewer is not `low`:
+
+| Value | Meaning |
+| --- | --- |
+| `low` | A weak hint: the name alone does not count as a sign that a message claims to be from the organisation. Use it for short or common names. |
+| `medium` | A moderate hint: the name alone counts as a sign that a message claims to be from the organisation (the default for names longer than 4 characters). |
+| `high` | A strong hint. It is never the default; use it only for a long, unmistakable name. |
+
+`kind` (no default):
+
+| Value | Meaning |
+| --- | --- |
+| `brand` | A brand or trading name. |
+| `auth_product` | The name of an identification or sign-in product. |
+| `app` | The name of a mobile or desktop app. |
+| `service` | The name of a service the organisation offers. |
+| `former_name` | A name the organisation used before. |
+
+### `reportTo` (required for a new organisation)
+
+Where phishing reports for this organisation should go. Each entry is one
+mailbox on one of the organisation's own domains, with evidence that the
+organisation publishes it for this purpose.
+
+| Key | Required | Default | Meaning |
+| --- | --- | --- | --- |
+| `email` | yes | | The address. It must be on an `owned` or `authorized` domain of the organisation. |
+| `payload` | no | `structured_only` | What phish.fi sends to this address; the three values are explained below. Keep the default unless the organisation's page asks for the original message. |
+| `acceptsAutomatedReports` | no | `false` | `true` only if the cited page explicitly welcomes automated or third-party reports. |
+| `threatCategories` | no | `[phishing]` | The kinds of scam the organisation wants at this address. List others only if the page says so. |
+| `name` | no | `<name> phishing reports` | A label for the address. |
+
+Phish.fi shows the `name` on the consent page where a person agrees to share a
+report, so keep it plain.
+
+`payload`:
+
+| Value | Meaning |
+| --- | --- |
+| `original_required` | Only send a report that includes the original message. |
+| `original_preferred` | Include the original message when the reporter agrees; otherwise send the structured details. |
+| `structured_only` | Send only the structured details (sender, links, findings), never the original message. |
+
+#### Threat categories
+
+The allowed values are:
+
+| Value | Meaning |
+| --- | --- |
+| `phishing` | The general category: tricking people into giving away credentials, codes, card details or personal data. |
+| `credential_theft` | Stealing login credentials. |
+| `credential_theft.online_banking` | Stealing online banking credentials. |
+| `credential_theft.email_account` | Stealing email account credentials. |
+| `credential_theft.national_eid` | Stealing national electronic identification credentials. |
+| `authentication_abuse` | Misusing strong sign-in: getting the victim to hand over a one-time code or approve a sign-in. |
+| `authentication_abuse.code_theft` | Getting the victim to hand over a one-time or verification code. |
+| `authentication_abuse.approval` | Getting the victim to approve a sign-in or payment in an app. |
+| `payment_card_theft` | Stealing payment card details. |
+| `personal_data_theft` | Stealing personal data such as identity numbers or addresses. |
+| `brand_impersonation` | Pretending to be the organisation, whatever the goal. |
+| `payment_fraud` | Tricking people into paying money. |
+| `payment_fraud.invoice` | Fake or altered invoices. |
+| `payment_fraud.advance_fee` | Asking for a small payment up front to release something larger. |
+| `malware_delivery` | Getting people to install malware or open a malicious file. |
+
+### Evidence
+
+Every `domains` and `reportTo` entry carries its own proof:
+
+| Key | Required | Meaning |
+| --- | --- | --- |
+| `evidence` | yes | The full link to the public page. Open it without logging in. |
+| `checked` | yes | The day you opened that page, as `YYYY-MM-DD`. |
+| `says` | yes | One line saying what the page shows, so the reviewer knows what to look for. Do not put email addresses here. |
+| `evidenceKind` | no | What kind of page it is, from the table below. Default `official_site`. |
+
+`evidenceKind`:
+
+| Value | Meaning |
+| --- | --- |
+| `official_site` | A page on the organisation's own website (the default). |
+| `official_register` | An entry in an official register, such as a company register. For domains only; a reporting address cannot cite it. |
+| `organisation_statement` | A public statement the organisation publishes or endorses outside its own website. |
+
+If two entries use the same page, write `checked` and `says` once and give the
+second only `evidence: <same link>`. If the repeated entry gives a different
+`checked` or `says`, the check reports an error naming both lines.
+
+Domain evidence and address evidence are separate pages, see the rules below.
 
 ## Inclusion rules
 
 The **Contribution rules** check enforces these:
 
-- **The id is the organisation's primary domain**: lower case, without scheme,
-  path or trailing slash (`verkkokauppa.com`), and listed as an `owned` domain.
-  Ids never change after publication.
+- **The primary domain is the first domain and the file name**, and is listed
+  as an `owned` domain. A new organisation's file name must be that domain.
 - **Every further domain cites its own authoritative source**: the
   organisation's site, an official register, or a statement by the
   organisation. Redirects, shared branding and search results are not
   evidence. Use registrable domains only (`kela.fi`, not `asiointi.kela.fi`);
   subdomains are covered automatically.
 - **At least one reporting address that the organisation documents on a page
-  it publishes or endorses**, cited as that page (`official_site` or
-  `organisation_statement`, with its URL). A reporting portal on another domain
+  it publishes or endorses**, cited as that page's `evidence` (with
+  `evidenceKind` `official_site` or `organisation_statement`). A reporting portal on another domain
   that the organisation's site links to is accepted with a review warning.
   Guessed addresses, search snippets and third-party directories don't count.
 - **Role addresses** (`abuse@`, `phishing@`, `security@`) are fine. A general
   mailbox (`info@`, `contact@`, `asiakaspalvelu@`, …) is accepted only when
-  the cited page asks for phishing or abuse reports there, and the source's
-  `supports` text says so.
+  the cited page asks for phishing or abuse reports there, and your `says`
+  text says so.
 - **Domain evidence and address evidence are separate.** A domain never cites
   the page given for a reporting address.
-- **No personal data.** Email addresses appear only in `destinations`; no
+- **No personal data.** Email addresses appear only in `reportTo`; no
   names of people, no phone numbers, no message samples.
 - **Only the maintainer changes** `pack.yaml`, the `global` pack, indicators
   and other detection rules, and anything outside the country packs. A pull

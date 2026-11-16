@@ -1,4 +1,4 @@
-# Whole-message test cases, run by npm run packs:test as if every claim were
+# Whole-message test cases, evaluated as if every claim were
 # verified and every matcher enabled. Synthetic only: reserved example
 # domains, no real messages, no personal data.
 cases:

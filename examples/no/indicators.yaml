@@ -15,7 +15,7 @@ indicators:
     expectedMatching: "Requests to confirm or verify NordID, in any inflection."
     falsePositiveRisks: "Real bank mail asks to confirm payments with NordID."
     sources: [cert-advisory-2026-09]
-    tests:                             # examples the analyzer must (not) match; run by npm run packs:test
+    tests:                             # examples the indicator must (not) match
       match: ["Du må bekrefte NordID-en din innen i dag", "Verifiser NordID for å unngå sperring"]
       noMatch: ["Betalingen er godkjent med NordID"]
 

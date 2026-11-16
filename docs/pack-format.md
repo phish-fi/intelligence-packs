@@ -1,8 +1,10 @@
 # Pack format reference (`phish.fi-pack/2`)
 
-The reference for writing and reviewing pack files. For how to send a change,
-see [CONTRIBUTING.md](../CONTRIBUTING.md); for the repository layout, see the
-[README](../README.md). The [JSON Schema](../schema/pack.v2.schema.json) gives
+The reference for the pack format as a whole, mainly for maintainers and
+reviewers. For how to send a change, see [CONTRIBUTING.md](../CONTRIBUTING.md);
+for the fields of an organisation file, see
+[organisation-file.md](organisation-file.md); for the repository layout, see
+the [README](../README.md). The [JSON Schema](../schema/pack.v2.schema.json) gives
 editors completion and basic validation for pack files (add
 `# yaml-language-server: $schema=../../schema/pack.v2.schema.json` at the top
 of a file, adjusting the path); the full rules are in the checker
@@ -28,6 +30,26 @@ keys are errors.
 - `extends: <organisation id>` adds this country's profile (domains,
   aliases, policy) to an organisation defined elsewhere, usually `global`.
 
+## The simple organisation file
+
+Contributors write one organisation as a short file,
+`<cc>/organisations/<id>.yaml`, where the file name is the organisation's id
+(for a new organisation, its primary domain). Evidence (`evidence`, `checked`,
+`says`) sits next to each domain and each `reportTo` address instead of in
+separate `sources` and `destinations` sections. The toolchain expands the file
+into the long form described in the rest of this page: each evidence entry
+becomes a `sources` entry with a generated id, and each `reportTo` entry
+becomes a `destinations` entry, with defaults filled in. All checks run on the
+expanded result, and errors point at the line of the original file.
+
+A file directly in `organisations/` that has none of the long-form section keys
+(`organisations`, `destinations`, `sources`, and so on) is read as a simple
+file. The long form stays valid for maintainers and for older grouped files.
+
+Every key and allowed value is in the generated
+[organisation file reference](organisation-file.md); the contributor guide is
+[CONTRIBUTING.md](../CONTRIBUTING.md#how-to-write-the-file).
+
 ## What the platform trusts
 
 | Claim | Trusted when | Until then |
@@ -44,8 +66,9 @@ keys are errors.
   only.
 - Aliases decide attribution. A `medium` or `high` alias in the display name
   or subject is a sender claim; anywhere else only a mention. `low` aliases
-  never claim. Short or common words (≤ 4 characters, "Tori") must be `low`;
-  that is the default for them.
+  never claim. Short or common words ("Tori") should be `low`: the weight
+  defaults to `low` for aliases of 4 characters or fewer, and the checker warns
+  when an alias of 3 characters or fewer has any other weight.
 - `match: token_exact` (default) matches every word exactly;
   `match: token_stem` treats the last word as a stem ("Kela" also matches
   "Kelan"); the stemmed word needs at least 4 characters. Stems do not cover
@@ -54,8 +77,9 @@ keys are errors.
   so "Suomi.fi" does not match "Suomi.fi-tunnistuksella". Add the compound as
   its own alias with `token_stem`.
 - `communicationPolicy.neverContains` lists the links an organisation never
-  emails (`link_login`, `link_identify`, `link_payment`,
-  `link_credential_update`). A message claiming to be from it with such a
+  emails. The allowed values are `link_login`, `link_identify`, `link_payment`,
+  `link_credential_update`, `link_document_view`, `link_public_information`,
+  `link_unsubscribe` and `link_unknown`. A message claiming to be from it with such a
   link is a policy violation.
 
 ## Indicators

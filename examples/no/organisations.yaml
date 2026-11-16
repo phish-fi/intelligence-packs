@@ -1,10 +1,10 @@
 # Organisations scammers impersonate. An entry with `id` defines a new
 # organisation; an entry with `extends` adds this country's profile to one
-# defined in another pack (usually packs/global).
+# defined in another pack (usually `global/`).
 organisations:
   - id: nordbank                       # global, region-neutral id; never reused
     name: Nordbank
-    category: bank                     # see the category list; the pack's sectors are derived from it
+    category: bank                     # one of 12 values, listed in CONTRIBUTING.md#categories; the pack's sectors are derived from it
     wikidata: Q99999991                # optional: independent anchor for domain ownership
     domains:                           # registrable domains only; subdomains are covered
       - { domain: nordbank.example, relationship: owned, source: nordbank-security }
@@ -47,6 +47,6 @@ organisations:
     aliases:
       - value: CERT Norway
 
-  - extends: paypal                    # defined in packs/global; no name or category here
+  - extends: paypal                    # defined in global/; no name or category here
     aliases:
       - { value: PayPal Norge, weight: high }
