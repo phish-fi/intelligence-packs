@@ -1,0 +1,23 @@
+# The source ids below are declared in ../pack.yaml.
+name: Elisa
+category: telecom
+domains:
+  - domain: elisa.fi
+    source: site-elisa
+  - domain: elisa.com
+    source: site-elisa-com
+  - domain: elisa.ee
+    source: site-elisa-ee
+  - domain: elisaviihde.fi
+    source: site-elisaviihde-fi
+aliases:
+  - value: Elisa
+    match: token_stem
+  - value: OmaElisa
+    match: token_stem
+  - Elisa Viihde
+  - Elisa Oyj
+threatCategories:
+  - payment_card_theft
+  - credential_theft.email_account
+  - personal_data_theft

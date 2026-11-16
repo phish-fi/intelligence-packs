@@ -1,0 +1,44 @@
+# The source ids below are declared in ../pack.yaml.
+name: Oma Säästöpankki
+category: bank
+domains:
+  - domain: omasp.fi
+    source: site-omasp
+aliases:
+  - value: Oma Säästöpankki
+    match: token_stem
+  - OmaSp
+threatCategories:
+  - credential_theft.online_banking
+  - authentication_abuse.code_theft
+  - authentication_abuse.approval
+communicationPolicy:
+  channel: email
+  neverContains:
+    - link_login
+    - link_identify
+    - link_payment
+    - link_credential_update
+  source: owner-2026-10-28
+reportTo:
+  - email: huijaushavainnot@omasp.fi
+    id: oma_saastopankki.phishing_report_fi
+    source: omasp-scam-report
+    localizedNames:
+      fi: Oma Säästöpankin huijaushavainnot
+      sv: Oma Säästöpankkis bedrägerirapporter
+    payload: original_required
+    acceptsAutomatedReports: true
+    threatCategories:
+      - phishing
+      - brand_impersonation
+      - credential_theft
+      - credential_theft.online_banking
+      - authentication_abuse
+      - authentication_abuse.code_theft
+      - authentication_abuse.approval
+      - payment_card_theft
+    publicSourceUrl: https://www.omasp.fi/asioinnin-tueksi/turvallinen-asiointi/tietoturva-ja-huijaukset
+    scope:
+      identificationSystemAny:
+        - fi.bank_eid

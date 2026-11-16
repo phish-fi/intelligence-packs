@@ -1,0 +1,28 @@
+# The source ids below are declared in ../pack.yaml.
+name: EasyPark
+category: payment_provider
+domains:
+  - domain: easypark.com
+    source: site-easypark
+  - domain: easypark.fi
+    source: site-easypark-fi
+  - domain: easypark.net
+    source: easypark-scam-report
+aliases:
+  - value: EasyPark
+    match: token_stem
+  - Easy Park
+threatCategories:
+  - payment_card_theft
+reportTo:
+  - email: info@easypark.net
+    id: easypark.phishing_report
+    source: easypark-scam-report
+    payload: original_preferred
+    acceptsAutomatedReports: true
+    threatCategories:
+      - phishing
+      - brand_impersonation
+      - payment_card_theft
+      - payment_fraud
+    publicSourceUrl: https://www.easypark.com/en-dk/how-to-spot-a-scam

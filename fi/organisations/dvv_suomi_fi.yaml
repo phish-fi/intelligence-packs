@@ -1,0 +1,20 @@
+# Long form on purpose: the name is deliberately not one of its aliases, and a simple file would add it as one.
+organisations:
+  - id: dvv_suomi_fi
+    name: Suomi.fi-tunnistus (DVV)
+    category: identification_broker
+    domains:
+      - domain: suomi.fi
+        relationship: owned
+        source: site-suomi-fi
+    aliases:
+      - value: Suomi.fi
+      - value: Suomi.fi-tunnistus
+        match: token_stem
+      - value: Suomi.fi-tunnistautuminen
+        match: token_stem
+      - value: Suomi.fi-palvelut
+        match: token_stem
+    threatCategories:
+      - credential_theft.online_banking
+      - credential_theft.national_eid
