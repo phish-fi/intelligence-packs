@@ -267,3 +267,23 @@ sources:
     kind: maintainer_attestation
     retrieved: 2026-10-28
     supports: "Owner confirmation: the four huijaushavainnot@ bank addresses accept citizen and automated reports with evidence, and the banks share these reports with each other"
+  - id: op-scam-report
+    kind: official_site
+    url: https://www.op.fi/henkiloasiakkaat/asiakkuus/turvallisuus/nain-toimit-huijaustilanteissa
+    retrieved: 2026-11-16
+    supports: "OP's own scam guidance page: tells people to forward phishing emails to OP's huijaushavainnot address"
+  - id: nordea-scam-report
+    kind: official_site
+    url: https://www.nordea.fi/henkiloasiakkaat/sinun-elamasi/turvallisuus/
+    retrieved: 2026-11-16
+    supports: "Nordea Finland's own security page, section Raportoi huijausyrityksestä: tells people to forward suspicious messages to Nordea's huijaushavainnot address"
+  - id: s-pankki-scam-report
+    kind: official_site
+    url: https://www.s-pankki.fi/fi/turvallisuus-s-pankissa/turvallinen-pankkiasiointi/
+    retrieved: 2026-11-16
+    supports: "S-Pankki's own safe banking page, section Turvallisuushavainnoista ilmoittaminen: tells people to forward phishing messages to S-Pankki's huijaushavainnot address"
+  - id: omasp-scam-report
+    kind: official_site
+    url: https://www.omasp.fi/asioinnin-tueksi/turvallinen-asiointi/tietoturva-ja-huijaukset
+    retrieved: 2026-11-16
+    supports: "Oma Säästöpankki's own security and scams page, section Näin toimit huijaustilanteessa: tells people to email scam messages to its huijaushavainnot address (shown spam-protected)"
