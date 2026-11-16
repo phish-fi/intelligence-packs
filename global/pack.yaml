@@ -12,3 +12,78 @@ sources:
     kind: maintainer_attestation
     retrieved: 2026-10-20
     supports: Operator verification against official brand sites
+  - id: site-amazon-com
+    kind: official_site
+    url: https://www.amazon.com/
+    retrieved: 2026-11-16
+    supports: Amazon official site
+  - id: site-apple-com
+    kind: official_site
+    url: https://www.apple.com/
+    retrieved: 2026-11-16
+    supports: Apple official site
+  - id: site-binance-com
+    kind: official_site
+    url: https://www.binance.com/
+    retrieved: 2026-11-16
+    supports: Binance official site
+  - id: site-binance-us
+    kind: official_site
+    url: https://www.binance.us/
+    retrieved: 2026-11-16
+    supports: Binance.US official site
+  - id: site-coinbase-com
+    kind: official_site
+    url: https://www.coinbase.com/
+    retrieved: 2026-11-16
+    supports: Coinbase official site
+  - id: site-dhl-com
+    kind: official_site
+    url: https://careers.dhl.com/
+    retrieved: 2026-11-16
+    supports: DHL careers site on dhl.com (www.dhl.com does not answer automated requests)
+  - id: site-google-com
+    kind: official_site
+    url: https://www.google.com/
+    retrieved: 2026-11-16
+    supports: Google official site
+  - id: site-metamask-io
+    kind: official_site
+    url: https://metamask.io/
+    retrieved: 2026-11-16
+    supports: MetaMask's earlier address, which redirects to metamask.com
+  - id: site-microsoft-com
+    kind: official_site
+    url: https://www.microsoft.com/
+    retrieved: 2026-11-16
+    supports: Microsoft official site
+  - id: site-netflix-com
+    kind: official_site
+    url: https://www.netflix.com/
+    retrieved: 2026-11-16
+    supports: Netflix official site
+  - id: site-paypal-com
+    kind: official_site
+    url: https://www.paypal.com/
+    retrieved: 2026-11-16
+    supports: PayPal official site
+  - id: site-santander-com
+    kind: official_site
+    url: https://www.santander.com/
+    retrieved: 2026-11-16
+    supports: Santander group official site
+  - id: site-santander-com-ar
+    kind: official_site
+    url: https://www.santander.com/en/home
+    retrieved: 2026-11-16
+    supports: Santander group site, which links to its Argentine bank at santander.com.ar
+  - id: site-trustwallet-com
+    kind: official_site
+    url: https://trustwallet.com/
+    retrieved: 2026-11-16
+    supports: Trust Wallet official site
+  - id: site-metamask-com
+    kind: official_site
+    url: https://metamask.com/
+    retrieved: 2026-11-16
+    supports: MetaMask official site (metamask.io redirects here)

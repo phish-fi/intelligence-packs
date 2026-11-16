@@ -2,7 +2,9 @@
 name: MetaMask
 category: crypto_service
 domains:
+  - domain: metamask.com
+    source: site-metamask-com
   - domain: metamask.io
-    source: internal-operator-review
+    source: site-metamask-io
 aliases:
   - metamask

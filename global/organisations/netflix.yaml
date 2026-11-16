@@ -3,6 +3,6 @@ name: Netflix
 category: other
 domains:
   - domain: netflix.com
-    source: internal-operator-review
+    source: site-netflix-com
 aliases:
   - netflix

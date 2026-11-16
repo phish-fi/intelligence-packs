@@ -54,7 +54,7 @@ Every key and allowed value is in the generated
 
 | Claim | Trusted when | Until then |
 | --- | --- | --- |
-| A domain is the organisation's own | Wikidata lists it as the official website of an item with the organisation's name, an official register lists it, or an anchored sibling domain's page links to it; and it is older than 180 days | Neutral: not ownership evidence, not a lookalike of that organisation |
+| A domain is the organisation's own | The pack cites the organisation's own official site on that domain and the site answers, an official register lists it, or an anchored sibling domain's page links to it; and it is not known to be younger than 180 days | Neutral: not ownership evidence, not a lookalike of that organisation |
 | A report address | Published on the organisation's anchored site, on an anchored domain, with MX records | Exists, never routed |
 | A shared-intake group | A public source on a member organisation's anchored site | Members are routed independently |
 | An indicator or hint | Its promotion gate passed (admin, with a gate record) | Shadow: recorded, never a reason |

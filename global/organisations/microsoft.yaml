@@ -3,6 +3,6 @@ name: Microsoft
 category: email_provider
 domains:
   - domain: microsoft.com
-    source: internal-operator-review
+    source: site-microsoft-com
 aliases:
   - microsoft
