@@ -43,6 +43,9 @@ organisations:
       - domain: easypark.fi
         relationship: owned
         source: site-easypark-fi
+      - domain: easypark.net
+        relationship: owned
+        source: easypark-scam-report
     aliases:
       - value: EasyPark
         match: token_stem

@@ -233,6 +233,11 @@ sources:
     url: https://www.easypark.fi/
     retrieved: 2026-10-31
     supports: EasyPark official site (easypark.fi)
+  - id: easypark-scam-report
+    kind: official_site
+    url: https://www.easypark.com/en-dk/how-to-spot-a-scam
+    retrieved: 2026-11-16
+    supports: "EasyPark's own scam guidance page: asks people to send a screenshot of a suspicious email to its info address, and names easypark.net as its genuine sender domain"
   - id: site-elisa
     kind: official_site
     url: https://elisa.fi/
