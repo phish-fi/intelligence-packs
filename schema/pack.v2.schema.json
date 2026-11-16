@@ -1568,6 +1568,11 @@
                 "type": "string",
                 "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
               },
+              "publicSourceUrl": {
+                "type": "string",
+                "maxLength": 2048,
+                "format": "uri"
+              },
               "acceptsAutomatedReports": {
                 "type": "boolean"
               },
@@ -3394,6 +3399,11 @@
               "source": {
                 "type": "string",
                 "pattern": "^[a-z0-9][a-z0-9_.-]{1,95}$"
+              },
+              "publicSourceUrl": {
+                "type": "string",
+                "maxLength": 2048,
+                "format": "uri"
               },
               "acceptsAutomatedReports": {
                 "type": "boolean"
