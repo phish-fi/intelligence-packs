@@ -28764,6 +28764,7 @@ var DEFAULT_REPORT_TO = {
   acceptsAutomatedReports: false,
   kind: "organisation"
 };
+var DESTINATION_NAME_MAX = 128;
 var text2 = (max) => external_exports.string().trim().min(1).max(max);
 var evidenceFields = {
   evidence: external_exports.url({ protocol: /^https?$/ }).max(2048).optional().describe(
@@ -28815,7 +28816,8 @@ var reportToEntrySchema = external_exports.object({
   id: idSchema.optional().describe("Maintainer only: keeps an existing destination id. Default: <organisation id>.<the address's local part>.")
 }).strict().describe("An email address where the organisation asks people to report phishing that imitates it, and the evidence for it.");
 var simpleOrganisationSchema = external_exports.object({
-  name: text2(256).describe("The organisation's name as people know it. It is also matched as a name in messages."),
+  // At most 128, not the long form's 256: the name is also an alias, and aliases are limited to 128.
+  name: text2(128).describe("The organisation's name as people know it. It is also matched as a name in messages."),
   category: external_exports.enum(ORGANISATION_CATEGORIES).describe("What kind of organisation this is. phish.fi groups organisations by it (it sets the organisation's sector); it does not change which names or domains match."),
   domains: external_exports.array(domainEntrySchema).min(1).max(200).describe("The organisation's own web domains, each with evidence. The first is the primary domain; a new organisation's file is named after it."),
   aliases: external_exports.array(aliasEntrySchema).max(LIMITS.aliasesPerOrganisation - 1).optional().describe("Other names messages may use for the organisation. Write each as plain text, or as an object with value, kind, match and weight. The organisation's name is added automatically."),
@@ -28956,11 +28958,19 @@ function expandSimpleOrganisation(organisationId, data) {
     paths.set(`${at}.source`, ["reportTo", index, reportEvidence[index].field]);
     if (entry.id !== void 0) migrationKeys.push({ key: "id", path: ["reportTo", index, "id"], value: entry.id, destination: id2 });
     if (entry.source !== void 0) migrationKeys.push({ key: "source", path: ["reportTo", index, "source"], value: entry.source, destination: id2 });
+    const defaultName = `${data.name} phishing reports`;
+    if (entry.name === void 0 && defaultName.length > DESTINATION_NAME_MAX) {
+      issues.push({
+        code: "destination_name_too_long",
+        message: `reportTo.${index}.name is needed here: the default name "${defaultName}" is longer than ${DESTINATION_NAME_MAX} characters; give this address a shorter name`,
+        path: ["reportTo", index]
+      });
+    }
     return {
       id: id2,
       kind: entry.kind ?? DEFAULT_REPORT_TO.kind,
       organisation: organisationId,
-      name: entry.name ?? `${data.name} phishing reports`,
+      name: entry.name ?? defaultName,
       ...entry.localizedNames !== void 0 ? { localizedNames: entry.localizedNames } : {},
       email: entry.email,
       source: sourceOf(entry, reportEvidence[index]),
@@ -29471,6 +29481,24 @@ function checkOrganisationChange(base, head, change, loaded) {
       where
     );
   });
+  const headByEmail = new Map([...headDestinations.values()].map((destination) => [destination.email.toLowerCase(), destination]));
+  const organisationIndex = headDocument.organisations.findIndex((organisation) => organisation.id === id2);
+  const entryFile = headPack?.origins.get(`organisations.${organisationIndex}`)?.file;
+  for (const before of baseDestinations.values()) {
+    if (headDestinations.has(before.id)) continue;
+    const rehomed = headByEmail.get(before.email.toLowerCase());
+    const kept = MAINTAINER_ONLY_DESTINATION_FIELDS.filter((field) => before[field] !== void 0);
+    if (before.kind !== "organisation") kept.push("kind");
+    if (before.id !== generatedDestinationId(id2, before.email)) kept.push(`id ${before.id}`);
+    if (!rehomed && kept.length === 0) continue;
+    const origin = rehomed ? headPack?.origins.get(`destinations.${headDocument.destinations.indexOf(rehomed)}`) : void 0;
+    const path = origin?.locate([]).path;
+    const where = origin ? { file: origin.file, ...path ? { path } : {}, ...origin.line ? { line: origin.line } : {} } : entryFile ? { file: entryFile } : {};
+    maintainerOnly(
+      rehomed ? `${before.email} is already the reporting destination ${before.id}; a contribution may not move it to a new id (${rehomed.id}): leave that reportTo entry exactly as it is (id: ${before.id}), and ask the maintainer to change it` : `${before.email} (destination ${before.id}) carries what the maintainer set (${kept.join(", ")}); a contribution may not remove it: leave that reportTo entry exactly as it is, and ask the maintainer to change or remove it`,
+      where
+    );
+  }
   for (const domain2 of headEntry.domains) {
     const elsewhere = headResult.packs.filter((pack) => pack.document.id !== packId && entryOf(pack.document, id2)?.domains.some((other) => other.domain === domain2.domain));
     if (elsewhere.length > 0) {
@@ -29521,8 +29549,18 @@ function checkOrganisationChange(base, head, change, loaded) {
       emit("error", "domain_evidence_reuses_destination_source", `${domain2.domain} cites ${domain2.source}, the page given for a reporting address; cite the page that establishes the domain belongs to ${id2}`);
     }
   }
-  if (intent === "correct" && baseDomains.get(id2)?.relationship === "owned" && headEntry.domains.find((domain2) => domain2.domain === id2)?.relationship !== "owned") {
-    emit("error", "primary_domain_removed", `${id2} is this organisation's primary domain and id; changing it is a maintainer correction (the old domain can stay as an additional domain)`);
+  const ownedNow = (domain2) => headEntry.domains.find((entry) => entry.domain === domain2)?.relationship === "owned";
+  if (intent === "correct" && baseDomains.get(id2)?.relationship === "owned") {
+    if (!ownedNow(id2)) {
+      emit("error", "primary_domain_removed", `${id2} is this organisation's primary domain and id; changing it is a maintainer correction (the old domain can stay as an additional domain)`);
+    }
+  } else if (intent === "correct" && baseEntry?.domains[0]?.relationship === "owned" && !ownedNow(baseEntry.domains[0].domain)) {
+    const primary = baseEntry.domains[0].domain;
+    emit(
+      "error",
+      "primary_domain_removed",
+      `${primary} is ${id2}'s primary domain (its first domain); a correction keeps it listed as an owned domain: changing the primary domain is a maintainer change`
+    );
   }
   const domainsAdded = [];
   const domainsChanged = [];
