@@ -21,3 +21,9 @@ threatCategories:
   - payment_card_theft
   - credential_theft.email_account
   - personal_data_theft
+reportTo:
+  - email: abuse@elisa.fi
+    evidence: https://elisa.fi/asiakaspalvelu/viat-ongelmat/huijausyritykset/
+    checked: 2026-11-22
+    says: Elisa asks recipients of phishing messages impersonating it to forward them to its abuse mailbox, which accepts only Elisa-related reports.
+    publicSourceUrl: https://elisa.fi/asiakaspalvelu/viat-ongelmat/huijausyritykset/
