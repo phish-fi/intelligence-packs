@@ -3,6 +3,12 @@ name: Netflix
 category: other
 domains:
   - domain: netflix.com
-    source: internal-operator-review
+    source: site-netflix-com
 aliases:
   - netflix
+reportTo:
+  - email: phishing@netflix.com
+    evidence: https://help.netflix.com/en/node/65674
+    checked: 2026-11-22
+    says: Netflix asks people to forward suspicious messages and report sites, apps, or phone numbers pretending to be Netflix.
+    publicSourceUrl: https://help.netflix.com/en/node/65674

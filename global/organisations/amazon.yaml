@@ -3,6 +3,6 @@ name: Amazon
 category: marketplace
 domains:
   - domain: amazon.com
-    source: internal-operator-review
+    source: site-amazon-com
 aliases:
   - amazon

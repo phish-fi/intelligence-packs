@@ -11,6 +11,12 @@ threatCategories:
   - credential_theft.online_banking
   - authentication_abuse.code_theft
   - authentication_abuse.approval
+reportTo:
+  - email: huijaushavainnot@poppankki.fi
+    evidence: https://www.poppankki.fi/tutustu-pop-pankkiin/tietoa-pop-pankista/turvallinen-asiointi/huijausyritykset
+    checked: 2026-11-22
+    says: POP Pankki asks people to send suspicious emails or text-message screenshots to its scam-reporting address.
+    publicSourceUrl: https://www.poppankki.fi/tutustu-pop-pankkiin/tietoa-pop-pankista/turvallinen-asiointi/huijausyritykset
 communicationPolicy:
   channel: email
   neverContains:

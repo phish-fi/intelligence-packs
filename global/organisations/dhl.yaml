@@ -3,7 +3,13 @@ name: DHL
 category: logistics
 domains:
   - domain: dhl.com
-    source: internal-operator-review
+    source: site-dhl-com
 aliases:
   - value: dhl
     weight: medium
+reportTo:
+  - email: phishing@dhl.com
+    evidence: https://www.dhl.com/global-en/footer/fraud-awareness.html
+    checked: 2026-11-22
+    says: DHL asks people to report suspicious email, text messages, and impersonating sites and social accounts.
+    publicSourceUrl: https://www.dhl.com/global-en/footer/fraud-awareness.html

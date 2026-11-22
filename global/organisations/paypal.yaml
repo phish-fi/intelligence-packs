@@ -3,6 +3,12 @@ name: PayPal
 category: payment_provider
 domains:
   - domain: paypal.com
-    source: internal-operator-review
+    source: site-paypal-com
 aliases:
   - paypal
+reportTo:
+  - email: phishing@paypal.com
+    evidence: https://www.paypal.com/us/cshelp/article/how-do-i-spot-a-fake-fraudulent-or-phishing-paypal-email-or-website-help164
+    checked: 2026-11-22
+    says: PayPal asks people to forward suspicious emails and websites to its reporting address.
+    publicSourceUrl: https://www.paypal.com/us/cshelp/article/how-do-i-spot-a-fake-fraudulent-or-phishing-paypal-email-or-website-help164

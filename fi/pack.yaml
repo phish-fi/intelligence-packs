@@ -267,7 +267,12 @@ sources:
     kind: official_site
     url: https://www.kyberturvallisuuskeskus.fi/en/report
     retrieved: 2026-11-02
-    supports: "NCSC-FI (Traficom) reporting page: the address for phishing reports"
+    supports: "NCSC-FI (Traficom) reporting page on its own site"
+  - id: ncsc-fi-cert-contact
+    kind: official_site
+    url: https://www.kyberturvallisuuskeskus.fi/fi/kyberturvallisuuskeskuksen-toiminta-ja-tehtavat/cert-toiminnon-tehtavat-ja-tavoitteet
+    retrieved: 2026-11-16
+    supports: "NCSC-FI (Traficom) CERT page: its contact table gives the e-mail address of the CERT function"
   - id: owner-2026-10-28-bank-intake
     kind: maintainer_attestation
     retrieved: 2026-10-28

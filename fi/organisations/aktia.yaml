@@ -11,6 +11,12 @@ threatCategories:
   - credential_theft.online_banking
   - authentication_abuse.code_theft
   - authentication_abuse.approval
+reportTo:
+  - email: huijaushavainnot@aktia.fi
+    evidence: https://www.aktia.fi/fi/uutisarkisto/uutinen/2026/02/26/uusia-kalasteluviestej%C3%A4-aktian-nimiss%C3%A4
+    checked: 2026-11-22
+    says: Aktia asks customers to forward phishing messages sent in its name for investigation.
+    publicSourceUrl: https://www.aktia.fi/fi/uutisarkisto/uutinen/2026/02/26/uusia-kalasteluviestej%C3%A4-aktian-nimiss%C3%A4
 communicationPolicy:
   channel: email
   neverContains:

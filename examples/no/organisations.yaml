@@ -5,7 +5,7 @@ organisations:
   - id: nordbank                       # global, region-neutral id; never reused
     name: Nordbank
     category: bank                     # one of 12 values, listed in CONTRIBUTING.md#categories; the pack's sectors are derived from it
-    wikidata: Q99999991                # optional: independent anchor for domain ownership
+    wikidata: Q99999991                # optional reference; it confirms nothing by itself
     domains:                           # registrable domains only; subdomains are covered
       - { domain: nordbank.example, relationship: owned, source: nordbank-security }
       - { domain: nordbank-nettbank.example, relationship: owned, source: nordbank-security }

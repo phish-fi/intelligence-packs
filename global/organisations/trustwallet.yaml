@@ -3,7 +3,7 @@ name: Trust Wallet
 category: crypto_service
 domains:
   - domain: trustwallet.com
-    source: internal-operator-review
+    source: site-trustwallet-com
 aliases:
   - trustwallet
   - trust wallet

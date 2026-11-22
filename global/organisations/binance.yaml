@@ -3,8 +3,8 @@ name: Binance
 category: crypto_service
 domains:
   - domain: binance.com
-    source: internal-operator-review
+    source: site-binance-com
   - domain: binance.us
-    source: internal-operator-review
+    source: site-binance-us
 aliases:
   - binance

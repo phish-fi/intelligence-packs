@@ -3,6 +3,6 @@ name: Google
 category: email_provider
 domains:
   - domain: google.com
-    source: internal-operator-review
+    source: site-google-com
 aliases:
   - google

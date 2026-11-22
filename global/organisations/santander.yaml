@@ -3,8 +3,8 @@ name: Santander
 category: bank
 domains:
   - domain: santander.com
-    source: internal-operator-review
+    source: site-santander-com
   - domain: santander.com.ar
-    source: internal-operator-review
+    source: site-santander-com-ar
 aliases:
   - santander

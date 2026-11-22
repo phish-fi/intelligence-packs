@@ -17,7 +17,7 @@ threatCategories:
 reportTo:
   - email: cert@traficom.fi
     id: cert_fi
-    source: ncsc-fi-report
+    source: ncsc-fi-cert-contact
     name: National Cyber Security Centre Finland (NCSC-FI)
     localizedNames:
       fi: Traficomin Kyberturvallisuuskeskus
