@@ -21,6 +21,12 @@ threatCategories:
   - credential_theft.online_banking
   - authentication_abuse.code_theft
   - authentication_abuse.approval
+reportTo:
+  - email: huijaushavainnot@danskebank.fi
+    evidence: https://danskebank.fi/sinulle/asiakaspalvelu/tarkkana-verkossa
+    checked: 2026-11-22
+    says: Danske Bank asks customers to report suspicious messages claiming to be from the bank by email.
+    publicSourceUrl: https://danskebank.fi/sinulle/asiakaspalvelu/tarkkana-verkossa
 communicationPolicy:
   channel: email
   neverContains:

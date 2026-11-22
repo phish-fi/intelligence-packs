@@ -28,3 +28,9 @@ aliases:
 threatCategories:
   - credential_theft.online_banking
   - personal_data_theft
+reportTo:
+  - email: huijausilmoitukset@kela.fi
+    evidence: https://www.kela.fi/about-scams
+    checked: 2026-11-22
+    says: Kela asks recipients of suspicious messages claiming to be from Kela to tell it about the message.
+    publicSourceUrl: https://www.kela.fi/about-scams

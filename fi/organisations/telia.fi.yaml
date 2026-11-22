@@ -1,0 +1,13 @@
+name: Telia
+category: telecom
+domains:
+  - domain: telia.fi
+    evidence: https://www.telia.fi/
+    checked: 2026-11-22
+    says: Telia's official Finnish website.
+reportTo:
+  - email: abuse@telia.fi
+    evidence: https://www.telia.fi/asiakastuki/liittymat/huijausviestit
+    checked: 2026-11-22
+    says: Telia asks people who receive scam messages claiming to be from Telia to report them to this address.
+    publicSourceUrl: https://www.telia.fi/asiakastuki/liittymat/huijausviestit

@@ -19,6 +19,12 @@ threatCategories:
   - credential_theft.online_banking
   - authentication_abuse.code_theft
   - authentication_abuse.approval
+reportTo:
+  - email: asiakaspalvelu@alandsbanken.fi
+    evidence: https://www.alandsbanken.fi/turvallisuus
+    checked: 2026-11-22
+    says: Ålandsbanken asks people to email suspicious messages and website addresses claiming to be from the bank.
+    publicSourceUrl: https://www.alandsbanken.fi/turvallisuus
 communicationPolicy:
   channel: email
   neverContains:

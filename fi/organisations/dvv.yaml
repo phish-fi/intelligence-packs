@@ -17,3 +17,9 @@ aliases:
 threatCategories:
   - credential_theft.online_banking
   - personal_data_theft
+reportTo:
+  - email: huijaushavainnot@dvv.fi
+    evidence: https://dvv.fi/ilmoita-huijausviesteista
+    checked: 2026-11-22
+    says: DVV asks recipients of scam messages claiming to be from DVV or Suomi.fi to report them by email.
+    publicSourceUrl: https://dvv.fi/ilmoita-huijausviesteista

@@ -13,6 +13,12 @@ threatCategories:
   - credential_theft.online_banking
   - authentication_abuse.code_theft
   - authentication_abuse.approval
+reportTo:
+  - email: huijaushavainnot@saastopankki.fi
+    evidence: https://www.saastopankki.fi/fi-fi/asiakaspalvelu/turvallisuus/huijaushavainnot
+    checked: 2026-11-22
+    says: Säästöpankki asks people who suspect a scam message to report it to the bank by email.
+    publicSourceUrl: https://www.saastopankki.fi/fi-fi/asiakaspalvelu/turvallisuus/huijaushavainnot
 communicationPolicy:
   channel: email
   neverContains:
