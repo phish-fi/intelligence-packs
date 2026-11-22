@@ -6,3 +6,9 @@ domains:
     source: site-apple-com
 aliases:
   - apple
+reportTo:
+  - email: reportphishing@apple.com
+    evidence: https://support.apple.com/en-us/102568
+    checked: 2026-11-22
+    says: Apple asks people to forward suspicious emails or screenshots of text messages claiming to be from Apple.
+    publicSourceUrl: https://support.apple.com/en-us/102568
