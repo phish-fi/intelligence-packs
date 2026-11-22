@@ -7,7 +7,7 @@
     "name": {
       "type": "string",
       "minLength": 1,
-      "maxLength": 256,
+      "maxLength": 128,
       "description": "The organisation's name as people know it. It is also matched as a name in messages."
     },
     "category": {

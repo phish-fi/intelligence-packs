@@ -28749,6 +28749,7 @@ var DEFAULT_REPORT_TO = {
   acceptsAutomatedReports: false,
   kind: "organisation"
 };
+var DESTINATION_NAME_MAX = 128;
 var text2 = (max) => external_exports.string().trim().min(1).max(max);
 var evidenceFields = {
   evidence: external_exports.url({ protocol: /^https?$/ }).max(2048).optional().describe(
@@ -28800,7 +28801,8 @@ var reportToEntrySchema = external_exports.object({
   id: idSchema.optional().describe("Maintainer only: keeps an existing destination id. Default: <organisation id>.<the address's local part>.")
 }).strict().describe("An email address where the organisation asks people to report phishing that imitates it, and the evidence for it.");
 var simpleOrganisationSchema = external_exports.object({
-  name: text2(256).describe("The organisation's name as people know it. It is also matched as a name in messages."),
+  // At most 128, not the long form's 256: the name is also an alias, and aliases are limited to 128.
+  name: text2(128).describe("The organisation's name as people know it. It is also matched as a name in messages."),
   category: external_exports.enum(ORGANISATION_CATEGORIES).describe("What kind of organisation this is. phish.fi groups organisations by it (it sets the organisation's sector); it does not change which names or domains match."),
   domains: external_exports.array(domainEntrySchema).min(1).max(200).describe("The organisation's own web domains, each with evidence. The first is the primary domain; a new organisation's file is named after it."),
   aliases: external_exports.array(aliasEntrySchema).max(LIMITS.aliasesPerOrganisation - 1).optional().describe("Other names messages may use for the organisation. Write each as plain text, or as an object with value, kind, match and weight. The organisation's name is added automatically."),
@@ -28941,11 +28943,19 @@ function expandSimpleOrganisation(organisationId, data) {
     paths.set(`${at}.source`, ["reportTo", index, reportEvidence[index].field]);
     if (entry.id !== void 0) migrationKeys.push({ key: "id", path: ["reportTo", index, "id"], value: entry.id, destination: id2 });
     if (entry.source !== void 0) migrationKeys.push({ key: "source", path: ["reportTo", index, "source"], value: entry.source, destination: id2 });
+    const defaultName = `${data.name} phishing reports`;
+    if (entry.name === void 0 && defaultName.length > DESTINATION_NAME_MAX) {
+      issues.push({
+        code: "destination_name_too_long",
+        message: `reportTo.${index}.name is needed here: the default name "${defaultName}" is longer than ${DESTINATION_NAME_MAX} characters; give this address a shorter name`,
+        path: ["reportTo", index]
+      });
+    }
     return {
       id: id2,
       kind: entry.kind ?? DEFAULT_REPORT_TO.kind,
       organisation: organisationId,
-      name: entry.name ?? `${data.name} phishing reports`,
+      name: entry.name ?? defaultName,
       ...entry.localizedNames !== void 0 ? { localizedNames: entry.localizedNames } : {},
       email: entry.email,
       source: sourceOf(entry, reportEvidence[index]),
